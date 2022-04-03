@@ -112,14 +112,11 @@ class ColorView: UIView {
     }
     
     func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
-        let circleCenter = CGPoint(x: bounds.origin.x + bounds.width / 2,
-                                   y: bounds.origin.y + bounds.height / 2)
+        let relativeCenter = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        let absoluteCenter = CGPoint(x: bounds.origin.x + relativeCenter.x, y: bounds.origin.y + relativeCenter.x)
+        let radiusTapped = sqrt(pow(point.x - absoluteCenter.x, 2) + pow(point.y - absoluteCenter.y, 2))
         
-        //Simple math!
-        let radiusTapped = sqrt(pow(point.x - circleCenter.x, 2) +
-                                pow(point.y - circleCenter.y, 2))
-        
-        if radiusTapped < bounds.width / 2 || radiusTapped < bounds.height / 2 {
+        if radiusTapped < relativeCenter.x || radiusTapped < relativeCenter.y {
             return true
         }
         
