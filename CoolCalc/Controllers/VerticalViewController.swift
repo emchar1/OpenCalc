@@ -18,9 +18,10 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     let stack1 = UIStackView()
     let stack2 = UIStackView()
     let stack3 = UIStackView()
+    let stack4 = UIStackView()
     
     //Display
-    let spacing: CGFloat = 4
+    let spacing: CGFloat = 8
     let displayStack = UIStackView()
     let displayLabel = UILabel()
     let displayCalculation = UILabel()
@@ -57,14 +58,8 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setupViews()
         setupViewsInitialize()
         setupViewsLayout()
-        
-        view.addSubview(colorView)
-        colorView.delegate = self
-
-//        colorSelectorView.backgroundColor = .red
     }
 }
 
@@ -133,6 +128,8 @@ extension VerticalViewController {
         buttonAdd.delegate = self
         buttonEquals.delegate = self
         colorView = ColorView(frame: CGRect(x: 20, y: 60, width: 100, height: 100))
+        colorView.delegate = self
+        setColors(color: ColorView.defaultColor)
 
         //Set up Stacks
         stackMain.axis = .vertical
@@ -142,32 +139,37 @@ extension VerticalViewController {
         displayStack.axis = .vertical
         displayStack.distribution = .fill
         displayStack.translatesAutoresizingMaskIntoConstraints = false
-        stackButtons.axis = .horizontal
+        stackButtons.axis = .vertical
         stackButtons.distribution = .fillEqually
         stackButtons.spacing = spacing
         stackButtons.translatesAutoresizingMaskIntoConstraints = false
-        stack0.axis = .vertical
+        stack0.axis = .horizontal
         stack0.distribution = .fillEqually
         stack0.spacing = spacing
         stack0.translatesAutoresizingMaskIntoConstraints = false
-        stack1.axis = .vertical
+        stack1.axis = .horizontal
         stack1.distribution = .fillEqually
         stack1.spacing = spacing
         stack1.translatesAutoresizingMaskIntoConstraints = false
-        stack2.axis = .vertical
+        stack2.axis = .horizontal
         stack2.distribution = .fillEqually
         stack2.spacing = spacing
         stack2.translatesAutoresizingMaskIntoConstraints = false
-        stack3.axis = .vertical
-        stack3.distribution = .fillProportionally
+        stack3.axis = .horizontal
+        stack3.distribution = .fillEqually
         stack3.spacing = spacing
         stack3.translatesAutoresizingMaskIntoConstraints = false
+        stack4.distribution = .fillProportionally
+        stack4.spacing = spacing
+        stack4.translatesAutoresizingMaskIntoConstraints = false
         displayLabel.translatesAutoresizingMaskIntoConstraints = false
+
     }
     
     private func setupViewsLayout() {
         //Add stacks to view and set constraints
         view.addSubview(stackMain)
+        view.addSubview(colorView)  //This needs to be added AFTER adding stackMain
         NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * spacing),
                                      stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * spacing),
                                      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * spacing),
@@ -209,35 +211,39 @@ extension VerticalViewController {
                                      stack3.leadingAnchor.constraint(equalTo: stackButtons.arrangedSubviews[3].leadingAnchor),
                                      stackButtons.arrangedSubviews[3].trailingAnchor.constraint(equalTo: stack3.trailingAnchor),
                                      stackButtons.arrangedSubviews[3].bottomAnchor.constraint(equalTo: stack3.bottomAnchor)])
-        
+
+        stackButtons.addArrangedSubview(stack4)
+        NSLayoutConstraint.activate([stack4.topAnchor.constraint(equalTo: stackButtons.arrangedSubviews[4].topAnchor),
+                                     stack4.leadingAnchor.constraint(equalTo: stackButtons.arrangedSubviews[4].leadingAnchor),
+                                     stackButtons.arrangedSubviews[4].trailingAnchor.constraint(equalTo: stack4.trailingAnchor),
+                                     stackButtons.arrangedSubviews[4].bottomAnchor.constraint(equalTo: stack4.bottomAnchor)])
+
         //Add arranged subviews to button stacks
         displayStack.addArrangedSubview(displayLabel)
         displayStack.addArrangedSubview(displayCalculation)
         stack0.addArrangedSubview(buttonClear)
-        stack0.addArrangedSubview(button7)
-        stack0.addArrangedSubview(button4)
-        stack0.addArrangedSubview(button1)
         stack0.addArrangedSubview(buttonSign)
-        stack1.addArrangedSubview(buttonPercent)
+        stack0.addArrangedSubview(buttonPercent)
+        stack0.addArrangedSubview(buttonDivide)
+        stack1.addArrangedSubview(button7)
         stack1.addArrangedSubview(button8)
-        stack1.addArrangedSubview(button5)
-        stack1.addArrangedSubview(button2)
-        stack1.addArrangedSubview(button0)
-        stack2.addArrangedSubview(buttonDivide)
-        stack2.addArrangedSubview(button9)
+        stack1.addArrangedSubview(button9)
+        stack1.addArrangedSubview(buttonMultiply)
+        stack2.addArrangedSubview(button4)
+        stack2.addArrangedSubview(button5)
         stack2.addArrangedSubview(button6)
-        stack2.addArrangedSubview(button3)
-        stack2.addArrangedSubview(buttonDecimal)
-        stack3.addArrangedSubview(buttonMultiply)
-        stack3.addArrangedSubview(buttonSubtract)
+        stack2.addArrangedSubview(buttonSubtract)
+        stack3.addArrangedSubview(button1)
+        stack3.addArrangedSubview(button2)
+        stack3.addArrangedSubview(button3)
         stack3.addArrangedSubview(buttonAdd)
-        stack3.addArrangedSubview(buttonEquals)
-                
-        //These constraints allow 2x size for the = button. Is this the cleanest way to do it???
-        NSLayoutConstraint.activate([buttonMultiply.heightAnchor.constraint(equalTo: stack3.heightAnchor, multiplier: 0.2, constant: -0.8 * spacing),
-                                     buttonSubtract.heightAnchor.constraint(equalTo: stack3.heightAnchor, multiplier: 0.2, constant: -0.8 * spacing),
-                                     buttonAdd.heightAnchor.constraint(equalTo: stack3.heightAnchor, multiplier: 0.2, constant: -0.8 * spacing),
-                                     buttonEquals.heightAnchor.constraint(equalTo: stack3.heightAnchor, multiplier: 0.4, constant: -0.6 * spacing)])
+        stack4.addArrangedSubview(button0)
+        stack4.addArrangedSubview(buttonDecimal)
+        stack4.addArrangedSubview(buttonEquals)
+
+        //These constraints allow 2x size for the 0 button
+        NSLayoutConstraint.activate([button0.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.5, constant: -0.5 * spacing),
+                                     buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * spacing)])
 
         //Display Label
         NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 40)])
@@ -280,8 +286,11 @@ extension VerticalViewController {
 
 extension VerticalViewController {
     func didSelectColor(_ color: UIColor) {
-//        view.backgroundColor = color
-        
+        setColors(color: color)
+    }
+    
+    
+    private func setColors(color: UIColor) {
         button0.backgroundColor = color
         button1.backgroundColor = color
         button2.backgroundColor = color
@@ -292,5 +301,16 @@ extension VerticalViewController {
         button7.backgroundColor = color
         button8.backgroundColor = color
         button9.backgroundColor = color
+        buttonDecimal.backgroundColor = color
+        
+        buttonClear.backgroundColor = color.withAlphaComponent(0.5)
+        buttonSign.backgroundColor = color.withAlphaComponent(0.5)
+        buttonPercent.backgroundColor = color.withAlphaComponent(0.5)
+
+        buttonDivide.backgroundColor = color.getComplimentary()
+        buttonMultiply.backgroundColor = color.getComplimentary()
+        buttonSubtract.backgroundColor = color.getComplimentary()
+        buttonAdd.backgroundColor = color.getComplimentary()
+        buttonEquals.backgroundColor = color.getComplimentary()
     }
 }

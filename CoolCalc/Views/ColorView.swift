@@ -7,68 +7,52 @@
 
 import UIKit
 
-class ImmediatePanGestureRecognizer: UIPanGestureRecognizer {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesBegan(touches, with: event)
-        self.state = .began
-    }
-}
-
-
-// MARK: - ColorView
-
 protocol ColorViewDelegate {
     func didSelectColor(_ color: UIColor)
 }
 
-
 /**
- Animates a circle path, used for the miles this month metric.
+ Presents a color wheel dial that allows you to change the calculator buttons using the selected color.
  */
 class ColorView: UIView {
-    var delegate: ColorViewDelegate?
-    var circleDial: CAShapeLayer!
-    var circleDialPath: UIBezierPath!
     
-//    override func draw(_ rect: CGRect) {
-//        super.draw(rect)
-//
-//        guard let context = UIGraphicsGetCurrentContext() else { return }
-//
-//        for col in 0..<Int(frame.height) {
-//            for row in 0..<Int(frame.width) {
-//                let rowCG: CGFloat = CGFloat(row) * (255.0 / frame.width)
-//                let colCG: CGFloat = CGFloat(col) * (255.0 / frame.height)
-//                let customColor = UIColor(hue: rowCG / 255,
-//                                          saturation: (255 - colCG) / 255,
-//                                          brightness: (255 - colCG) / 255,
-//                                          alpha: 1).cgColor
-//
-//                context.setLineWidth(1)
-//                context.setStrokeColor(customColor)
-//                context.move(to: CGPoint(x: row, y: col))
-//                context.addLine(to: CGPoint(x: row + 1, y: col + 1))
-//                context.strokePath()
-//            }
-//        }
-//    }
+    // MARK: - Properties
+    
+    var delegate: ColorViewDelegate?
+    
+    //Dial bounds properties
+    var dialBoundsInner: UIView!
+    var dialBoundsOuter: UIView!
+    static let defaultColor = UIColor(red: 0.8, green: 0.4, blue: 0.0, alpha: 0.9)
+    
+    
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let circleDialWidth: CGFloat = 4
-        let pathWidth: CGFloat = 22.0
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2, y: frame.size.height / 2),
-                                      radius: (frame.size.width - pathWidth) / 2 - (circleDialWidth / 2),
+        drawDial()
+        
+        let panGesture = ImmediatePanGestureRecognizer(target: self, action: #selector(didGesture(_:)))
+        addGestureRecognizer(panGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func drawDial() {
+        let pathWidth: CGFloat = 28.0
+        let gradientFactor: CGFloat = 0.2
+        let gradientAlpha: CGFloat = 0.9
+        
+        
+        //Add the gradient dial
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.width / 2, y: frame.height / 2),
+                                      radius: (frame.width - pathWidth) / 2,
                                       startAngle: 0,
                                       endAngle: CGFloat(Double.pi * 2),
                                       clockwise: true)
-        
-        circleDialPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2, y: pathWidth / 2 + circleDialWidth / 2),
-                                          radius: pathWidth / 2 - 1,
-                                          startAngle: 0,
-                                          endAngle: CGFloat(Double.pi * 2),
-                                          clockwise: true)
         
         let circleLayerTrack = CAShapeLayer()
         circleLayerTrack.path = circlePath.cgPath
@@ -81,47 +65,64 @@ class ColorView: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.colors = [UIColor.red.cgColor,
-                                UIColor.orange.cgColor,
-                                UIColor.yellow.cgColor,
-                                UIColor.green.cgColor,
-                                UIColor.blue.cgColor,
-                                UIColor.purple.cgColor,
-                                UIColor.red.cgColor]
+        gradientLayer.colors = [UIColor(red: 1.0 - gradientFactor, green: 0.0, blue: 0.0, alpha: gradientAlpha).cgColor, //red
+                                UIColor(red: 1.0 - gradientFactor, green: 0.5 - gradientFactor / 2, blue: 0.0, alpha: gradientAlpha).cgColor, //orange
+                                UIColor(red: 1.0 - gradientFactor * 1.25, green: 1.0 - gradientFactor * 1.25, blue: 0.0, alpha: gradientAlpha).cgColor, //yellow
+                                UIColor(red: 0.0, green: 1.0 - gradientFactor, blue: 0.0, alpha: gradientAlpha).cgColor, //green
+                                UIColor(red: 0.0, green: 0.0, blue: 1.0 - gradientFactor / 4, alpha: gradientAlpha).cgColor, //blue
+                                UIColor(red: 0.5 - gradientFactor / 4, green: 0.0, blue: 0.5 - gradientFactor / 4, alpha: gradientAlpha).cgColor, //purple
+                                UIColor(red: 1.0 - gradientFactor, green: 0.0, blue: 0.0, alpha: gradientAlpha).cgColor] //red
         gradientLayer.frame = bounds
         gradientLayer.type = .conic
         gradientLayer.mask = circleLayerTrack
-        clipsToBounds = true
-        
-        circleDial = CAShapeLayer()
-        circleDial.path = circleDialPath.cgPath
-        circleDial.fillColor = UIColor.clear.cgColor
-        circleDial.strokeColor = UIColor.white.cgColor
-        circleDial.lineWidth = circleDialWidth
-        circleDial.lineCap = .round
-        circleDial.strokeEnd = 1.0
-        circleDial.backgroundColor = UIColor.green.cgColor
         
         layer.addSublayer(gradientLayer)
-        layer.addSublayer(circleDial)
-//        layer.addSublayer(circleLayerTrack)
         
         
-        let panGesture = ImmediatePanGestureRecognizer(target: self, action: #selector(didGesture(_:)))
-        addGestureRecognizer(panGesture)
+        //Add the dial bounds
+        dialBoundsInner = UIView()
+        dialBoundsInner.frame = CGRect(x: pathWidth - 2, y: pathWidth - 2, width: frame.width - (pathWidth - 2) * 2, height: frame.height - (pathWidth - 2) * 2)
+        dialBoundsInner.bounds = dialBoundsInner.frame
+        dialBoundsInner.layer.cornerRadius = dialBoundsInner.frame.width / 2
+        dialBoundsInner.clipsToBounds = true
+        addSubview(dialBoundsInner)
+        
+        dialBoundsOuter = UIView()
+        dialBoundsOuter.frame = CGRect(x: 1, y: 1, width: frame.width - 2, height: frame.height - 2)
+        dialBoundsOuter.bounds = dialBoundsOuter.frame
+        dialBoundsOuter.layer.cornerRadius = dialBoundsOuter.frame.width / 2
+        dialBoundsOuter.clipsToBounds = true
+        addSubview(dialBoundsOuter)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    
+    // MARK: - Gesture Recognizers
+    
     
     @objc func didGesture(_ sender: ImmediatePanGestureRecognizer) {
         let location = sender.location(in: self)
         
-        guard location.x >= 0 && location.x < frame.width - 1 && location.y >= 0 && location.y < frame.height - 1 else { return }
+        //Make sure only panning within the gradient view bounds
+        guard locationInCircleView(point: location, in: dialBoundsOuter.bounds) && !locationInCircleView(point: location, in: dialBoundsInner.bounds) else {
+            return
+        }
         
-        circleDial.frame.origin = CGPoint(x: location.x - frame.size.width / 2, y: location.y - 11)
         
         delegate?.didSelectColor(getColorFromPoint(location))
+    }
+    
+    func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
+        let circleCenter = CGPoint(x: bounds.origin.x + bounds.width / 2,
+                                   y: bounds.origin.y + bounds.height / 2)
+        
+        //Simple math!
+        let radiusTapped = sqrt(pow(point.x - circleCenter.x, 2) +
+                                pow(point.y - circleCenter.y, 2))
+        
+        if radiusTapped < bounds.width / 2 || radiusTapped < bounds.height / 2 {
+            return true
+        }
+        
+        return false
     }
 }

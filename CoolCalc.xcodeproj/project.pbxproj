@@ -16,9 +16,10 @@
 		EA2E387127E7A7BD00122877 /* CalcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387027E7A7BD00122877 /* CalcButton.swift */; };
 		EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */; };
 		EA2E387527E7EA2800122877 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387427E7EA2800122877 /* Calculator.swift */; };
-		EA2E387727E81F8300122877 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387627E81F8300122877 /* ColorSelectorView.swift */; };
-		EA2E387927E8430400122877 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387827E8430400122877 /* Extensions.swift */; };
+		EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387827E8430400122877 /* Extension+UIView.swift */; };
 		EA2E388227EAF71C00122877 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* ColorView.swift */; };
+		EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E027F9199D00122877 /* Extension+UIColor.swift */; };
+		EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +34,10 @@
 		EA2E387027E7A7BD00122877 /* CalcButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButton.swift; sourceTree = "<group>"; };
 		EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButtonModel.swift; sourceTree = "<group>"; };
 		EA2E387427E7EA2800122877 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
-		EA2E387627E81F8300122877 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
-		EA2E387827E8430400122877 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EA2E387827E8430400122877 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		EA2E388127EAF71C00122877 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		EA2E38E027F9199D00122877 /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
+		EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 			children = (
 				EA2E385927E6ED2300122877 /* AppDelegate.swift */,
 				EA2E385B27E6ED2300122877 /* SceneDelegate.swift */,
+				EA2E38E327F919D500122877 /* Utilities */,
 				EA2E386F27E6ED5800122877 /* Models */,
 				EA2E386D27E6ED4200122877 /* Views */,
 				EA2E386E27E6ED4A00122877 /* Controllers */,
@@ -84,7 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				EA2E385F27E6ED2300122877 /* Main.storyboard */,
-				EA2E387627E81F8300122877 /* ColorSelectorView.swift */,
 				EA2E388127EAF71C00122877 /* ColorView.swift */,
 				EA2E387027E7A7BD00122877 /* CalcButton.swift */,
 			);
@@ -104,9 +106,26 @@
 			children = (
 				EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */,
 				EA2E387427E7EA2800122877 /* Calculator.swift */,
-				EA2E387827E8430400122877 /* Extensions.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		EA2E38E227F919C300122877 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EA2E387827E8430400122877 /* Extension+UIView.swift */,
+				EA2E38E027F9199D00122877 /* Extension+UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EA2E38E327F919D500122877 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EA2E38E227F919C300122877 /* Extensions */,
+				EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,14 +200,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA2E385E27E6ED2300122877 /* VerticalViewController.swift in Sources */,
+				EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */,
+				EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */,
 				EA2E387127E7A7BD00122877 /* CalcButton.swift in Sources */,
-				EA2E387927E8430400122877 /* Extensions.swift in Sources */,
+				EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */,
 				EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */,
 				EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */,
 				EA2E388227EAF71C00122877 /* ColorView.swift in Sources */,
 				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,
-				EA2E387727E81F8300122877 /* ColorSelectorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

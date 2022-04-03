@@ -15,6 +15,7 @@ class CalcButton: UIButton {
     var delegate: CalcButtonDelegate?
     let model: CalcButtonModel
     
+    
     init(frame: CGRect = .zero, label: String) {
         model = CalcButtonModel(value: label)
 
