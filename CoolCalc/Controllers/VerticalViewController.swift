@@ -31,7 +31,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     var colorView: ColorView!
     var colorViewExpandedTimer: Timer?
     var colorViewTimerInterval: TimeInterval = 3.0
-    var colorViewOrigin = CGPoint(x: 20, y: 60)
+    var colorViewFrame = CGRect(x: 20, y: 60, width: 100, height: 100)
     var calculationString = ""
 
     //Buttons
@@ -95,12 +95,11 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         buttonSubtract.delegate = self
         buttonAdd.delegate = self
         buttonEquals.delegate = self
-        colorView = ColorView(frame: CGRect(x: colorViewOrigin.x, y: colorViewOrigin.y, width: 100, height: 100))
-        colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
-        colorView.frame.origin = CGPoint(x: colorViewOrigin.x, y: colorViewOrigin.y)
+        colorView = ColorView(frame: colorViewFrame)
         colorView.delegate = self
         setColors(color: K.savedColor)
         flipSwitch(lightOn: K.lightOn)
+        setExpanded(expanded: false)
 
         //Set up Stacks
         stackMain.axis = .vertical
@@ -295,27 +294,40 @@ extension VerticalViewController {
                        animations: {
 
             if expanded {
-                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
+                self.setExpanded(expanded: true)
                 
-                self.colorViewExpandedTimer = nil
+                self.colorViewExpandedTimer?.invalidate()
                 self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
                                                                    target: self,
                                                                    selector: #selector(self.runTimerAction(_:)),
                                                                    userInfo: nil,
                                                                    repeats: false)
-
             }
             else {
-                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
+                self.setExpanded(expanded: false)
             }
-            
-            self.colorView.frame.origin = self.colorViewOrigin
         })
     }
+    
+    
+    // MARK: - ColorViewSelector Delegate Helper Functions
                                                            
-        @objc private func runTimerAction(_ expanded: Bool) {
-            colorView.expand(false)
+    @objc private func runTimerAction(_ expanded: Bool) {
+        colorView.expand(false)
+    }
+    
+    private func setExpanded(expanded: Bool) {
+        if expanded {
+            colorView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+            colorView.alpha = 1.0
         }
+        else {
+            colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
+            colorView.alpha = 0.65
+        }
+
+        colorView.frame.origin = colorViewFrame.origin
+    }
     
     private func setColors(color: UIColor) {
         button0.backgroundColor = color
@@ -342,27 +354,30 @@ extension VerticalViewController {
     }
     
     private func flipSwitch(lightOn: Bool) {
+        let backgroundColor: UIColor = lightOn ? .white : .black
+        let titleColor: UIColor = lightOn ? .black : .white
+        
         UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = lightOn ? .white : .black
-            self.button0.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button1.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button2.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button3.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button4.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button5.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button6.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button7.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button8.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.button9.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonDecimal.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonClear.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonSign.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonPercent.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonDivide.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonMultiply.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonSubtract.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonAdd.setTitleColor(lightOn ? .black : .white, for: .normal)
-            self.buttonEquals.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.view.backgroundColor = backgroundColor
+            self.button0.setTitleColor(titleColor, for: .normal)
+            self.button1.setTitleColor(titleColor, for: .normal)
+            self.button2.setTitleColor(titleColor, for: .normal)
+            self.button3.setTitleColor(titleColor, for: .normal)
+            self.button4.setTitleColor(titleColor, for: .normal)
+            self.button5.setTitleColor(titleColor, for: .normal)
+            self.button6.setTitleColor(titleColor, for: .normal)
+            self.button7.setTitleColor(titleColor, for: .normal)
+            self.button8.setTitleColor(titleColor, for: .normal)
+            self.button9.setTitleColor(titleColor, for: .normal)
+            self.buttonDecimal.setTitleColor(titleColor, for: .normal)
+            self.buttonClear.setTitleColor(titleColor, for: .normal)
+            self.buttonSign.setTitleColor(titleColor, for: .normal)
+            self.buttonPercent.setTitleColor(titleColor, for: .normal)
+            self.buttonDivide.setTitleColor(titleColor, for: .normal)
+            self.buttonMultiply.setTitleColor(titleColor, for: .normal)
+            self.buttonSubtract.setTitleColor(titleColor, for: .normal)
+            self.buttonAdd.setTitleColor(titleColor, for: .normal)
+            self.buttonEquals.setTitleColor(titleColor, for: .normal)
         }
     }
 }

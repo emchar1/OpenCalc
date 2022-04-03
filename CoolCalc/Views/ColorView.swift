@@ -106,7 +106,7 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
         layer.addSublayer(gradientLayer)
         
         lightSwitch = UIView()
-        lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 3, y: frame.height / 2 - pathWidth / 3, width: pathWidth * 2 / 3, height: pathWidth * 2 / 3)
+        lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 2, y: frame.height / 2 - pathWidth / 2, width: pathWidth, height: pathWidth)
         lightSwitch.bounds = lightSwitch.frame
         lightSwitch.layer.cornerRadius = lightSwitch.frame.width / 2
         lightSwitch.backgroundColor = K.lightOn ? .black : .white
