@@ -28,10 +28,10 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     
     //Models
     let calculator = Calculator() //build this...
+    let colorViewSize: CGFloat = 125
+    let colorViewShrinkFactor: CGFloat = 0.25
     var colorView: ColorView!
     var colorViewExpandedTimer: Timer?
-    var colorViewTimerInterval: TimeInterval = 3.0
-    var colorViewFrame = CGRect(x: 20, y: 60, width: 100, height: 100)
     var calculationString = ""
 
     //Buttons
@@ -64,43 +64,89 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         setupViewsInitialize()
         setupViewsLayout()
     }
-
+     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.orientationDidChange(_:)),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return K.lightOn ? .darkContent : .lightContent
+    }
 
     // MARK: - Setup Helper Functions
+    
+    @objc private func orientationDidChange(_ notification: NSNotification) {
+        let buttonFont = !UIDevice.current.orientation.isLandscape ? K.buttonFontTall : K.buttonFontWide
+        
+        resetColorViewOrigin()
+        
+        button0.titleLabel?.font = buttonFont
+        button1.titleLabel?.font = buttonFont
+        button2.titleLabel?.font = buttonFont
+        button3.titleLabel?.font = buttonFont
+        button4.titleLabel?.font = buttonFont
+        button5.titleLabel?.font = buttonFont
+        button6.titleLabel?.font = buttonFont
+        button7.titleLabel?.font = buttonFont
+        button8.titleLabel?.font = buttonFont
+        button9.titleLabel?.font = buttonFont
+        buttonDecimal.titleLabel?.font = buttonFont
+        buttonClear.titleLabel?.font = buttonFont
+        buttonSign.titleLabel?.font = buttonFont
+        buttonPercent.titleLabel?.font = buttonFont
+        buttonDivide.titleLabel?.font = buttonFont
+        buttonMultiply.titleLabel?.font = buttonFont
+        buttonSubtract.titleLabel?.font = buttonFont
+        buttonAdd.titleLabel?.font = buttonFont
+//        buttonEquals.titleLabel?.font = buttonFont
+    }
+    
+    private func resetColorViewOrigin() {
+        self.colorView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (self.colorViewSize * self.colorViewShrinkFactor / 2) + 1,
+                                              y: K.getSafeAreaInsets().top + (self.colorViewSize * self.colorViewShrinkFactor / 2) + 1)
+    }
     
     private func setupViewsInitialize() {
         //Set up Properties
         view.backgroundColor = K.lightOn ? .white : .black
         displayLabel.textAlignment = .right
-        displayCalculation.backgroundColor = .secondarySystemBackground
         displayCalculation.alpha = 0.65
+        displayCalculation.font = K.buttonFontWide
         displayCalculation.textAlignment = .right
-        displayCalculation.textColor = .label
-        buttonClear.delegate = self
-        button7.delegate = self
-        button4.delegate = self
+        displayCalculation.textColor = K.lightOn ? .black : .white
+        
+        button0.delegate = self
         button1.delegate = self
+        button2.delegate = self
+        button3.delegate = self
+        button4.delegate = self
+        button5.delegate = self
+        button6.delegate = self
+        button7.delegate = self
+        button8.delegate = self
+        button9.delegate = self
+        buttonDecimal.delegate = self
+        buttonClear.delegate = self
         buttonSign.delegate = self
         buttonPercent.delegate = self
-        button8.delegate = self
-        button5.delegate = self
-        button2.delegate = self
-        button0.delegate = self
         buttonDivide.delegate = self
-        button9.delegate = self
-        button6.delegate = self
-        button3.delegate = self
-        buttonDecimal.delegate = self
         buttonMultiply.delegate = self
         buttonSubtract.delegate = self
         buttonAdd.delegate = self
         buttonEquals.delegate = self
-        colorView = ColorView(frame: colorViewFrame)
+        
+        colorView = ColorView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: colorViewSize, height: colorViewSize))
         colorView.delegate = self
         setColors(color: K.savedColor)
-        flipSwitch(lightOn: K.lightOn)
+        setLight(lightOn: K.lightOn)
         setExpanded(expanded: false)
 
+        
         //Set up Stacks
         stackMain.axis = .vertical
         stackMain.distribution = .fill
@@ -188,7 +234,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
                                      stackButtons.arrangedSubviews[4].trailingAnchor.constraint(equalTo: stack4.trailingAnchor),
                                      stackButtons.arrangedSubviews[4].bottomAnchor.constraint(equalTo: stack4.bottomAnchor)])
 
-        //Add arranged subviews to button stacks
+        //Add arranged subviews to button stacks. Buttons MUST be in this order!
         displayStack.addArrangedSubview(displayLabel)
         displayStack.addArrangedSubview(displayCalculation)
         stack0.addArrangedSubview(buttonClear)
@@ -226,7 +272,6 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
 //                                     displayStack.trailingAnchor.constraint(equalTo: displayLabel.trailingAnchor),
 //                                     displayStack.bottomAnchor.constraint(equalTo: displayLabel.bottomAnchor)])
     }
-    
 }
 
 
@@ -257,13 +302,7 @@ extension VerticalViewController {
 extension VerticalViewController {
     func didChangeColor(_ color: UIColor) {
         setColors(color: color)
-        
-        self.colorViewExpandedTimer?.invalidate()
-        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
-                                                           target: self,
-                                                           selector: #selector(runTimerAction(_:)),
-                                                           userInfo: nil,
-                                                           repeats: false)
+        resetTimer()
     }
     
     func didSelectColor(_ color: UIColor) {
@@ -272,61 +311,51 @@ extension VerticalViewController {
     }
     
     func didFlipSwitch(_ lightOn: Bool) {
-        flipSwitch(lightOn: lightOn)
+        setLight(lightOn: lightOn)
+        resetTimer()
 
         UserDefaults.standard.set(lightOn, forKey: K.userDefaults_light)
-        print("Light is \(lightOn ? "on" : "off")")
-        
-        self.colorViewExpandedTimer?.invalidate()
-        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
-                                                           target: self,
-                                                           selector: #selector(runTimerAction(_:)),
-                                                           userInfo: nil,
-                                                           repeats: false)
-
+        print("Light is \(lightOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_light)")
     }
     
     func didSetExpanded(_ expanded: Bool) {
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       usingSpringWithDamping: 0.4,
-                       initialSpringVelocity: 10,
-                       animations: {
-
-            if expanded {
-                self.setExpanded(expanded: true)
-                
-                self.colorViewExpandedTimer?.invalidate()
-                self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
-                                                                   target: self,
-                                                                   selector: #selector(self.runTimerAction(_:)),
-                                                                   userInfo: nil,
-                                                                   repeats: false)
-            }
-            else {
-                self.setExpanded(expanded: false)
-            }
-        })
+        self.setExpanded(expanded: expanded)
+        
+        if expanded {
+            resetTimer()
+        }
     }
     
     
     // MARK: - ColorViewSelector Delegate Helper Functions
-                                                           
+     
+    private func resetTimer() {
+        self.colorViewExpandedTimer?.invalidate()
+        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
+                                                           target: self,
+                                                           selector: #selector(self.runTimerAction(_:)),
+                                                           userInfo: nil,
+                                                           repeats: false)
+    }
+    
     @objc private func runTimerAction(_ expanded: Bool) {
         colorView.expand(false)
     }
     
     private func setExpanded(expanded: Bool) {
-        if expanded {
-            colorView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
-            colorView.alpha = 1.0
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) {
+            if expanded {
+                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+                self.colorView.alpha = 1.0
+            }
+            else {
+                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: self.colorViewShrinkFactor, y: self.colorViewShrinkFactor)
+                self.colorView.alpha = 0.75
+            }
+            
+            //Need to reinstate this, otherwise view expands from the center, not the top-left
+            self.resetColorViewOrigin()
         }
-        else {
-            colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
-            colorView.alpha = 0.65
-        }
-
-        colorView.frame.origin = colorViewFrame.origin
     }
     
     private func setColors(color: UIColor) {
@@ -353,31 +382,35 @@ extension VerticalViewController {
         buttonEquals.backgroundColor = color.getComplimentary()
     }
     
-    private func flipSwitch(lightOn: Bool) {
+    private func setLight(lightOn: Bool) {
         let backgroundColor: UIColor = lightOn ? .white : .black
-        let titleColor: UIColor = lightOn ? .black : .white
+        let textColor: UIColor = lightOn ? .black : .white
         
         UIView.animate(withDuration: 0.5) {
             self.view.backgroundColor = backgroundColor
-            self.button0.setTitleColor(titleColor, for: .normal)
-            self.button1.setTitleColor(titleColor, for: .normal)
-            self.button2.setTitleColor(titleColor, for: .normal)
-            self.button3.setTitleColor(titleColor, for: .normal)
-            self.button4.setTitleColor(titleColor, for: .normal)
-            self.button5.setTitleColor(titleColor, for: .normal)
-            self.button6.setTitleColor(titleColor, for: .normal)
-            self.button7.setTitleColor(titleColor, for: .normal)
-            self.button8.setTitleColor(titleColor, for: .normal)
-            self.button9.setTitleColor(titleColor, for: .normal)
-            self.buttonDecimal.setTitleColor(titleColor, for: .normal)
-            self.buttonClear.setTitleColor(titleColor, for: .normal)
-            self.buttonSign.setTitleColor(titleColor, for: .normal)
-            self.buttonPercent.setTitleColor(titleColor, for: .normal)
-            self.buttonDivide.setTitleColor(titleColor, for: .normal)
-            self.buttonMultiply.setTitleColor(titleColor, for: .normal)
-            self.buttonSubtract.setTitleColor(titleColor, for: .normal)
-            self.buttonAdd.setTitleColor(titleColor, for: .normal)
-            self.buttonEquals.setTitleColor(titleColor, for: .normal)
+            self.button0.setTitleColor(textColor, for: .normal)
+            self.button1.setTitleColor(textColor, for: .normal)
+            self.button2.setTitleColor(textColor, for: .normal)
+            self.button3.setTitleColor(textColor, for: .normal)
+            self.button4.setTitleColor(textColor, for: .normal)
+            self.button5.setTitleColor(textColor, for: .normal)
+            self.button6.setTitleColor(textColor, for: .normal)
+            self.button7.setTitleColor(textColor, for: .normal)
+            self.button8.setTitleColor(textColor, for: .normal)
+            self.button9.setTitleColor(textColor, for: .normal)
+            self.buttonDecimal.setTitleColor(textColor, for: .normal)
+            self.buttonClear.setTitleColor(textColor, for: .normal)
+            self.buttonSign.setTitleColor(textColor, for: .normal)
+            self.buttonPercent.setTitleColor(textColor, for: .normal)
+            self.buttonDivide.setTitleColor(textColor, for: .normal)
+            self.buttonMultiply.setTitleColor(textColor, for: .normal)
+            self.buttonSubtract.setTitleColor(textColor, for: .normal)
+            self.buttonAdd.setTitleColor(textColor, for: .normal)
+            self.buttonEquals.setTitleColor(textColor, for: .normal)
+            
+            self.displayCalculation.textColor = textColor
+            
+            self.setNeedsStatusBarAppearanceUpdate()
         }
     }
 }

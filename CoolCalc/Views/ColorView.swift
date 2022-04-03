@@ -69,9 +69,9 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
     }
     
     private func drawDial() {
-        let pathWidth: CGFloat = 28.0
+        let pathWidth: CGFloat = frame.width * 0.28
         let gradientFactor: CGFloat = 0.2
-        let gradientAlpha: CGFloat = 0.9
+        let gradientAlpha: CGFloat = 1.0
         
         
         //Add the gradient dial
@@ -149,6 +149,7 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
         delegate?.didChangeColor(getColorFromPoint(location))
 
         if sender.state == .ended {
+            K.addHapticFeedback(withStyle: .light)
             delegate?.didSelectColor(getColorFromPoint(location))
         }
     }
@@ -162,19 +163,21 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
             K.lightOn = !K.lightOn
             
             lightSwitch.layer.shadowOpacity = 0.0
+            lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x + 1, y: lightSwitch.frame.origin.y + 1)
+            
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 self.lightSwitch.backgroundColor = K.lightOn ? .black : .white
                 self.lightSwitch.layer.shadowOpacity = 1.0
+                self.lightSwitch.frame.origin = CGPoint(x: self.lightSwitch.frame.origin.x - 1, y: self.lightSwitch.frame.origin.y - 1)
             }, completion: nil)
             
+            K.addHapticFeedback(withStyle: .light)
             delegate?.didFlipSwitch(K.lightOn)
         }
         else {
             expanded = true
         }
     }
-    
-    
     
     func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
         let relativeCenter = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
@@ -187,10 +190,7 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
         
         return false
     }
-}
 
-
-extension ColorView {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
