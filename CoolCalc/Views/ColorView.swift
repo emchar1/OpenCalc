@@ -8,23 +8,33 @@
 import UIKit
 
 protocol ColorViewDelegate {
+    func didChangeColor(_ color: UIColor)
     func didSelectColor(_ color: UIColor)
+    func didFlipSwitch(_ lightOn: Bool)
+    func didSetExpanded(_ expanded: Bool)
 }
 
 /**
  Presents a color wheel dial that allows you to change the calculator buttons using the selected color.
  */
-class ColorView: UIView {
+class ColorView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     
     var delegate: ColorViewDelegate?
-    
-    //Dial bounds properties
-    var dialBoundsInner: UIView!
-    var dialBoundsOuter: UIView!
-    static let defaultColor = UIColor(red: 0.8, green: 0.4, blue: 0.0, alpha: 0.9)
-    
+
+    private var lightSwitch: UIView!
+    private var dialBoundsInner: UIView!
+    private var dialBoundsOuter: UIView!
+
+    private var expanded = false {
+        didSet {
+            lightSwitch.alpha = expanded ? 1.0 : 0.0
+            
+            delegate?.didSetExpanded(expanded)
+        }
+    }
+
     
     // MARK: - Initialization
     
@@ -33,12 +43,29 @@ class ColorView: UIView {
         
         drawDial()
         
-        let panGesture = ImmediatePanGestureRecognizer(target: self, action: #selector(didGesture(_:)))
+        let panGesture = ImmediatePanGestureRecognizer(target: self, action: #selector(didPan(_:)))
+        panGesture.delegate = self
         addGestureRecognizer(panGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        tapGesture.delegate = self
+        addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func isExpanded() -> Bool {
+        return expanded
+    }
+    
+    func expand(_ expanded: Bool) {
+        self.expanded = expanded
+    }
+    
+    func toggleExpanded() {
+        expanded = !expanded
     }
     
     private func drawDial() {
@@ -78,6 +105,18 @@ class ColorView: UIView {
         
         layer.addSublayer(gradientLayer)
         
+        lightSwitch = UIView()
+        lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 3, y: frame.height / 2 - pathWidth / 3, width: pathWidth * 2 / 3, height: pathWidth * 2 / 3)
+        lightSwitch.bounds = lightSwitch.frame
+        lightSwitch.layer.cornerRadius = lightSwitch.frame.width / 2
+        lightSwitch.backgroundColor = K.lightOn ? .black : .white
+        lightSwitch.layer.shadowOffset = CGSize(width: 2, height: 2)
+        lightSwitch.layer.shadowColor = UIColor.systemGray.cgColor
+        lightSwitch.layer.shadowOpacity = 1.0
+        lightSwitch.alpha = expanded ? 1.0 : 0.0
+        
+        addSubview(lightSwitch)
+        
         
         //Add the dial bounds
         dialBoundsInner = UIView()
@@ -98,18 +137,44 @@ class ColorView: UIView {
     
     // MARK: - Gesture Recognizers
     
-    
-    @objc func didGesture(_ sender: ImmediatePanGestureRecognizer) {
+    @objc func didPan(_ sender: ImmediatePanGestureRecognizer) {
         let location = sender.location(in: self)
         
-        //Make sure only panning within the gradient view bounds
-        guard locationInCircleView(point: location, in: dialBoundsOuter.bounds) && !locationInCircleView(point: location, in: dialBoundsInner.bounds) else {
+        //Make sure can only pan within the gradient view bounds
+        guard locationInCircleView(point: location, in: dialBoundsOuter.bounds) && !locationInCircleView(point: location, in: dialBoundsInner.bounds) && expanded else {
             return
         }
-        
-        
-        delegate?.didSelectColor(getColorFromPoint(location))
+                
+
+        delegate?.didChangeColor(getColorFromPoint(location))
+
+        if sender.state == .ended {
+            delegate?.didSelectColor(getColorFromPoint(location))
+        }
     }
+    
+    @objc func didTap(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self)
+        
+        if expanded {
+            guard locationInCircleView(point: location, in: lightSwitch.bounds) else { return }
+            
+            K.lightOn = !K.lightOn
+            
+            lightSwitch.layer.shadowOpacity = 0.0
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.lightSwitch.backgroundColor = K.lightOn ? .black : .white
+                self.lightSwitch.layer.shadowOpacity = 1.0
+            }, completion: nil)
+            
+            delegate?.didFlipSwitch(K.lightOn)
+        }
+        else {
+            expanded = true
+        }
+    }
+    
+    
     
     func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
         let relativeCenter = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
@@ -121,5 +186,12 @@ class ColorView: UIView {
         }
         
         return false
+    }
+}
+
+
+extension ColorView {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

@@ -14,24 +14,27 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     //Stacks
     var stackMain = UIStackView()
     let stackButtons = UIStackView()
-    let stack0 = UIStackView()
+    let stack0 = UIStackView() //top
     let stack1 = UIStackView()
     let stack2 = UIStackView()
     let stack3 = UIStackView()
-    let stack4 = UIStackView()
+    let stack4 = UIStackView() //bottom
     
     //Display
-    let spacing: CGFloat = 8
+    let buttonSpacing: CGFloat = 8
     let displayStack = UIStackView()
     let displayLabel = UILabel()
     let displayCalculation = UILabel()
+    
+    //Models
+    let calculator = Calculator() //build this...
+    var colorView: ColorView!
+    var colorViewExpandedTimer: Timer?
+    var colorViewTimerInterval: TimeInterval = 3.0
+    var colorViewOrigin = CGPoint(x: 20, y: 60)
     var calculationString = ""
 
     //Buttons
-    let calculator = Calculator()
-    var colorView: ColorView!
-    
-    
     let buttonClear = CalcButton(label: "AC")
     let button7 = CalcButton(label: "7")
     let button4 = CalcButton(label: "4")
@@ -61,48 +64,13 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         setupViewsInitialize()
         setupViewsLayout()
     }
-}
 
 
-// MARK: - Setup Helper Functions
-
-extension VerticalViewController {
-    private func setupViews() {
-        //Debug - button colors
-//        stackMain.backgroundColor = .systemOrange
-//        displayStack.backgroundColor = .systemBlue
-//        displayLabel.backgroundColor = .systemCyan
-//        displayCalculation.backgroundColor = .systemIndigo
-//        stackButtons.backgroundColor = .magenta
-//        stackClear.backgroundColor = .systemPurple
-//        stackPercent.backgroundColor = .systemPurple
-//        stackDivide.backgroundColor = .systemPurple
-//        stackMultiply.backgroundColor = .systemPurple
-//        buttonClear.backgroundColor = .systemRed
-//        button7.backgroundColor = .systemOrange
-//        button4.backgroundColor = .systemYellow
-//        button1.backgroundColor = .systemGreen
-//        buttonSign.backgroundColor = .systemBlue
-//        buttonPercent.backgroundColor = .systemRed
-//        button8.backgroundColor = .systemOrange
-//        button5.backgroundColor = .systemYellow
-//        button2.backgroundColor = .systemGreen
-//        button0.backgroundColor = .systemBlue
-//        buttonDivide.backgroundColor = .systemRed
-//        button9.backgroundColor = .systemOrange
-//        button6.backgroundColor = .systemYellow
-//        button3.backgroundColor = .systemGreen
-//        buttonDecimal.backgroundColor = .systemBlue
-//        buttonMultiply.backgroundColor = .systemRed
-//        buttonSubtract.backgroundColor = .systemOrange
-//        buttonAdd.backgroundColor = .systemYellow
-//        buttonEquals.backgroundColor = .systemGreen
-//        buttonMultiply.backgroundColor = .systemBackground
-//        buttonEquals.backgroundColor = .secondarySystemBackground
-    }
+    // MARK: - Setup Helper Functions
     
     private func setupViewsInitialize() {
         //Set up Properties
+        view.backgroundColor = K.lightOn ? .white : .black
         displayLabel.textAlignment = .right
         displayCalculation.backgroundColor = .secondarySystemBackground
         displayCalculation.alpha = 0.65
@@ -127,40 +95,43 @@ extension VerticalViewController {
         buttonSubtract.delegate = self
         buttonAdd.delegate = self
         buttonEquals.delegate = self
-        colorView = ColorView(frame: CGRect(x: 20, y: 60, width: 100, height: 100))
+        colorView = ColorView(frame: CGRect(x: colorViewOrigin.x, y: colorViewOrigin.y, width: 100, height: 100))
+        colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
+        colorView.frame.origin = CGPoint(x: colorViewOrigin.x, y: colorViewOrigin.y)
         colorView.delegate = self
-        setColors(color: ColorView.defaultColor)
+        setColors(color: K.savedColor)
+        flipSwitch(lightOn: K.lightOn)
 
         //Set up Stacks
         stackMain.axis = .vertical
         stackMain.distribution = .fill
-        stackMain.spacing = spacing
+        stackMain.spacing = buttonSpacing
         stackMain.translatesAutoresizingMaskIntoConstraints = false
         displayStack.axis = .vertical
         displayStack.distribution = .fill
         displayStack.translatesAutoresizingMaskIntoConstraints = false
         stackButtons.axis = .vertical
         stackButtons.distribution = .fillEqually
-        stackButtons.spacing = spacing
+        stackButtons.spacing = buttonSpacing
         stackButtons.translatesAutoresizingMaskIntoConstraints = false
         stack0.axis = .horizontal
         stack0.distribution = .fillEqually
-        stack0.spacing = spacing
+        stack0.spacing = buttonSpacing
         stack0.translatesAutoresizingMaskIntoConstraints = false
         stack1.axis = .horizontal
         stack1.distribution = .fillEqually
-        stack1.spacing = spacing
+        stack1.spacing = buttonSpacing
         stack1.translatesAutoresizingMaskIntoConstraints = false
         stack2.axis = .horizontal
         stack2.distribution = .fillEqually
-        stack2.spacing = spacing
+        stack2.spacing = buttonSpacing
         stack2.translatesAutoresizingMaskIntoConstraints = false
         stack3.axis = .horizontal
         stack3.distribution = .fillEqually
-        stack3.spacing = spacing
+        stack3.spacing = buttonSpacing
         stack3.translatesAutoresizingMaskIntoConstraints = false
         stack4.distribution = .fillProportionally
-        stack4.spacing = spacing
+        stack4.spacing = buttonSpacing
         stack4.translatesAutoresizingMaskIntoConstraints = false
         displayLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -170,17 +141,17 @@ extension VerticalViewController {
         //Add stacks to view and set constraints
         view.addSubview(stackMain)
         view.addSubview(colorView)  //This needs to be added AFTER adding stackMain
-        NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * spacing),
-                                     stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * spacing),
-                                     view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * spacing),
-                                     view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: stackMain.bottomAnchor, constant: 2 * spacing)])
+        NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * buttonSpacing),
+                                     stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * buttonSpacing),
+                                     view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * buttonSpacing),
+                                     view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: stackMain.bottomAnchor, constant: 2 * buttonSpacing)])
         
         stackMain.addArrangedSubview(displayStack)
         NSLayoutConstraint.activate([displayStack.topAnchor.constraint(equalTo: stackMain.arrangedSubviews[0].topAnchor),
                                      displayStack.leadingAnchor.constraint(equalTo: stackMain.arrangedSubviews[0].leadingAnchor),
                                      stackMain.arrangedSubviews[0].trailingAnchor.constraint(equalTo: displayStack.trailingAnchor),
                                      stackMain.arrangedSubviews[0].bottomAnchor.constraint(equalTo: displayStack.bottomAnchor),
-                                     displayStack.heightAnchor.constraint(equalToConstant: view.frame.size.height * 0.5)])
+                                     displayStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35)])
         
         stackMain.addArrangedSubview(stackButtons)
         NSLayoutConstraint.activate([stackButtons.topAnchor.constraint(equalTo: stackMain.arrangedSubviews[1].topAnchor),
@@ -242,8 +213,8 @@ extension VerticalViewController {
         stack4.addArrangedSubview(buttonEquals)
 
         //These constraints allow 2x size for the 0 button
-        NSLayoutConstraint.activate([button0.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.5, constant: -0.5 * spacing),
-                                     buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * spacing)])
+        NSLayoutConstraint.activate([button0.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.5, constant: -0.5 * buttonSpacing),
+                                     buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * buttonSpacing)])
 
         //Display Label
         NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 40)])
@@ -285,10 +256,66 @@ extension VerticalViewController {
 // MARK: - ColorSelectorView Delegate
 
 extension VerticalViewController {
-    func didSelectColor(_ color: UIColor) {
+    func didChangeColor(_ color: UIColor) {
         setColors(color: color)
+        
+        self.colorViewExpandedTimer?.invalidate()
+        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
+                                                           target: self,
+                                                           selector: #selector(runTimerAction(_:)),
+                                                           userInfo: nil,
+                                                           repeats: false)
     }
     
+    func didSelectColor(_ color: UIColor) {
+        UserDefaults.standard.set(color, forKey: K.userDefaults_color)
+        print("Color: \(color.description) saved to UserDefaults key: \(K.userDefaults_color)")
+    }
+    
+    func didFlipSwitch(_ lightOn: Bool) {
+        flipSwitch(lightOn: lightOn)
+
+        UserDefaults.standard.set(lightOn, forKey: K.userDefaults_light)
+        print("Light is \(lightOn ? "on" : "off")")
+        
+        self.colorViewExpandedTimer?.invalidate()
+        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
+                                                           target: self,
+                                                           selector: #selector(runTimerAction(_:)),
+                                                           userInfo: nil,
+                                                           repeats: false)
+
+    }
+    
+    func didSetExpanded(_ expanded: Bool) {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.4,
+                       initialSpringVelocity: 10,
+                       animations: {
+
+            if expanded {
+                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
+                
+                self.colorViewExpandedTimer = nil
+                self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: self.colorViewTimerInterval,
+                                                                   target: self,
+                                                                   selector: #selector(self.runTimerAction(_:)),
+                                                                   userInfo: nil,
+                                                                   repeats: false)
+
+            }
+            else {
+                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 0.25, y: 0.25)
+            }
+            
+            self.colorView.frame.origin = self.colorViewOrigin
+        })
+    }
+                                                           
+        @objc private func runTimerAction(_ expanded: Bool) {
+            colorView.expand(false)
+        }
     
     private func setColors(color: UIColor) {
         button0.backgroundColor = color
@@ -312,5 +339,30 @@ extension VerticalViewController {
         buttonSubtract.backgroundColor = color.getComplimentary()
         buttonAdd.backgroundColor = color.getComplimentary()
         buttonEquals.backgroundColor = color.getComplimentary()
+    }
+    
+    private func flipSwitch(lightOn: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            self.view.backgroundColor = lightOn ? .white : .black
+            self.button0.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button1.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button2.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button3.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button4.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button5.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button6.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button7.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button8.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.button9.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonDecimal.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonClear.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonSign.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonPercent.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonDivide.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonMultiply.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonSubtract.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonAdd.setTitleColor(lightOn ? .black : .white, for: .normal)
+            self.buttonEquals.setTitleColor(lightOn ? .black : .white, for: .normal)
+        }
     }
 }

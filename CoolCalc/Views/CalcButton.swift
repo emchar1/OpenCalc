@@ -22,7 +22,7 @@ class CalcButton: UIButton {
         super.init(frame: frame)
 
         setTitle(label, for: .normal)
-        setTitleColor(.label, for: .normal)
+        setTitleColor(.white, for: .normal)
         backgroundColor = .secondarySystemBackground
         alpha = 0.65
         layer.cornerRadius = 12
