@@ -7,34 +7,31 @@
 
 import UIKit
 
-class MuteButton: UIButton {
-    let shadowOffset: CGFloat = 2.0
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+class MuteButton: CustomButton {
+    var buttonBackgroundColor: UIColor?
+    var buttonTintColor: UIColor?
 
-        setImage(UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"), for: .normal)
-        backgroundColor = K.lightOn ? .black : .white
-        setTitleColor(K.lightOn ? .white : .black, for: .normal)
-        layer.cornerRadius = frame.width / 2
-        layer.shadowOffset = CGSize(width: shadowOffset, height: shadowOffset)
-        layer.shadowOpacity = 1.0
-        layer.shadowColor = UIColor.darkGray.cgColor
+    init(frame: CGRect,
+         buttonBackgroundColor: UIColor?,
+         buttonTintColor: UIColor?) {
+                                
+        super.init(frame: frame,
+                   buttonAlpha: 1.0,
+                   buttonPressOffset: 2.0,
+                   buttonCornerRadius: 0.0,
+                   buttonLabel: nil,
+                   buttonTapSound: nil,
+                   buttonImage: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"))
 
-        addTarget(self, action: #selector(didPress(_:)), for: .touchUpInside)
+        backgroundColor = buttonBackgroundColor
+        tintColor = buttonTintColor
+        setImage(buttonImage, for: .normal)
+        self.buttonBackgroundColor = buttonBackgroundColor
+        self.buttonTintColor = buttonTintColor
+        updateBounds(with: frame)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func didPress(_ sender: UIButton) {
-        K.muteOn = !K.muteOn
-        
-        
-        
-        UIView.animate(withDuration: 0.5) {
-            
-        }
     }
 }

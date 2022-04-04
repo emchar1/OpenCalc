@@ -28,8 +28,10 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     
     //Models
     let calculator = Calculator() //build this...
+    let muteButtonSize: CGFloat = 32
     let settingsViewSize: CGFloat = 125
-    let settingsViewShrinkFactor: CGFloat = 0.25
+    let settingsViewShrinkFactor: CGFloat = 0.28
+    var muteButton: MuteButton!
     var settingsView: SettingsView!
     var settingsViewExpandedTimer: Timer?
     var calculationString = ""
@@ -83,7 +85,7 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     @objc private func orientationDidChange(_ notification: NSNotification) {
         let buttonFont = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
         
-        resetSettingsViewOrigin()
+        resetSettingsOrigin()
         
         button0.updateFont(with: buttonFont)
         button1.updateFont(with: buttonFont)
@@ -106,9 +108,12 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         buttonEquals.updateFont(with: buttonFont)
     }
     
-    private func resetSettingsViewOrigin() {
+    private func resetSettingsOrigin() {
         settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * settingsViewShrinkFactor / 2) + 1,
                                               y: K.getSafeAreaInsets().top + (settingsViewSize * settingsViewShrinkFactor / 2) + 1)
+        
+        muteButton.frame.origin = CGPoint(x: view.frame.width - K.getSafeAreaInsets().leading - muteButtonSize * 1.5,
+                                          y: K.getSafeAreaInsets().top + muteButtonSize / 2)
     }
     
     private func setupViewsInitialize() {
@@ -142,9 +147,21 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         
         settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
         settingsView.delegate = self
+        
+        muteButton = MuteButton(frame: CGRect(x: view.frame.width - K.getSafeAreaInsets().leading - muteButtonSize * 1.5,
+                                              y: K.getSafeAreaInsets().top + muteButtonSize / 2,
+                                              width: muteButtonSize,
+                                              height: muteButtonSize),
+                                buttonBackgroundColor: K.lightOn ? .black : .white,
+                                buttonTintColor: K.lightOn ? .white : .black)
+        muteButton.updateCornerRadius(with: muteButtonSize / 2)
+        muteButton.delegate = self
+        
+        //Do all this AFTER initializing the properties above!
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
         setExpanded(expanded: false)
+
 
         
         //Set up Stacks
@@ -186,6 +203,7 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         //Add stacks to view and set constraints
         view.addSubview(stackMain)
         view.addSubview(settingsView)  //This needs to be added AFTER adding stackMain
+        view.addSubview(muteButton)
         NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * buttonSpacing),
                                      stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * buttonSpacing),
                                      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * buttonSpacing),
@@ -279,22 +297,28 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
 
 extension CoolCalcViewController {
     func didTapButton(_ button: CustomButton) {
-        guard let button = button as? CalcButton else { return }
-        
-        switch button.model.type {
-        case .number:
-            calculationString += button.model.value
-        case .clear:
-            calculationString = ""
-        case .decimal:
-            calculationString += button.model.value
-        case .sign:
-            calculationString += "#"
-        default:
-            calculationString += "?"
+        if let button = button as? CalcButton {
+            switch button.model.type {
+            case .number:
+                calculationString += button.model.value
+            case .clear:
+                calculationString = ""
+            case .decimal:
+                calculationString += button.model.value
+            case .sign:
+                calculationString += "#"
+            default:
+                calculationString += "?"
+            }
+            
+            displayCalculation.text = calculationString
         }
-                
-        displayCalculation.text = calculationString
+        else if let button = button as? MuteButton {
+            K.muteOn = !K.muteOn
+            
+            button.updateImage(with: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"))
+            UserDefaults.standard.set(K.muteOn, forKey: K.userDefaults_mute)
+        }
     }
 }
 
@@ -361,7 +385,7 @@ extension CoolCalcViewController {
             }
             
             //Need to reinstate this, otherwise view expands from the center, not the top-left
-            resetSettingsViewOrigin()
+            resetSettingsOrigin()
         }
     }
     
@@ -416,6 +440,9 @@ extension CoolCalcViewController {
             buttonEquals.updateTitleColor(with: textColor)
             
             displayCalculation.textColor = textColor
+            
+            muteButton.updateBackgroundColor(with: textColor)
+            muteButton.updateTintColor(with: backgroundColor)
             
             setNeedsStatusBarAppearanceUpdate()
         }

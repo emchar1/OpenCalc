@@ -80,8 +80,16 @@ class CustomButton: UIButton {
         setTitleColor(color, for: .normal)
     }
     
+    func updateTintColor(with color: UIColor?) {
+        tintColor = color
+    }
+    
     func updateCornerRadius(with cornerRadius: CGFloat) {
         layer.cornerRadius = cornerRadius
+    }
+    
+    func updateImage(with image: UIImage?) {
+        setImage(image, for: .normal)
     }
         
     
