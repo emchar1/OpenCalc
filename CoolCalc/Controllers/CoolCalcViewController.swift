@@ -1,5 +1,5 @@
 //
-//  VerticalViewController.swift
+//  CoolCalcViewController.swift
 //  CoolCalc
 //
 //  Created by Eddie Char on 3/19/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalViewController: UIViewController, CustomButtonDelegate, SettingsViewDelegate {
+class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsViewDelegate {
     
     // MARK: - Properties
     
@@ -277,7 +277,7 @@ class VerticalViewController: UIViewController, CustomButtonDelegate, SettingsVi
 
 // MARK: - CustomButton Delegate
 
-extension VerticalViewController {
+extension CoolCalcViewController {
     func didTapButton(_ button: CustomButton) {
         guard let button = button as? CalcButton else { return }
         
@@ -301,7 +301,7 @@ extension VerticalViewController {
 
 // MARK: - SettingsView Delegate
 
-extension VerticalViewController {
+extension CoolCalcViewController {
     func didChangeColor(_ color: UIColor?) {
         guard let color = color else { return }
         

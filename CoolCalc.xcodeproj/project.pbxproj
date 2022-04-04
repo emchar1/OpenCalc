@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385927E6ED2300122877 /* AppDelegate.swift */; };
 		EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385B27E6ED2300122877 /* SceneDelegate.swift */; };
-		EA2E385E27E6ED2300122877 /* VerticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385D27E6ED2300122877 /* VerticalViewController.swift */; };
+		EA2E385E27E6ED2300122877 /* CoolCalcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385D27E6ED2300122877 /* CoolCalcViewController.swift */; };
 		EA2E386127E6ED2300122877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA2E385F27E6ED2300122877 /* Main.storyboard */; };
 		EA2E386327E6ED2400122877 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386227E6ED2400122877 /* Assets.xcassets */; };
 		EA2E386627E6ED2400122877 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386427E6ED2400122877 /* LaunchScreen.storyboard */; };
@@ -33,7 +33,7 @@
 		EA2E385627E6ED2300122877 /* CoolCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2E385927E6ED2300122877 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA2E385B27E6ED2300122877 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EA2E385D27E6ED2300122877 /* VerticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalViewController.swift; sourceTree = "<group>"; };
+		EA2E385D27E6ED2300122877 /* CoolCalcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolCalcViewController.swift; sourceTree = "<group>"; };
 		EA2E386027E6ED2300122877 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA2E386227E6ED2400122877 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA2E386527E6ED2400122877 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		EA2E386E27E6ED4A00122877 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EA2E385D27E6ED2300122877 /* VerticalViewController.swift */,
+				EA2E385D27E6ED2300122877 /* CoolCalcViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -230,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5D2A8627FAC1530037E967 /* LightButton.swift in Sources */,
-				EA2E385E27E6ED2300122877 /* VerticalViewController.swift in Sources */,
+				EA2E385E27E6ED2300122877 /* CoolCalcViewController.swift in Sources */,
 				EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */,
 				EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */,
