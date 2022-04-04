@@ -12,22 +12,42 @@ protocol CustomButtonDelegate {
 }
 
 class CustomButton: UIButton {
+    
+    // MARK: - Properties
+    
     let buttonAlpha: CGFloat
     let buttonPressOffset: CGFloat
+    var buttonCornerRadius: CGFloat
     let buttonLabel: String?
+    let buttonTapSound: String?
+    var buttonImage: UIImage?
     var delegate: CustomButtonDelegate?
+    
+    
+    // MARK: - Initialization
 
-    init(frame: CGRect, alpha: CGFloat = 1.0, buttonPressOffset: CGFloat = 2.0, buttonLabel: String? = nil) {
-        self.buttonAlpha = alpha
+    init(frame: CGRect = .zero,
+         buttonAlpha: CGFloat = 1.0,
+         buttonPressOffset: CGFloat = 2.0,
+         buttonCornerRadius: CGFloat = 0.0,
+         buttonLabel: String? = nil,
+         buttonTapSound: String? = nil,
+         buttonImage: UIImage?) {
+        
+        self.buttonAlpha = buttonAlpha
         self.buttonPressOffset = buttonPressOffset
+        self.buttonCornerRadius = buttonCornerRadius
         self.buttonLabel = buttonLabel
+        self.buttonTapSound = buttonTapSound
+        self.buttonImage = buttonImage
 
         super.init(frame: frame)
                 
-        self.alpha = alpha
+        alpha = buttonAlpha
+        layer.cornerRadius = buttonCornerRadius
+        layer.shadowColor = UIColor.darkGray.cgColor
         layer.shadowOffset = CGSize(width: buttonPressOffset, height: buttonPressOffset)
         layer.shadowOpacity = 1.0
-        layer.shadowColor = UIColor.darkGray.cgColor
 
         addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
         addTarget(self, action: #selector(tapDown(_:)), for: .touchDown)
@@ -38,24 +58,52 @@ class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented.")
     }
+    
+    
+    // MARK: - Update Properties
+    
+    func updateBounds(with bounds: CGRect) {
+        self.bounds = bounds
+    }
+    
+    func updateFont(with font: UIFont?) {
+        titleLabel?.font = font
+    }
+    
+    func updateBackgroundColor(with color: UIColor?) {
+        backgroundColor = color
+    }
+    
+    func updateTitleColor(with color: UIColor?) {
+        setTitleColor(color, for: .normal)
+    }
+    
+    func updateCornerRadius(with cornerRadius: CGFloat) {
+        layer.cornerRadius = cornerRadius
+    }
         
     
     // MARK: - Button Press Actions
     
     @objc func didTapButton(_ sender: CustomButton) {
+        print("Did tap button")
         delegate?.didTapButton(sender)
     }
     
-    @objc func tapDown(_ sender: UIButton) {
+    @objc func tapDown(_ sender: CustomButton) {
+        print("Tap down")
         frame.origin = CGPoint(x: frame.origin.x + buttonPressOffset, y: frame.origin.y + buttonPressOffset)
         alpha = buttonAlpha * 0.75
         layer.shadowOpacity = 0.0
-        
-        AudioPlayer.playSound(filename: "buttonTap")
         K.addHapticFeedback(withStyle: .soft)
+
+        if let buttonTapSound = buttonTapSound {
+            AudioPlayer.playSound(filename: buttonTapSound)
+        }        
     }
 
     @objc func tapRelease(_ sender: CustomButton) {
+        print("tap release")
         UIView.animate(withDuration: 0.35, delay: 0, options: .allowUserInteraction, animations: { [unowned self] in
             frame.origin = CGPoint(x: frame.origin.x - buttonPressOffset, y: frame.origin.y - buttonPressOffset)
             alpha = buttonAlpha

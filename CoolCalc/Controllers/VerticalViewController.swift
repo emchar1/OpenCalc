@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalViewController: UIViewController, CalcButtonDelegate, SettingsViewDelegate {
+class VerticalViewController: UIViewController, CustomButtonDelegate, SettingsViewDelegate {
     
     // MARK: - Properties
     
@@ -35,25 +35,25 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, SettingsView
     var calculationString = ""
 
     //Buttons
-    let buttonClear = CalcButton(label: "AC")
-    let button7 = CalcButton(label: "7")
-    let button4 = CalcButton(label: "4")
-    let button1 = CalcButton(label: "1")
-    let buttonSign = CalcButton(label: "+/-")
-    let buttonPercent = CalcButton(label: "%")
-    let button8 = CalcButton(label: "8")
-    let button5 = CalcButton(label: "5")
-    let button2 = CalcButton(label: "2")
-    let button0 = CalcButton(label: "0")
-    let buttonDivide = CalcButton(label: "÷")
-    let button9 = CalcButton(label: "9")
-    let button6 = CalcButton(label: "6")
-    let button3 = CalcButton(label: "3")
-    let buttonDecimal = CalcButton(label: ".")
-    let buttonMultiply = CalcButton(label: "×")
-    let buttonSubtract = CalcButton(label: "-")
-    let buttonAdd = CalcButton(label: "+")
-    let buttonEquals = CalcButton(label: "=")
+    let buttonClear = CalcButton(buttonLabel: "AC")
+    let button7 = CalcButton(buttonLabel: "7")
+    let button4 = CalcButton(buttonLabel: "4")
+    let button1 = CalcButton(buttonLabel: "1")
+    let buttonSign = CalcButton(buttonLabel: "+/-")
+    let buttonPercent = CalcButton(buttonLabel: "%")
+    let button8 = CalcButton(buttonLabel: "8")
+    let button5 = CalcButton(buttonLabel: "5")
+    let button2 = CalcButton(buttonLabel: "2")
+    let button0 = CalcButton(buttonLabel: "0")
+    let buttonDivide = CalcButton(buttonLabel: "÷")
+    let button9 = CalcButton(buttonLabel: "9")
+    let button6 = CalcButton(buttonLabel: "6")
+    let button3 = CalcButton(buttonLabel: "3")
+    let buttonDecimal = CalcButton(buttonLabel: ".")
+    let buttonMultiply = CalcButton(buttonLabel: "×")
+    let buttonSubtract = CalcButton(buttonLabel: "-")
+    let buttonAdd = CalcButton(buttonLabel: "+")
+    let buttonEquals = CalcButton(buttonLabel: "=")
     
 
     // MARK: - Initialization
@@ -85,25 +85,25 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, SettingsView
         
         resetSettingsViewOrigin()
         
-        button0.titleLabel?.font = buttonFont
-        button1.titleLabel?.font = buttonFont
-        button2.titleLabel?.font = buttonFont
-        button3.titleLabel?.font = buttonFont
-        button4.titleLabel?.font = buttonFont
-        button5.titleLabel?.font = buttonFont
-        button6.titleLabel?.font = buttonFont
-        button7.titleLabel?.font = buttonFont
-        button8.titleLabel?.font = buttonFont
-        button9.titleLabel?.font = buttonFont
-        buttonDecimal.titleLabel?.font = buttonFont
-        buttonClear.titleLabel?.font = buttonFont
-        buttonSign.titleLabel?.font = buttonFont
-        buttonPercent.titleLabel?.font = buttonFont
-        buttonDivide.titleLabel?.font = buttonFont
-        buttonMultiply.titleLabel?.font = buttonFont
-        buttonSubtract.titleLabel?.font = buttonFont
-        buttonAdd.titleLabel?.font = buttonFont
-        buttonEquals.titleLabel?.font = buttonFont
+        button0.updateFont(with: buttonFont)
+        button1.updateFont(with: buttonFont)
+        button2.updateFont(with: buttonFont)
+        button3.updateFont(with: buttonFont)
+        button4.updateFont(with: buttonFont)
+        button5.updateFont(with: buttonFont)
+        button6.updateFont(with: buttonFont)
+        button7.updateFont(with: buttonFont)
+        button8.updateFont(with: buttonFont)
+        button9.updateFont(with: buttonFont)
+        buttonDecimal.updateFont(with: buttonFont)
+        buttonClear.updateFont(with: buttonFont)
+        buttonSign.updateFont(with: buttonFont)
+        buttonPercent.updateFont(with: buttonFont)
+        buttonDivide.updateFont(with: buttonFont)
+        buttonMultiply.updateFont(with: buttonFont)
+        buttonSubtract.updateFont(with: buttonFont)
+        buttonAdd.updateFont(with: buttonFont)
+        buttonEquals.updateFont(with: buttonFont)
     }
     
     private func resetSettingsViewOrigin() {
@@ -275,10 +275,12 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, SettingsView
 }
 
 
-// MARK: - CalcButton Delegate
+// MARK: - CustomButton Delegate
 
 extension VerticalViewController {
-    func didTapButton(_ button: CalcButton) {
+    func didTapButton(_ button: CustomButton) {
+        guard let button = button as? CalcButton else { return }
+        
         switch button.model.type {
         case .number:
             calculationString += button.model.value
@@ -300,12 +302,16 @@ extension VerticalViewController {
 // MARK: - SettingsView Delegate
 
 extension VerticalViewController {
-    func didChangeColor(_ color: UIColor) {
+    func didChangeColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        
         setColors(color: color)
         resetTimer()
     }
     
-    func didSelectColor(_ color: UIColor) {
+    func didSelectColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        
         UserDefaults.standard.set(color, forKey: K.userDefaults_color)
         print("Color: \(color.description) saved to UserDefaults key: \(K.userDefaults_color)")
     }
@@ -360,27 +366,27 @@ extension VerticalViewController {
     }
     
     private func setColors(color: UIColor) {
-        button0.backgroundColor = color
-        button1.backgroundColor = color
-        button2.backgroundColor = color
-        button3.backgroundColor = color
-        button4.backgroundColor = color
-        button5.backgroundColor = color
-        button6.backgroundColor = color
-        button7.backgroundColor = color
-        button8.backgroundColor = color
-        button9.backgroundColor = color
-        buttonDecimal.backgroundColor = color
+        button0.updateBackgroundColor(with: color)
+        button1.updateBackgroundColor(with: color)
+        button2.updateBackgroundColor(with: color)
+        button3.updateBackgroundColor(with: color)
+        button4.updateBackgroundColor(with: color)
+        button5.updateBackgroundColor(with: color)
+        button6.updateBackgroundColor(with: color)
+        button7.updateBackgroundColor(with: color)
+        button8.updateBackgroundColor(with: color)
+        button9.updateBackgroundColor(with: color)
+        buttonDecimal.updateBackgroundColor(with: color)
         
-        buttonClear.backgroundColor = color.withAlphaComponent(0.5)
-        buttonSign.backgroundColor = color.withAlphaComponent(0.5)
-        buttonPercent.backgroundColor = color.withAlphaComponent(0.5)
+        buttonClear.updateBackgroundColor(with: color.withAlphaComponent(0.5))
+        buttonSign.updateBackgroundColor(with: color.withAlphaComponent(0.5))
+        buttonPercent.updateBackgroundColor(with: color.withAlphaComponent(0.5))
 
-        buttonDivide.backgroundColor = color.getComplimentary()
-        buttonMultiply.backgroundColor = color.getComplimentary()
-        buttonSubtract.backgroundColor = color.getComplimentary()
-        buttonAdd.backgroundColor = color.getComplimentary()
-        buttonEquals.backgroundColor = color.getComplimentary()
+        buttonDivide.updateBackgroundColor(with: color.getComplimentary())
+        buttonMultiply.updateBackgroundColor(with: color.getComplimentary())
+        buttonSubtract.updateBackgroundColor(with: color.getComplimentary())
+        buttonAdd.updateBackgroundColor(with: color.getComplimentary())
+        buttonEquals.updateBackgroundColor(with: color.getComplimentary())
     }
     
     private func setLight(lightOn: Bool) {
@@ -389,25 +395,25 @@ extension VerticalViewController {
         
         UIView.animate(withDuration: 0.5) { [unowned self] in
             view.backgroundColor = backgroundColor
-            button0.setTitleColor(textColor, for: .normal)
-            button1.setTitleColor(textColor, for: .normal)
-            button2.setTitleColor(textColor, for: .normal)
-            button3.setTitleColor(textColor, for: .normal)
-            button4.setTitleColor(textColor, for: .normal)
-            button5.setTitleColor(textColor, for: .normal)
-            button6.setTitleColor(textColor, for: .normal)
-            button7.setTitleColor(textColor, for: .normal)
-            button8.setTitleColor(textColor, for: .normal)
-            button9.setTitleColor(textColor, for: .normal)
-            buttonDecimal.setTitleColor(textColor, for: .normal)
-            buttonClear.setTitleColor(textColor, for: .normal)
-            buttonSign.setTitleColor(textColor, for: .normal)
-            buttonPercent.setTitleColor(textColor, for: .normal)
-            buttonDivide.setTitleColor(textColor, for: .normal)
-            buttonMultiply.setTitleColor(textColor, for: .normal)
-            buttonSubtract.setTitleColor(textColor, for: .normal)
-            buttonAdd.setTitleColor(textColor, for: .normal)
-            buttonEquals.setTitleColor(textColor, for: .normal)
+            button0.updateTitleColor(with: textColor)
+            button1.updateTitleColor(with: textColor)
+            button2.updateTitleColor(with: textColor)
+            button3.updateTitleColor(with: textColor)
+            button4.updateTitleColor(with: textColor)
+            button5.updateTitleColor(with: textColor)
+            button6.updateTitleColor(with: textColor)
+            button7.updateTitleColor(with: textColor)
+            button8.updateTitleColor(with: textColor)
+            button9.updateTitleColor(with: textColor)
+            buttonDecimal.updateTitleColor(with: textColor)
+            buttonClear.updateTitleColor(with: textColor)
+            buttonSign.updateTitleColor(with: textColor)
+            buttonPercent.updateTitleColor(with: textColor)
+            buttonDivide.updateTitleColor(with: textColor)
+            buttonMultiply.updateTitleColor(with: textColor)
+            buttonSubtract.updateTitleColor(with: textColor)
+            buttonAdd.updateTitleColor(with: textColor)
+            buttonEquals.updateTitleColor(with: textColor)
             
             displayCalculation.textColor = textColor
             

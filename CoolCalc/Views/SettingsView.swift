@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SettingsViewDelegate {
-    func didChangeColor(_ color: UIColor)
-    func didSelectColor(_ color: UIColor)
+    func didChangeColor(_ color: UIColor?)
+    func didSelectColor(_ color: UIColor?)
     func didFlipSwitch(_ lightOn: Bool)
     func didSetExpanded(_ expanded: Bool)
 }
@@ -25,6 +25,7 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
 
     private let lightSwitchOffset: CGFloat = 2.0
     private var lightSwitch: UIView!
+    private var lightSwitchImage: UIImageView!
     private var dialBoundsInner: UIView!
     private var dialBoundsOuter: UIView!
 
@@ -106,6 +107,8 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         
         layer.addSublayer(gradientLayer)
         
+        
+        // FIXME: - Convert this to a LightButton, but all the taps don't work!
         lightSwitch = UIView()
         lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 2, y: frame.height / 2 - pathWidth / 2, width: pathWidth, height: pathWidth)
         lightSwitch.bounds = lightSwitch.frame
@@ -115,7 +118,10 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         lightSwitch.layer.shadowColor = UIColor.darkGray.cgColor
         lightSwitch.layer.shadowOpacity = 1.0
         lightSwitch.alpha = expanded ? 1.0 : 0.0
-        
+        lightSwitchImage = UIImageView(image: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"))
+        lightSwitchImage.tintColor = K.lightOn ? .white : .black
+        lightSwitchImage.frame = CGRect(x: lightSwitch.frame.origin.x + 6, y: lightSwitch.frame.origin.y + 6, width: lightSwitch.frame.width - 12, height: lightSwitch.frame.height - 12)
+        lightSwitch.addSubview(lightSwitchImage)
         addSubview(lightSwitch)
         
         
@@ -181,6 +187,9 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
             lightSwitch.backgroundColor = K.lightOn ? .black : .white
             lightSwitch.layer.shadowOpacity = 1.0
             lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x - lightSwitchOffset, y: lightSwitch.frame.origin.y - lightSwitchOffset)
+
+            lightSwitchImage.tintColor = K.lightOn ? .white : .black
+            lightSwitchImage.image = UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash")
         }, completion: nil)
         
         K.addHapticFeedback(withStyle: .light)

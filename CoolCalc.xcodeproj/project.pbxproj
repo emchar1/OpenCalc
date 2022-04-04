@@ -24,6 +24,7 @@
 		EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */; };
 		EA5D2A8127FAAAF60037E967 /* MuteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8027FAAAF60037E967 /* MuteButton.swift */; };
 		EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8227FAB0A50037E967 /* CustomButton.swift */; };
+		EA5D2A8627FAC1530037E967 /* LightButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8527FAC1530037E967 /* LightButton.swift */; };
 		EAA3ABBA27F97FB600805D9C /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABB927F97FB600805D9C /* K.swift */; };
 		EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		EA5D2A8027FAAAF60037E967 /* MuteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteButton.swift; sourceTree = "<group>"; };
 		EA5D2A8227FAB0A50037E967 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		EA5D2A8527FAC1530037E967 /* LightButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightButton.swift; sourceTree = "<group>"; };
 		EAA3ABB927F97FB600805D9C /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UserDefaults.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,6 +151,7 @@
 			children = (
 				EA5D2A8227FAB0A50037E967 /* CustomButton.swift */,
 				EA2E387027E7A7BD00122877 /* CalcButton.swift */,
+				EA5D2A8527FAC1530037E967 /* LightButton.swift */,
 				EA5D2A8027FAAAF60037E967 /* MuteButton.swift */,
 			);
 			path = Buttons;
@@ -226,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5D2A8627FAC1530037E967 /* LightButton.swift in Sources */,
 				EA2E385E27E6ED2300122877 /* VerticalViewController.swift in Sources */,
 				EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */,
