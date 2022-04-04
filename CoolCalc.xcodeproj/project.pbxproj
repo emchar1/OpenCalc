@@ -17,11 +17,13 @@
 		EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */; };
 		EA2E387527E7EA2800122877 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387427E7EA2800122877 /* Calculator.swift */; };
 		EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387827E8430400122877 /* Extension+UIView.swift */; };
-		EA2E388227EAF71C00122877 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* ColorView.swift */; };
+		EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* SettingsView.swift */; };
 		EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E027F9199D00122877 /* Extension+UIColor.swift */; };
 		EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */; };
 		EA5D2A7D27FA8BAF0037E967 /* buttonTap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA5D2A7C27FA8BAF0037E967 /* buttonTap.mp3 */; };
 		EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */; };
+		EA5D2A8127FAAAF60037E967 /* MuteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8027FAAAF60037E967 /* MuteButton.swift */; };
+		EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8227FAB0A50037E967 /* CustomButton.swift */; };
 		EAA3ABBA27F97FB600805D9C /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABB927F97FB600805D9C /* K.swift */; };
 		EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -39,11 +41,13 @@
 		EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButtonModel.swift; sourceTree = "<group>"; };
 		EA2E387427E7EA2800122877 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		EA2E387827E8430400122877 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
-		EA2E388127EAF71C00122877 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		EA2E388127EAF71C00122877 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		EA2E38E027F9199D00122877 /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
 		EA5D2A7C27FA8BAF0037E967 /* buttonTap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buttonTap.mp3; sourceTree = "<group>"; };
 		EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		EA5D2A8027FAAAF60037E967 /* MuteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteButton.swift; sourceTree = "<group>"; };
+		EA5D2A8227FAB0A50037E967 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		EAA3ABB927F97FB600805D9C /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UserDefaults.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,9 +99,9 @@
 		EA2E386D27E6ED4200122877 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EA5D2A8427FAB0AA0037E967 /* Buttons */,
+				EA2E388127EAF71C00122877 /* SettingsView.swift */,
 				EA2E385F27E6ED2300122877 /* Main.storyboard */,
-				EA2E388127EAF71C00122877 /* ColorView.swift */,
-				EA2E387027E7A7BD00122877 /* CalcButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -138,6 +142,16 @@
 				EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		EA5D2A8427FAB0AA0037E967 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				EA5D2A8227FAB0A50037E967 /* CustomButton.swift */,
+				EA2E387027E7A7BD00122877 /* CalcButton.swift */,
+				EA5D2A8027FAAAF60037E967 /* MuteButton.swift */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,10 +235,12 @@
 				EAA3ABBA27F97FB600805D9C /* K.swift in Sources */,
 				EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */,
 				EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */,
-				EA2E388227EAF71C00122877 /* ColorView.swift in Sources */,
+				EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */,
 				EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */,
 				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,
+				EA5D2A8127FAAAF60037E967 /* MuteButton.swift in Sources */,
 				EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */,
+				EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

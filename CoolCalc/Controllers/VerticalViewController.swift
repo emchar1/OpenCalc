@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDelegate {
+class VerticalViewController: UIViewController, CalcButtonDelegate, SettingsViewDelegate {
     
     // MARK: - Properties
     
@@ -28,10 +28,10 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     
     //Models
     let calculator = Calculator() //build this...
-    let colorViewSize: CGFloat = 125
-    let colorViewShrinkFactor: CGFloat = 0.25
-    var colorView: ColorView!
-    var colorViewExpandedTimer: Timer?
+    let settingsViewSize: CGFloat = 125
+    let settingsViewShrinkFactor: CGFloat = 0.25
+    var settingsView: SettingsView!
+    var settingsViewExpandedTimer: Timer?
     var calculationString = ""
 
     //Buttons
@@ -69,7 +69,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         super.viewDidAppear(animated)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.orientationDidChange(_:)),
+                                               selector: #selector(orientationDidChange(_:)),
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
     }
@@ -83,7 +83,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     @objc private func orientationDidChange(_ notification: NSNotification) {
         let buttonFont = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
         
-        resetColorViewOrigin()
+        resetSettingsViewOrigin()
         
         button0.titleLabel?.font = buttonFont
         button1.titleLabel?.font = buttonFont
@@ -106,9 +106,9 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         buttonEquals.titleLabel?.font = buttonFont
     }
     
-    private func resetColorViewOrigin() {
-        self.colorView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (self.colorViewSize * self.colorViewShrinkFactor / 2) + 1,
-                                              y: K.getSafeAreaInsets().top + (self.colorViewSize * self.colorViewShrinkFactor / 2) + 1)
+    private func resetSettingsViewOrigin() {
+        settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * settingsViewShrinkFactor / 2) + 1,
+                                              y: K.getSafeAreaInsets().top + (settingsViewSize * settingsViewShrinkFactor / 2) + 1)
     }
     
     private func setupViewsInitialize() {
@@ -140,8 +140,8 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         buttonAdd.delegate = self
         buttonEquals.delegate = self
         
-        colorView = ColorView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: colorViewSize, height: colorViewSize))
-        colorView.delegate = self
+        settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
+        settingsView.delegate = self
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
         setExpanded(expanded: false)
@@ -185,7 +185,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     private func setupViewsLayout() {
         //Add stacks to view and set constraints
         view.addSubview(stackMain)
-        view.addSubview(colorView)  //This needs to be added AFTER adding stackMain
+        view.addSubview(settingsView)  //This needs to be added AFTER adding stackMain
         NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * buttonSpacing),
                                      stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * buttonSpacing),
                                      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * buttonSpacing),
@@ -297,7 +297,7 @@ extension VerticalViewController {
 }
 
 
-// MARK: - ColorSelectorView Delegate
+// MARK: - SettingsView Delegate
 
 extension VerticalViewController {
     func didChangeColor(_ color: UIColor) {
@@ -319,7 +319,7 @@ extension VerticalViewController {
     }
     
     func didSetExpanded(_ expanded: Bool) {
-        self.setExpanded(expanded: expanded)
+        setExpanded(expanded: expanded)
         
         if expanded {
             resetTimer()
@@ -327,34 +327,35 @@ extension VerticalViewController {
     }
     
     
-    // MARK: - ColorViewSelector Delegate Helper Functions
+    // MARK: - SettingsView Delegate Helper Functions
      
     private func resetTimer() {
-        self.colorViewExpandedTimer?.invalidate()
-        self.colorViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
+        settingsViewExpandedTimer?.invalidate()
+        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
                                                            target: self,
-                                                           selector: #selector(self.runTimerAction(_:)),
+                                                           selector: #selector(runTimerAction(_:)),
                                                            userInfo: nil,
                                                            repeats: false)
     }
     
     @objc private func runTimerAction(_ expanded: Bool) {
-        colorView.expand(false)
+        settingsView.expand(false)
     }
     
     private func setExpanded(expanded: Bool) {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
             if expanded {
-                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
-                self.colorView.alpha = 1.0
+                settingsView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+                settingsView.alpha = 1.0
             }
             else {
-                self.colorView.transform = CGAffineTransform.identity.scaledBy(x: self.colorViewShrinkFactor, y: self.colorViewShrinkFactor)
-                self.colorView.alpha = 0.75
+                settingsView.transform = CGAffineTransform.identity.scaledBy(x: settingsViewShrinkFactor, y: settingsViewShrinkFactor)
+                settingsView.alpha = 0.75
+                
             }
             
             //Need to reinstate this, otherwise view expands from the center, not the top-left
-            self.resetColorViewOrigin()
+            resetSettingsViewOrigin()
         }
     }
     
@@ -386,31 +387,31 @@ extension VerticalViewController {
         let backgroundColor: UIColor = lightOn ? .white : .black
         let textColor: UIColor = lightOn ? .black : .white
         
-        UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = backgroundColor
-            self.button0.setTitleColor(textColor, for: .normal)
-            self.button1.setTitleColor(textColor, for: .normal)
-            self.button2.setTitleColor(textColor, for: .normal)
-            self.button3.setTitleColor(textColor, for: .normal)
-            self.button4.setTitleColor(textColor, for: .normal)
-            self.button5.setTitleColor(textColor, for: .normal)
-            self.button6.setTitleColor(textColor, for: .normal)
-            self.button7.setTitleColor(textColor, for: .normal)
-            self.button8.setTitleColor(textColor, for: .normal)
-            self.button9.setTitleColor(textColor, for: .normal)
-            self.buttonDecimal.setTitleColor(textColor, for: .normal)
-            self.buttonClear.setTitleColor(textColor, for: .normal)
-            self.buttonSign.setTitleColor(textColor, for: .normal)
-            self.buttonPercent.setTitleColor(textColor, for: .normal)
-            self.buttonDivide.setTitleColor(textColor, for: .normal)
-            self.buttonMultiply.setTitleColor(textColor, for: .normal)
-            self.buttonSubtract.setTitleColor(textColor, for: .normal)
-            self.buttonAdd.setTitleColor(textColor, for: .normal)
-            self.buttonEquals.setTitleColor(textColor, for: .normal)
+        UIView.animate(withDuration: 0.5) { [unowned self] in
+            view.backgroundColor = backgroundColor
+            button0.setTitleColor(textColor, for: .normal)
+            button1.setTitleColor(textColor, for: .normal)
+            button2.setTitleColor(textColor, for: .normal)
+            button3.setTitleColor(textColor, for: .normal)
+            button4.setTitleColor(textColor, for: .normal)
+            button5.setTitleColor(textColor, for: .normal)
+            button6.setTitleColor(textColor, for: .normal)
+            button7.setTitleColor(textColor, for: .normal)
+            button8.setTitleColor(textColor, for: .normal)
+            button9.setTitleColor(textColor, for: .normal)
+            buttonDecimal.setTitleColor(textColor, for: .normal)
+            buttonClear.setTitleColor(textColor, for: .normal)
+            buttonSign.setTitleColor(textColor, for: .normal)
+            buttonPercent.setTitleColor(textColor, for: .normal)
+            buttonDivide.setTitleColor(textColor, for: .normal)
+            buttonMultiply.setTitleColor(textColor, for: .normal)
+            buttonSubtract.setTitleColor(textColor, for: .normal)
+            buttonAdd.setTitleColor(textColor, for: .normal)
+            buttonEquals.setTitleColor(textColor, for: .normal)
             
-            self.displayCalculation.textColor = textColor
+            displayCalculation.textColor = textColor
             
-            self.setNeedsStatusBarAppearanceUpdate()
+            setNeedsStatusBarAppearanceUpdate()
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ColorView.swift
+//  Settingsiew.swift
 //  CoolCalc
 //
 //  Created by Eddie Char on 3/22/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ColorViewDelegate {
+protocol SettingsViewDelegate {
     func didChangeColor(_ color: UIColor)
     func didSelectColor(_ color: UIColor)
     func didFlipSwitch(_ lightOn: Bool)
@@ -17,11 +17,11 @@ protocol ColorViewDelegate {
 /**
  Presents a color wheel dial that allows you to change the calculator buttons using the selected color.
  */
-class ColorView: UIView, UIGestureRecognizerDelegate {
+class SettingsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     
-    var delegate: ColorViewDelegate?
+    var delegate: SettingsViewDelegate?
 
     private let lightSwitchOffset: CGFloat = 2.0
     private var lightSwitch: UIView!

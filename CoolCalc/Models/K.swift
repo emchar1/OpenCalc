@@ -12,6 +12,7 @@ struct K {
     static let userDefaults_light = "coolCalcLight"
     static let buttonFontTall = UIFont(name: "AppleSDGothicNeo-Bold", size: 36)
     static let buttonFontWide = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
+    static var muteOn: Bool = true
         
     static var lightOn: Bool = {
         if let lightOn = UserDefaults.standard.object(forKey: K.userDefaults_light) as? Bool {
@@ -36,6 +37,8 @@ struct K {
      - parameter style: style of feedback to produce
      */
     static func addHapticFeedback(withStyle style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        guard K.muteOn else { return }
+            
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.impactOccurred()
     }

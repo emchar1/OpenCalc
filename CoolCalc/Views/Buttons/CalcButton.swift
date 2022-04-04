@@ -57,7 +57,7 @@ class CalcButton: UIButton {
     
     @objc func tapDown(_ sender: UIButton) {
         frame.origin = CGPoint(x: frame.origin.x + buttonPressOffset, y: frame.origin.y + buttonPressOffset)
-        alpha = 0.5
+        alpha = alpha * 0.75
         layer.shadowOpacity = 0.0
         AudioPlayer.playSound(filename: "buttonTap")
         K.addHapticFeedback(withStyle: .soft)
