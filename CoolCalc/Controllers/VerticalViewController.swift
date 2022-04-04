@@ -81,7 +81,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
-        let buttonFont = !UIDevice.current.orientation.isLandscape ? K.buttonFontTall : K.buttonFontWide
+        let buttonFont = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
         
         resetColorViewOrigin()
         
@@ -103,7 +103,7 @@ class VerticalViewController: UIViewController, CalcButtonDelegate, ColorViewDel
         buttonMultiply.titleLabel?.font = buttonFont
         buttonSubtract.titleLabel?.font = buttonFont
         buttonAdd.titleLabel?.font = buttonFont
-//        buttonEquals.titleLabel?.font = buttonFont
+        buttonEquals.titleLabel?.font = buttonFont
     }
     
     private func resetColorViewOrigin() {

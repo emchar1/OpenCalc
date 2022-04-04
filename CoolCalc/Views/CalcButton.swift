@@ -12,10 +12,9 @@ protocol CalcButtonDelegate {
 }
 
 class CalcButton: UIButton {
+    let buttonPressOffset: CGFloat = 5.0
     let model: CalcButtonModel
     var delegate: CalcButtonDelegate?
-
-    var originalBackgroundColor: UIColor!
     
     init(frame: CGRect = .zero, label: String) {
         model = CalcButtonModel(value: label)
@@ -24,13 +23,14 @@ class CalcButton: UIButton {
         
         setTitle(label, for: .normal)
         setTitleColor(.white, for: .normal)
-        titleLabel?.font = UIDevice.current.orientation != .portrait ? K.buttonFontTall : K.buttonFontWide
+        titleLabel?.font = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
         backgroundColor = .secondarySystemBackground
         alpha = 0.65
         layer.cornerRadius = 12
-        clipsToBounds = true
-
-        originalBackgroundColor = backgroundColor
+//        clipsToBounds = true
+        layer.shadowOffset = CGSize(width: buttonPressOffset, height: buttonPressOffset)
+        layer.shadowOpacity = 1.0
+        layer.shadowColor = UIColor.darkGray.cgColor
 
         addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
         addTarget(self, action: #selector(tapRelease(_:)), for: .touchUpInside)
@@ -48,16 +48,18 @@ class CalcButton: UIButton {
     }
     
     @objc func tapRelease(_ sender: CalcButton) {
-        UIView.animate(withDuration: 0.25, delay: 0, options: .allowUserInteraction, animations: {
-            self.backgroundColor = self.originalBackgroundColor
+        UIView.animate(withDuration: 0.35, delay: 0, options: .allowUserInteraction, animations: { [unowned self] in
+            frame.origin = CGPoint(x: frame.origin.x - buttonPressOffset, y: frame.origin.y - buttonPressOffset)
+            alpha = 0.65
+            layer.shadowOpacity = 1.0
         }, completion: nil)
     }
     
     @objc func tapDown(_ sender: UIButton) {
-        let touchColor: CGFloat = 0.85
-        
-        originalBackgroundColor = backgroundColor
-        
-        backgroundColor = K.lightOn ? UIColor(red: touchColor, green: touchColor, blue: touchColor, alpha: 1.0) : UIColor(red: 1.0 - touchColor, green: 1.0 - touchColor, blue: 1.0 - touchColor, alpha: 1.0)
+        frame.origin = CGPoint(x: frame.origin.x + buttonPressOffset, y: frame.origin.y + buttonPressOffset)
+        alpha = 0.5
+        layer.shadowOpacity = 0.0
+        AudioPlayer.playSound(filename: "buttonTap")
+        K.addHapticFeedback(withStyle: .soft)
     }
 }

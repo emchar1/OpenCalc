@@ -23,6 +23,7 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
     
     var delegate: ColorViewDelegate?
 
+    private let lightSwitchOffset: CGFloat = 2.0
     private var lightSwitch: UIView!
     private var dialBoundsInner: UIView!
     private var dialBoundsOuter: UIView!
@@ -84,7 +85,7 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
         let circleLayerTrack = CAShapeLayer()
         circleLayerTrack.path = circlePath.cgPath
         circleLayerTrack.fillColor = UIColor.clear.cgColor
-        circleLayerTrack.strokeColor = UIColor.systemCyan.cgColor
+        circleLayerTrack.strokeColor = UIColor.cyan.cgColor
         circleLayerTrack.lineWidth = pathWidth
         circleLayerTrack.lineCap = .round
         circleLayerTrack.strokeEnd = 1.0
@@ -108,10 +109,10 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
         lightSwitch = UIView()
         lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 2, y: frame.height / 2 - pathWidth / 2, width: pathWidth, height: pathWidth)
         lightSwitch.bounds = lightSwitch.frame
-        lightSwitch.layer.cornerRadius = lightSwitch.frame.width / 2
         lightSwitch.backgroundColor = K.lightOn ? .black : .white
-        lightSwitch.layer.shadowOffset = CGSize(width: 2, height: 2)
-        lightSwitch.layer.shadowColor = UIColor.systemGray.cgColor
+        lightSwitch.layer.cornerRadius = lightSwitch.frame.width / 2
+        lightSwitch.layer.shadowOffset = CGSize(width: lightSwitchOffset, height: lightSwitchOffset)
+        lightSwitch.layer.shadowColor = UIColor.darkGray.cgColor
         lightSwitch.layer.shadowOpacity = 1.0
         lightSwitch.alpha = expanded ? 1.0 : 0.0
         
@@ -161,22 +162,28 @@ class ColorView: UIView, UIGestureRecognizerDelegate {
             guard locationInCircleView(point: location, in: lightSwitch.bounds) else { return }
             
             K.lightOn = !K.lightOn
-            
-            lightSwitch.layer.shadowOpacity = 0.0
-            lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x + 1, y: lightSwitch.frame.origin.y + 1)
-            
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-                self.lightSwitch.backgroundColor = K.lightOn ? .black : .white
-                self.lightSwitch.layer.shadowOpacity = 1.0
-                self.lightSwitch.frame.origin = CGPoint(x: self.lightSwitch.frame.origin.x - 1, y: self.lightSwitch.frame.origin.y - 1)
-            }, completion: nil)
-            
-            K.addHapticFeedback(withStyle: .light)
+            animateButtonPress()
             delegate?.didFlipSwitch(K.lightOn)
         }
         else {
             expanded = true
         }
+    }
+    
+    /**
+     Animates the light switch being pressed down.
+     */
+    private func animateButtonPress() {
+        lightSwitch.layer.shadowOpacity = 0.0
+        lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x + lightSwitchOffset, y: lightSwitch.frame.origin.y + lightSwitchOffset)
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { [unowned self] in
+            lightSwitch.backgroundColor = K.lightOn ? .black : .white
+            lightSwitch.layer.shadowOpacity = 1.0
+            lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x - lightSwitchOffset, y: lightSwitch.frame.origin.y - lightSwitchOffset)
+        }, completion: nil)
+        
+        K.addHapticFeedback(withStyle: .light)
     }
     
     func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
