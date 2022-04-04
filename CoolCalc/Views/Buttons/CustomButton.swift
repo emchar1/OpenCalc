@@ -15,6 +15,7 @@ class CustomButton: UIButton {
     
     // MARK: - Properties
     
+    var buttonFrame: CGRect //Need this to preserve OG frame during tapRelease bug
     let buttonAlpha: CGFloat
     let buttonPressOffset: CGFloat
     var buttonCornerRadius: CGFloat
@@ -34,6 +35,7 @@ class CustomButton: UIButton {
          buttonTapSound: String? = nil,
          buttonImage: UIImage?) {
         
+        self.buttonFrame = frame
         self.buttonAlpha = buttonAlpha
         self.buttonPressOffset = buttonPressOffset
         self.buttonCornerRadius = buttonCornerRadius
@@ -86,12 +88,11 @@ class CustomButton: UIButton {
     // MARK: - Button Press Actions
     
     @objc func didTapButton(_ sender: CustomButton) {
-        print("Did tap button")
         delegate?.didTapButton(sender)
     }
     
     @objc func tapDown(_ sender: CustomButton) {
-        print("Tap down")
+        buttonFrame = frame
         frame.origin = CGPoint(x: frame.origin.x + buttonPressOffset, y: frame.origin.y + buttonPressOffset)
         alpha = buttonAlpha * 0.75
         layer.shadowOpacity = 0.0
@@ -103,9 +104,8 @@ class CustomButton: UIButton {
     }
 
     @objc func tapRelease(_ sender: CustomButton) {
-        print("tap release")
         UIView.animate(withDuration: 0.35, delay: 0, options: .allowUserInteraction, animations: { [unowned self] in
-            frame.origin = CGPoint(x: frame.origin.x - buttonPressOffset, y: frame.origin.y - buttonPressOffset)
+            frame.origin = buttonFrame.origin //CGPoint(x: frame.origin.x - buttonPressOffset, y: frame.origin.y - buttonPressOffset)
             alpha = buttonAlpha
             layer.shadowOpacity = 1.0
         }, completion: nil)

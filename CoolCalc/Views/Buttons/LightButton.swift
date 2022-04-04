@@ -9,10 +9,12 @@ import UIKit
 
 class LightButton: CustomButton {
     var buttonBackgroundColor: UIColor?
+    var buttonTintColor: UIColor?
 
     init(frame: CGRect,
          buttonAlpha: CGFloat,
-         buttonBackgroundColor: UIColor?) {
+         buttonBackgroundColor: UIColor?,
+         buttonTintColor: UIColor?) {
                                 
         super.init(frame: frame,
                    buttonAlpha: buttonAlpha,
@@ -20,12 +22,13 @@ class LightButton: CustomButton {
                    buttonCornerRadius: 0.0,
                    buttonLabel: nil,
                    buttonTapSound: nil,
-                   buttonImage: UIImage(systemName: "lightbulb"))
+                   buttonImage: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"))
 
         backgroundColor = buttonBackgroundColor
+        tintColor = buttonTintColor
         setImage(buttonImage, for: .normal)
-        tintColor = .white
         self.buttonBackgroundColor = buttonBackgroundColor
+        self.buttonTintColor = buttonTintColor
         updateBounds(with: frame)
     }
     
