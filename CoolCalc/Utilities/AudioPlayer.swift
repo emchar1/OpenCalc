@@ -13,7 +13,7 @@ import AVFoundation
 struct AudioPlayer {
     static var player: AVAudioPlayer?
     
-    static func playSound(filename: String, volume: Float = 0.4) {
+    static func playSound(filename: String, volume: Float = 0.1) {
         guard K.muteOn else { return }
         guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
         

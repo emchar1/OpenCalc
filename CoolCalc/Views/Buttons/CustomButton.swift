@@ -104,8 +104,8 @@ class CustomButton: UIButton {
     }
 
     @objc func tapRelease(_ sender: CustomButton) {
-        UIView.animate(withDuration: 0.35, delay: 0, options: .allowUserInteraction, animations: { [unowned self] in
-            frame.origin = buttonFrame.origin //CGPoint(x: frame.origin.x - buttonPressOffset, y: frame.origin.y - buttonPressOffset)
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.allowUserInteraction, .curveEaseIn], animations: { [unowned self] in
+            frame.origin = buttonFrame.origin
             alpha = buttonAlpha
             layer.shadowOpacity = 1.0
         }, completion: nil)
