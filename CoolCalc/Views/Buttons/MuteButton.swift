@@ -21,7 +21,8 @@ class MuteButton: CustomButton {
                    buttonCornerRadius: 0.0,
                    buttonLabel: nil,
                    buttonTapSound: nil,
-                   buttonImage: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"))
+                   buttonImage: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"),
+                   animateDuration: 0.1)
 
         backgroundColor = buttonBackgroundColor
         tintColor = buttonTintColor

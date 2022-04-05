@@ -8,30 +8,48 @@
 import UIKit
 
 class CalcButton: CustomButton {
+    let buttonFontTall = UIFont(name: "AppleSDGothicNeo-Bold", size: 36)
+    let buttonFontWide = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
+
     var model: CalcButtonModel!
-    
+    var currentFont: UIFont!
     
     // MARK: - Initialization
 
-    init(buttonLabel: String?) {
+    init(buttonLabel: String) {
         super.init(frame: .zero,
                    buttonAlpha: 0.65,
                    buttonPressOffset: 5.0,
-                   buttonCornerRadius: 12,
+                   buttonCornerRadius: 20,
                    buttonLabel: buttonLabel,
                    buttonTapSound: "buttonTap",
                    buttonImage: nil)
-        
-        
-        guard let buttonLabel = buttonLabel else { return }
-
+                
         model = CalcButtonModel(value: buttonLabel)
-
+        updateAttributesWithOrientationChange()
+        
         setTitle(buttonLabel, for: .normal)
-        titleLabel!.font = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
+        titleLabel!.font = currentFont
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @discardableResult
+    func updateAttributesWithOrientationChange() -> Bool {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
+            currentFont = buttonFontTall
+            layer.cornerRadius = buttonCornerRadius
+        }
+        else {
+            currentFont = buttonFontWide
+            layer.cornerRadius = buttonCornerRadius / 2
+        }
+        
+        titleLabel!.font = currentFont
+        
+        return true
+    }
+
 }

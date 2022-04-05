@@ -22,7 +22,8 @@ class LightButton: CustomButton {
                    buttonCornerRadius: 0.0,
                    buttonLabel: nil,
                    buttonTapSound: nil,
-                   buttonImage: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"))
+                   buttonImage: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"),
+                   animateDuration: 0.1)
 
         backgroundColor = buttonBackgroundColor
         tintColor = buttonTintColor

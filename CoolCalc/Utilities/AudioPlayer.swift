@@ -18,7 +18,7 @@ struct AudioPlayer {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else { return }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(.soloAmbient, mode: .default)
+            try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)

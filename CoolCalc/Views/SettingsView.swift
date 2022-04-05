@@ -191,7 +191,7 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         lightSwitch.layer.shadowOpacity = 0.0
         lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x + lightSwitchOffset, y: lightSwitch.frame.origin.y + lightSwitchOffset)
         
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { [unowned self] in
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: { [unowned self] in
             lightSwitch.backgroundColor = K.lightOn ? .black : .white
             lightSwitch.layer.shadowOpacity = 1.0
             lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x - lightSwitchOffset, y: lightSwitch.frame.origin.y - lightSwitchOffset)

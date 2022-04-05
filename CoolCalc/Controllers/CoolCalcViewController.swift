@@ -83,29 +83,27 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
-        let buttonFont = UIDevice.current.orientation.isLandscape ? K.buttonFontWide : K.buttonFontTall
-        
         resetSettingsOrigin()
         
-        button0.updateFont(with: buttonFont)
-        button1.updateFont(with: buttonFont)
-        button2.updateFont(with: buttonFont)
-        button3.updateFont(with: buttonFont)
-        button4.updateFont(with: buttonFont)
-        button5.updateFont(with: buttonFont)
-        button6.updateFont(with: buttonFont)
-        button7.updateFont(with: buttonFont)
-        button8.updateFont(with: buttonFont)
-        button9.updateFont(with: buttonFont)
-        buttonDecimal.updateFont(with: buttonFont)
-        buttonClear.updateFont(with: buttonFont)
-        buttonSign.updateFont(with: buttonFont)
-        buttonPercent.updateFont(with: buttonFont)
-        buttonDivide.updateFont(with: buttonFont)
-        buttonMultiply.updateFont(with: buttonFont)
-        buttonSubtract.updateFont(with: buttonFont)
-        buttonAdd.updateFont(with: buttonFont)
-        buttonEquals.updateFont(with: buttonFont)
+        button0.updateAttributesWithOrientationChange()
+        button1.updateAttributesWithOrientationChange()
+        button2.updateAttributesWithOrientationChange()
+        button3.updateAttributesWithOrientationChange()
+        button4.updateAttributesWithOrientationChange()
+        button5.updateAttributesWithOrientationChange()
+        button6.updateAttributesWithOrientationChange()
+        button7.updateAttributesWithOrientationChange()
+        button8.updateAttributesWithOrientationChange()
+        button9.updateAttributesWithOrientationChange()
+        buttonDecimal.updateAttributesWithOrientationChange()
+        buttonClear.updateAttributesWithOrientationChange()
+        buttonSign.updateAttributesWithOrientationChange()
+        buttonPercent.updateAttributesWithOrientationChange()
+        buttonDivide.updateAttributesWithOrientationChange()
+        buttonMultiply.updateAttributesWithOrientationChange()
+        buttonSubtract.updateAttributesWithOrientationChange()
+        buttonAdd.updateAttributesWithOrientationChange()
+        buttonEquals.updateAttributesWithOrientationChange()
     }
     
     private func resetSettingsOrigin() {
@@ -121,7 +119,7 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         view.backgroundColor = K.lightOn ? .white : .black
         displayLabel.textAlignment = .right
         displayCalculation.alpha = 0.65
-        displayCalculation.font = K.buttonFontWide
+        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 80)
         displayCalculation.textAlignment = .right
         displayCalculation.textColor = K.lightOn ? .black : .white
         
@@ -280,7 +278,7 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
                                      buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * buttonSpacing)])
 
         //Display Label
-        NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 40)])
+        NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 100)])
 //        NSLayoutConstraint.activate([displayLabel.topAnchor.constraint(equalTo: displayStack.topAnchor),
 //                                     displayLabel.leadingAnchor.constraint(equalTo: displayStack.leadingAnchor),
 //                                     displayStack.trailingAnchor.constraint(equalTo: displayLabel.trailingAnchor),

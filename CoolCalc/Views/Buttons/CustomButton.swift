@@ -22,6 +22,7 @@ class CustomButton: UIButton {
     let buttonLabel: String?
     let buttonTapSound: String?
     var buttonImage: UIImage?
+    let animateDuration: TimeInterval
     var delegate: CustomButtonDelegate?
     
     
@@ -33,7 +34,8 @@ class CustomButton: UIButton {
          buttonCornerRadius: CGFloat = 0.0,
          buttonLabel: String? = nil,
          buttonTapSound: String? = nil,
-         buttonImage: UIImage?) {
+         buttonImage: UIImage? = nil,
+         animateDuration: TimeInterval = 0.25) {
         
         self.buttonFrame = frame
         self.buttonAlpha = buttonAlpha
@@ -42,6 +44,7 @@ class CustomButton: UIButton {
         self.buttonLabel = buttonLabel
         self.buttonTapSound = buttonTapSound
         self.buttonImage = buttonImage
+        self.animateDuration = animateDuration
 
         super.init(frame: frame)
                 
@@ -112,7 +115,7 @@ class CustomButton: UIButton {
     }
 
     @objc func tapRelease(_ sender: CustomButton) {
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.allowUserInteraction, .curveEaseIn], animations: { [unowned self] in
+        UIView.animate(withDuration: animateDuration, delay: 0, options: [.allowUserInteraction, .curveEaseIn], animations: { [unowned self] in
             frame.origin = buttonFrame.origin
             alpha = buttonAlpha
             layer.shadowOpacity = 1.0

@@ -11,8 +11,6 @@ struct K {
     static let userDefaults_color = "coolCalcColor"
     static let userDefaults_light = "coolCalcLight"
     static let userDefaults_mute = "coolCalcMute"
-    static let buttonFontTall = UIFont(name: "AppleSDGothicNeo-Bold", size: 36)
-    static let buttonFontWide = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
         
     static var lightOn: Bool = {
         if let lightOn = UserDefaults.standard.object(forKey: K.userDefaults_light) as? Bool {
