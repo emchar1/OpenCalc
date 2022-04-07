@@ -67,33 +67,37 @@ class CustomButton: UIButton {
     
     // MARK: - Update Properties
     
-    func updateBounds(with bounds: CGRect) {
-        self.bounds = bounds
-    }
-    
-    func updateFont(with font: UIFont?) {
-        titleLabel?.font = font
-    }
-    
-    func updateBackgroundColor(with color: UIColor?) {
-        backgroundColor = color
-    }
-    
-    func updateTitleColor(with color: UIColor?) {
-        setTitleColor(color, for: .normal)
-    }
-    
-    func updateTintColor(with color: UIColor?) {
-        tintColor = color
-    }
-    
-    func updateCornerRadius(with cornerRadius: CGFloat) {
-        layer.cornerRadius = cornerRadius
-    }
-    
-    func updateImage(with image: UIImage?) {
-        setImage(image, for: .normal)
-    }
+//    func updateBounds(with bounds: CGRect) {
+//        self.bounds = bounds
+//    }
+//    
+//    func updateFont(with font: UIFont?) {
+//        titleLabel?.font = font
+//    }
+//    
+//    func updateBackgroundColor(with color: UIColor?) {
+//        backgroundColor = color
+//    }
+//    
+//    func updateTitleColor(with color: UIColor?) {
+//        setTitleColor(color, for: .normal)
+//    }
+//    
+//    func updateTintColor(with color: UIColor?) {
+//        tintColor = color
+//    }
+//    
+//    func updateCornerRadius(with cornerRadius: CGFloat) {
+//        layer.cornerRadius = cornerRadius
+//    }
+//    
+//    func updateImage(with image: UIImage?) {
+//        setImage(image, for: .normal)
+//    }
+//    
+//    func updateAlpha(with alpha: CGFloat) {
+//        self.alpha = alpha
+//    }
         
     
     // MARK: - Button Press Actions

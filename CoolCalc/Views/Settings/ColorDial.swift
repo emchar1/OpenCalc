@@ -1,39 +1,28 @@
 //
-//  Settingsiew.swift
+//  ColorDial.swift
 //  CoolCalc
 //
-//  Created by Eddie Char on 3/22/22.
+//  Created by Eddie Char on 4/6/22.
 //
 
 import UIKit
 
-protocol SettingsViewDelegate {
+protocol ColorDialDelegate {
     func didChangeColor(_ color: UIColor?)
     func didSelectColor(_ color: UIColor?)
-    func didFlipSwitch(_ lightOn: Bool)
-    func didSetExpanded(_ expanded: Bool)
 }
 
 /**
  Presents a color wheel dial that allows you to change the calculator buttons using the selected color.
  */
-class SettingsView: UIView, UIGestureRecognizerDelegate {
+class ColorDial: UIView {
     
     // MARK: - Properties
     
-    var delegate: SettingsViewDelegate?
+    var delegate: ColorDialDelegate?
 
-    private var lightSwitch: LightButton!
     private var dialBoundsInner: UIView!
     private var dialBoundsOuter: UIView!
-
-    private var expanded = false {
-        didSet {
-            lightSwitch.alpha = expanded ? 1.0 : 0.0
-            
-            delegate?.didSetExpanded(expanded)
-        }
-    }
 
     
     // MARK: - Initialization
@@ -44,30 +33,13 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         drawDial()
         
         let panGesture = ImmediatePanGestureRecognizer(target: self, action: #selector(didPan(_:)))
-        panGesture.delegate = self
         addGestureRecognizer(panGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
-        tapGesture.delegate = self
-        addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func isExpanded() -> Bool {
-        return expanded
-    }
-    
-    func expand(_ expanded: Bool) {
-        self.expanded = expanded
-    }
-    
-    func toggleExpanded() {
-        expanded = !expanded
-    }
-    
+        
     private func drawDial() {
         let pathWidth: CGFloat = frame.width * 0.28
         let gradientFactor: CGFloat = 0.2
@@ -106,31 +78,6 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         layer.addSublayer(gradientLayer)
         
         
-        // FIXME: - Convert this to a LightButton, but all the taps don't work!
-//        lightSwitch = UIView()
-//        lightSwitch.frame = CGRect(x: frame.width / 2 - pathWidth / 2, y: frame.height / 2 - pathWidth / 2, width: pathWidth, height: pathWidth)
-//        lightSwitch.bounds = lightSwitch.frame
-//        lightSwitch.backgroundColor = K.lightOn ? .black : .white
-//        lightSwitch.layer.cornerRadius = lightSwitch.frame.width / 2
-//        lightSwitch.layer.shadowOffset = CGSize(width: lightSwitchOffset, height: lightSwitchOffset)
-//        lightSwitch.layer.shadowColor = UIColor.darkGray.cgColor
-//        lightSwitch.layer.shadowOpacity = 1.0
-//        lightSwitch.alpha = expanded ? 1.0 : 0.0
-//        lightSwitchImage = UIImageView(image: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"))
-//        lightSwitchImage.tintColor = K.lightOn ? .white : .black
-//        lightSwitchImage.frame = CGRect(x: lightSwitch.frame.origin.x + 6, y: lightSwitch.frame.origin.y + 6, width: lightSwitch.frame.width - 12, height: lightSwitch.frame.height - 12)
-//        lightSwitch.addSubview(lightSwitchImage)
-        
-        lightSwitch = LightButton(frame: CGRect(x: frame.width / 2 - pathWidth / 2, y: frame.height / 2 - pathWidth / 2, width: pathWidth, height: pathWidth),
-                                  buttonAlpha: expanded ? 1.0 : 0.0,
-                                  buttonBackgroundColor: K.lightOn ? .black : .white,
-                                  buttonTintColor: K.lightOn ? .white : .black)
-        lightSwitch.updateCornerRadius(with: lightSwitch.frame.width / 2)
-        
-        
-        addSubview(lightSwitch)
-        
-        
         //Add the dial bounds
         dialBoundsInner = UIView()
         dialBoundsInner.frame = CGRect(x: pathWidth - 2, y: pathWidth - 2, width: frame.width - (pathWidth - 2) * 2, height: frame.height - (pathWidth - 2) * 2)
@@ -154,10 +101,9 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         let location = sender.location(in: self)
         
         //Make sure can only pan within the gradient view bounds
-        guard locationInCircleView(point: location, in: dialBoundsOuter.bounds) && !locationInCircleView(point: location, in: dialBoundsInner.bounds) && expanded else {
+        guard locationInCircleView(point: location, in: dialBoundsOuter.bounds) && !locationInCircleView(point: location, in: dialBoundsInner.bounds) else {
             return
         }
-                
 
         delegate?.didChangeColor(getColorFromPoint(location))
 
@@ -165,42 +111,6 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
             K.addHapticFeedback(withStyle: .light)
             delegate?.didSelectColor(getColorFromPoint(location))
         }
-    }
-    
-    @objc func didTap(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: self)
-        
-        if expanded {
-            guard locationInCircleView(point: location, in: lightSwitch.bounds) else { return }
-            
-            K.lightOn = !K.lightOn
-            animateButtonPress()
-            delegate?.didFlipSwitch(K.lightOn)
-        }
-        else {
-            expanded = true
-        }
-    }
-    
-    /**
-     Animates the light switch being pressed down.
-     */
-    private func animateButtonPress() {
-        let lightSwitchOffset: CGFloat = 2.0
-
-        lightSwitch.layer.shadowOpacity = 0.0
-        lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x + lightSwitchOffset, y: lightSwitch.frame.origin.y + lightSwitchOffset)
-        
-        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: { [unowned self] in
-            lightSwitch.backgroundColor = K.lightOn ? .black : .white
-            lightSwitch.layer.shadowOpacity = 1.0
-            lightSwitch.frame.origin = CGPoint(x: lightSwitch.frame.origin.x - lightSwitchOffset, y: lightSwitch.frame.origin.y - lightSwitchOffset)
-
-            lightSwitch.tintColor = K.lightOn ? .white : .black
-            lightSwitch.setImage(UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"), for: .normal)
-        }, completion: nil)
-        
-        K.addHapticFeedback(withStyle: .light)
     }
     
     func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
@@ -213,9 +123,5 @@ class SettingsView: UIView, UIGestureRecognizerDelegate {
         }
         
         return false
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }

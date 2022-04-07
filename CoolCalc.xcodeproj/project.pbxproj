@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA24D24E27FD74090055B928 /* ColorDial.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA24D24D27FD74090055B928 /* ColorDial.swift */; };
+		EA24D25027FD77C70055B928 /* SettingsViewOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA24D24F27FD77C70055B928 /* SettingsViewOLD.swift */; };
 		EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385927E6ED2300122877 /* AppDelegate.swift */; };
 		EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385B27E6ED2300122877 /* SceneDelegate.swift */; };
 		EA2E385E27E6ED2300122877 /* CoolCalcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E385D27E6ED2300122877 /* CoolCalcViewController.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA24D24D27FD74090055B928 /* ColorDial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDial.swift; sourceTree = "<group>"; };
+		EA24D24F27FD77C70055B928 /* SettingsViewOLD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewOLD.swift; sourceTree = "<group>"; };
 		EA2E385627E6ED2300122877 /* CoolCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2E385927E6ED2300122877 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA2E385B27E6ED2300122877 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +69,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA24D24C27FD73F50055B928 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				EA24D24F27FD77C70055B928 /* SettingsViewOLD.swift */,
+				EA2E388127EAF71C00122877 /* SettingsView.swift */,
+				EA24D24D27FD74090055B928 /* ColorDial.swift */,
+				EA5D2A8527FAC1530037E967 /* LightButton.swift */,
+				EA5D2A8027FAAAF60037E967 /* MuteButton.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		EA2E384D27E6ED2300122877 = {
 			isa = PBXGroup;
 			children = (
@@ -101,8 +117,8 @@
 		EA2E386D27E6ED4200122877 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EA24D24C27FD73F50055B928 /* Settings */,
 				EA5D2A8427FAB0AA0037E967 /* Buttons */,
-				EA2E388127EAF71C00122877 /* SettingsView.swift */,
 				EA2E385F27E6ED2300122877 /* Main.storyboard */,
 			);
 			path = Views;
@@ -151,8 +167,6 @@
 			children = (
 				EA5D2A8227FAB0A50037E967 /* CustomButton.swift */,
 				EA2E387027E7A7BD00122877 /* CalcButton.swift */,
-				EA5D2A8527FAC1530037E967 /* LightButton.swift */,
-				EA5D2A8027FAAAF60037E967 /* MuteButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -230,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5D2A8627FAC1530037E967 /* LightButton.swift in Sources */,
+				EA24D24E27FD74090055B928 /* ColorDial.swift in Sources */,
 				EA2E385E27E6ED2300122877 /* CoolCalcViewController.swift in Sources */,
 				EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */,
@@ -243,6 +258,7 @@
 				EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */,
 				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,
 				EA5D2A8127FAAAF60037E967 /* MuteButton.swift in Sources */,
+				EA24D25027FD77C70055B928 /* SettingsViewOLD.swift in Sources */,
 				EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */,
 				EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */,
 			);

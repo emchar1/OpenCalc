@@ -24,12 +24,12 @@ class MuteButton: CustomButton {
                    buttonImage: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"),
                    animateDuration: 0.1)
 
+        bounds = frame
         backgroundColor = buttonBackgroundColor
         tintColor = buttonTintColor
         setImage(buttonImage, for: .normal)
         self.buttonBackgroundColor = buttonBackgroundColor
         self.buttonTintColor = buttonTintColor
-        updateBounds(with: frame)
     }
     
     required init?(coder: NSCoder) {

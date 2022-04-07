@@ -12,12 +12,12 @@ class LightButton: CustomButton {
     var buttonTintColor: UIColor?
 
     init(frame: CGRect,
-         buttonAlpha: CGFloat,
+//         buttonAlpha: CGFloat,
          buttonBackgroundColor: UIColor?,
          buttonTintColor: UIColor?) {
                                 
         super.init(frame: frame,
-                   buttonAlpha: buttonAlpha,
+                   buttonAlpha: 1.0,
                    buttonPressOffset: 2.0,
                    buttonCornerRadius: 0.0,
                    buttonLabel: nil,
@@ -25,12 +25,12 @@ class LightButton: CustomButton {
                    buttonImage: UIImage(systemName: K.lightOn ? "lightbulb" : "lightbulb.slash"),
                    animateDuration: 0.1)
 
+        bounds = frame
         backgroundColor = buttonBackgroundColor
         tintColor = buttonTintColor
         setImage(buttonImage, for: .normal)
         self.buttonBackgroundColor = buttonBackgroundColor
         self.buttonTintColor = buttonTintColor
-        updateBounds(with: frame)
     }
     
     required init?(coder: NSCoder) {

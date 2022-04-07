@@ -28,10 +28,8 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     
     //Models
     let calculator = Calculator() //build this...
-    let muteButtonSize: CGFloat = 32
     let settingsViewSize: CGFloat = 125
     let settingsViewShrinkFactor: CGFloat = 0.28
-    var muteButton: MuteButton!
     var settingsView: SettingsView!
     var settingsViewExpandedTimer: Timer?
     var calculationString = ""
@@ -109,17 +107,14 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     private func resetSettingsOrigin() {
         settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * settingsViewShrinkFactor / 2) + 1,
                                               y: K.getSafeAreaInsets().top + (settingsViewSize * settingsViewShrinkFactor / 2) + 1)
-        
-        muteButton.frame.origin = CGPoint(x: view.frame.width - K.getSafeAreaInsets().leading - muteButtonSize * 1.5,
-                                          y: K.getSafeAreaInsets().top + muteButtonSize / 2)
     }
     
     private func setupViewsInitialize() {
         //Set up Properties
         view.backgroundColor = K.lightOn ? .white : .black
         displayLabel.textAlignment = .right
-        displayCalculation.alpha = 0.65
-        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 80)
+        displayCalculation.alpha = 0.8
+        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 80)
         displayCalculation.textAlignment = .right
         displayCalculation.textColor = K.lightOn ? .black : .white
         
@@ -143,18 +138,10 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         buttonAdd.delegate = self
         buttonEquals.delegate = self
         
-        settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
+//        settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
+        settingsView = SettingsView(atOrigin: CGPoint(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top), withSize: settingsViewSize)
         settingsView.delegate = self
-        
-        muteButton = MuteButton(frame: CGRect(x: view.frame.width - K.getSafeAreaInsets().leading - muteButtonSize * 1.5,
-                                              y: K.getSafeAreaInsets().top + muteButtonSize / 2,
-                                              width: muteButtonSize,
-                                              height: muteButtonSize),
-                                buttonBackgroundColor: K.lightOn ? .black : .white,
-                                buttonTintColor: K.lightOn ? .white : .black)
-        muteButton.updateCornerRadius(with: muteButtonSize / 2)
-        muteButton.delegate = self
-        
+                
         //Do all this AFTER initializing the properties above!
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
@@ -201,7 +188,6 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         //Add stacks to view and set constraints
         view.addSubview(stackMain)
         view.addSubview(settingsView)  //This needs to be added AFTER adding stackMain
-        view.addSubview(muteButton)
         NSLayoutConstraint.activate([stackMain.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * buttonSpacing),
                                      stackMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2 * buttonSpacing),
                                      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackMain.trailingAnchor, constant: 2 * buttonSpacing),
@@ -311,12 +297,6 @@ extension CoolCalcViewController {
             
             displayCalculation.text = calculationString
         }
-        else if let button = button as? MuteButton {
-            K.muteOn = !K.muteOn
-            
-            button.updateImage(with: UIImage(systemName: K.muteOn ? "speaker.slash" : "speaker.wave.2"))
-            UserDefaults.standard.set(K.muteOn, forKey: K.userDefaults_mute)
-        }
     }
 }
 
@@ -326,7 +306,7 @@ extension CoolCalcViewController {
 extension CoolCalcViewController {
     func didChangeColor(_ color: UIColor?) {
         guard let color = color else { return }
-        
+
         setColors(color: color)
         resetTimer()
     }
@@ -344,6 +324,13 @@ extension CoolCalcViewController {
 
         UserDefaults.standard.set(lightOn, forKey: K.userDefaults_light)
         print("Light is \(lightOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_light)")
+    }
+    
+    func didHitMute(_ muteOn: Bool) {
+        resetTimer()
+        
+        UserDefaults.standard.set(muteOn, forKey: K.userDefaults_mute)
+        print("Mute is \(muteOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_mute)")
     }
     
     func didSetExpanded(_ expanded: Bool) {
@@ -388,27 +375,27 @@ extension CoolCalcViewController {
     }
     
     private func setColors(color: UIColor) {
-        button0.updateBackgroundColor(with: color)
-        button1.updateBackgroundColor(with: color)
-        button2.updateBackgroundColor(with: color)
-        button3.updateBackgroundColor(with: color)
-        button4.updateBackgroundColor(with: color)
-        button5.updateBackgroundColor(with: color)
-        button6.updateBackgroundColor(with: color)
-        button7.updateBackgroundColor(with: color)
-        button8.updateBackgroundColor(with: color)
-        button9.updateBackgroundColor(with: color)
-        buttonDecimal.updateBackgroundColor(with: color)
+        button0.backgroundColor = color
+        button1.backgroundColor = color
+        button2.backgroundColor = color
+        button3.backgroundColor = color
+        button4.backgroundColor = color
+        button5.backgroundColor = color
+        button6.backgroundColor = color
+        button7.backgroundColor = color
+        button8.backgroundColor = color
+        button9.backgroundColor = color
+        buttonDecimal.backgroundColor = color
         
-        buttonClear.updateBackgroundColor(with: color.withAlphaComponent(0.5))
-        buttonSign.updateBackgroundColor(with: color.withAlphaComponent(0.5))
-        buttonPercent.updateBackgroundColor(with: color.withAlphaComponent(0.5))
+        buttonClear.backgroundColor = color.withAlphaComponent(0.5)
+        buttonSign.backgroundColor = color.withAlphaComponent(0.5)
+        buttonPercent.backgroundColor = color.withAlphaComponent(0.5)
 
-        buttonDivide.updateBackgroundColor(with: color.getComplimentary())
-        buttonMultiply.updateBackgroundColor(with: color.getComplimentary())
-        buttonSubtract.updateBackgroundColor(with: color.getComplimentary())
-        buttonAdd.updateBackgroundColor(with: color.getComplimentary())
-        buttonEquals.updateBackgroundColor(with: color.getComplimentary())
+        buttonDivide.backgroundColor = color.getComplimentary()
+        buttonMultiply.backgroundColor = color.getComplimentary()
+        buttonSubtract.backgroundColor = color.getComplimentary()
+        buttonAdd.backgroundColor = color.getComplimentary()
+        buttonEquals.backgroundColor = color.getComplimentary()
     }
     
     private func setLight(lightOn: Bool) {
@@ -417,31 +404,28 @@ extension CoolCalcViewController {
         
         UIView.animate(withDuration: 0.5) { [unowned self] in
             view.backgroundColor = backgroundColor
-            button0.updateTitleColor(with: textColor)
-            button1.updateTitleColor(with: textColor)
-            button2.updateTitleColor(with: textColor)
-            button3.updateTitleColor(with: textColor)
-            button4.updateTitleColor(with: textColor)
-            button5.updateTitleColor(with: textColor)
-            button6.updateTitleColor(with: textColor)
-            button7.updateTitleColor(with: textColor)
-            button8.updateTitleColor(with: textColor)
-            button9.updateTitleColor(with: textColor)
-            buttonDecimal.updateTitleColor(with: textColor)
-            buttonClear.updateTitleColor(with: textColor)
-            buttonSign.updateTitleColor(with: textColor)
-            buttonPercent.updateTitleColor(with: textColor)
-            buttonDivide.updateTitleColor(with: textColor)
-            buttonMultiply.updateTitleColor(with: textColor)
-            buttonSubtract.updateTitleColor(with: textColor)
-            buttonAdd.updateTitleColor(with: textColor)
-            buttonEquals.updateTitleColor(with: textColor)
+            button0.setTitleColor(textColor, for: .normal)
+            button1.setTitleColor(textColor, for: .normal)
+            button2.setTitleColor(textColor, for: .normal)
+            button3.setTitleColor(textColor, for: .normal)
+            button4.setTitleColor(textColor, for: .normal)
+            button5.setTitleColor(textColor, for: .normal)
+            button6.setTitleColor(textColor, for: .normal)
+            button7.setTitleColor(textColor, for: .normal)
+            button8.setTitleColor(textColor, for: .normal)
+            button9.setTitleColor(textColor, for: .normal)
+            buttonDecimal.setTitleColor(textColor, for: .normal)
+            buttonClear.setTitleColor(textColor, for: .normal)
+            buttonSign.setTitleColor(textColor, for: .normal)
+            buttonPercent.setTitleColor(textColor, for: .normal)
+            buttonDivide.setTitleColor(textColor, for: .normal)
+            buttonMultiply.setTitleColor(textColor, for: .normal)
+            buttonSubtract.setTitleColor(textColor, for: .normal)
+            buttonAdd.setTitleColor(textColor, for: .normal)
+            buttonEquals.setTitleColor(textColor, for: .normal)
             
             displayCalculation.textColor = textColor
-            
-            muteButton.updateBackgroundColor(with: textColor)
-            muteButton.updateTintColor(with: backgroundColor)
-            
+                        
             setNeedsStatusBarAppearanceUpdate()
         }
     }
