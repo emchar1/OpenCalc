@@ -16,13 +16,13 @@ class CustomButton: UIButton {
     // MARK: - Properties
     
     var buttonFrame: CGRect //Need this to preserve OG frame during tapRelease bug
-    let buttonAlpha: CGFloat
-    let buttonPressOffset: CGFloat
+    var buttonAlpha: CGFloat
+    var buttonPressOffset: CGFloat
     var buttonCornerRadius: CGFloat
-    let buttonLabel: String?
-    let buttonTapSound: String?
+    var buttonLabel: String?
+    var buttonTapSound: String?
     var buttonImage: UIImage?
-    let animateDuration: TimeInterval
+    var animateDuration: TimeInterval
     var delegate: CustomButtonDelegate?
     
     
@@ -63,41 +63,6 @@ class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented.")
     }
-    
-    
-    // MARK: - Update Properties
-    
-//    func updateBounds(with bounds: CGRect) {
-//        self.bounds = bounds
-//    }
-//    
-//    func updateFont(with font: UIFont?) {
-//        titleLabel?.font = font
-//    }
-//    
-//    func updateBackgroundColor(with color: UIColor?) {
-//        backgroundColor = color
-//    }
-//    
-//    func updateTitleColor(with color: UIColor?) {
-//        setTitleColor(color, for: .normal)
-//    }
-//    
-//    func updateTintColor(with color: UIColor?) {
-//        tintColor = color
-//    }
-//    
-//    func updateCornerRadius(with cornerRadius: CGFloat) {
-//        layer.cornerRadius = cornerRadius
-//    }
-//    
-//    func updateImage(with image: UIImage?) {
-//        setImage(image, for: .normal)
-//    }
-//    
-//    func updateAlpha(with alpha: CGFloat) {
-//        self.alpha = alpha
-//    }
         
     
     // MARK: - Button Press Actions

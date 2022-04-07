@@ -51,5 +51,20 @@ class CalcButton: CustomButton {
         
         return true
     }
+    
+    @discardableResult
+    func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
+        self.buttonAlpha = alpha
+        self.buttonPressOffset = offset
+        self.buttonCornerRadius = cornerRadius
+        self.animateDuration = duration
+        self.buttonTapSound = sound
+        
+        self.alpha = alpha
+        layer.cornerRadius = cornerRadius
+        layer.shadowOffset = CGSize(width: offset, height: offset)
+
+        return true
+    }
 
 }

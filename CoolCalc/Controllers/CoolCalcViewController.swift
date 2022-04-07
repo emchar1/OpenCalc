@@ -27,11 +27,10 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     let displayCalculation = UILabel()
     
     //Models
-    let calculator = Calculator() //build this...
-    let settingsViewSize: CGFloat = 125
-//    let settingsViewShrinkFactor: CGFloat = 0.28
+    // TODO: - Build out Calculator() model
+    let calculator = Calculator()
+    // TODO: -
     var settingsView: SettingsView!
-//    var settingsViewExpandedTimer: Timer?
     var calculationString = ""
 
     //Buttons
@@ -78,10 +77,11 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         return K.lightOn ? .darkContent : .lightContent
     }
 
+    
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
-        settingsView.resetSettingsOrigin()
+        settingsView.setOrigin()
         
         button0.updateAttributesWithOrientationChange()
         button1.updateAttributesWithOrientationChange()
@@ -102,11 +102,6 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         buttonSubtract.updateAttributesWithOrientationChange()
         buttonAdd.updateAttributesWithOrientationChange()
         buttonEquals.updateAttributesWithOrientationChange()
-    }
-    
-    private func resetSettingsOrigin() {
-        settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * 0.28 / 2) + 1,
-                                            y: K.getSafeAreaInsets().top)// + (settingsViewSize * 0.28 / 2) + 1)
     }
     
     private func setupViewsInitialize() {
@@ -138,16 +133,12 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         buttonAdd.delegate = self
         buttonEquals.delegate = self
         
-//        settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
-        print(K.getSafeAreaInsets().leading)
-        print(K.getSafeAreaInsets().top)
-        settingsView = SettingsView(atOrigin: CGPoint(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top), withSize: settingsViewSize)
+        settingsView = SettingsView(withSize: 125)
         settingsView.delegate = self
                 
         //Do all this AFTER initializing the properties above!
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
-//        setExpanded(expanded: false)
 
 
         
@@ -302,7 +293,6 @@ extension CoolCalcViewController {
         guard let color = color else { return }
 
         setColors(color: color)
-//        resetTimer()
     }
     
     func didSelectColor(_ color: UIColor?) {
@@ -314,59 +304,31 @@ extension CoolCalcViewController {
     
     func didFlipSwitch(_ lightOn: Bool) {
         setLight(lightOn: lightOn)
-//        resetTimer()
 
         UserDefaults.standard.set(lightOn, forKey: K.userDefaults_light)
         print("Light is \(lightOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_light)")
     }
     
     func didHitMute(_ muteOn: Bool) {
-//        resetTimer()
-        
         UserDefaults.standard.set(muteOn, forKey: K.userDefaults_mute)
         print("Mute is \(muteOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_mute)")
     }
     
-//    func didSetExpanded(_ expanded: Bool) {
-//        setExpanded(expanded: expanded)
-//
-//        if expanded {
-//            resetTimer()
-//        }
-//    }
-//    
-//    
-//    // MARK: - SettingsView Delegate Helper Functions
-//     
-//    private func resetTimer() {
-//        settingsViewExpandedTimer?.invalidate()
-//        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
-//                                                           target: self,
-//                                                           selector: #selector(runTimerAction(_:)),
-//                                                           userInfo: nil,
-//                                                           repeats: false)
-//    }
-//    
-//    @objc private func runTimerAction(_ expanded: Bool) {
-//        settingsView.expand(false)
-//    }
-//    
-//    private func setExpanded(expanded: Bool) {
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
-//            if expanded {
-//                settingsView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
-//                settingsView.alpha = 1.0
-//            }
-//            else {
-//                settingsView.transform = CGAffineTransform.identity.scaledBy(x: settingsViewShrinkFactor, y: settingsViewShrinkFactor)
-//                settingsView.alpha = 0.75
-//                
-//            }
-//            
-//            //Need to reinstate this, otherwise view expands from the center, not the top-left
-//            resetSettingsOrigin()
-//        }
-//    }
+    func didUpdateAppearance(_ appearanceButtonToggle: Int) {
+        switch appearanceButtonToggle {
+        case 1:
+            setButtonAppearance(alpha: 0.65, offset: 5.0, cornerRadius: 20, duration: 0.25, sound: "buttonTap")
+        case 2:
+            setButtonAppearance(alpha: 0.85, offset: 1.0, cornerRadius: button1.frame.height / 2, duration: 0.05, sound: "buttonTap")
+        case 3:
+            setButtonAppearance(alpha: 0.75, offset: 8.0, cornerRadius: 0, duration: 0.35, sound: "buttonTap")
+        default:
+            break
+        }
+    }
+    
+
+    // MARK: - SettingsView Delegate Helper Functions
     
     private func setColors(color: UIColor) {
         button0.backgroundColor = color
@@ -421,6 +383,30 @@ extension CoolCalcViewController {
             displayCalculation.textColor = textColor
                         
             setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
+    private func setButtonAppearance(alpha: CGFloat, offset: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) {
+        UIView.animate(withDuration: 0.25) { [unowned self] in
+            button0.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button1.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button2.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button3.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button4.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button5.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button6.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button7.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button8.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button9.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonDecimal.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonClear.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonSign.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonPercent.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonDivide.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonMultiply.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonSubtract.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonAdd.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonEquals.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
         }
     }
 }
