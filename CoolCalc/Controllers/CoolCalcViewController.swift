@@ -29,9 +29,9 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     //Models
     let calculator = Calculator() //build this...
     let settingsViewSize: CGFloat = 125
-    let settingsViewShrinkFactor: CGFloat = 0.28
+//    let settingsViewShrinkFactor: CGFloat = 0.28
     var settingsView: SettingsView!
-    var settingsViewExpandedTimer: Timer?
+//    var settingsViewExpandedTimer: Timer?
     var calculationString = ""
 
     //Buttons
@@ -81,7 +81,7 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
-        resetSettingsOrigin()
+        settingsView.resetSettingsOrigin()
         
         button0.updateAttributesWithOrientationChange()
         button1.updateAttributesWithOrientationChange()
@@ -105,8 +105,8 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     }
     
     private func resetSettingsOrigin() {
-        settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * settingsViewShrinkFactor / 2) + 1,
-                                              y: K.getSafeAreaInsets().top + (settingsViewSize * settingsViewShrinkFactor / 2) + 1)
+        settingsView.frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * 0.28 / 2) + 1,
+                                            y: K.getSafeAreaInsets().top)// + (settingsViewSize * 0.28 / 2) + 1)
     }
     
     private func setupViewsInitialize() {
@@ -139,13 +139,15 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
         buttonEquals.delegate = self
         
 //        settingsView = SettingsView(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: settingsViewSize, height: settingsViewSize))
+        print(K.getSafeAreaInsets().leading)
+        print(K.getSafeAreaInsets().top)
         settingsView = SettingsView(atOrigin: CGPoint(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top), withSize: settingsViewSize)
         settingsView.delegate = self
                 
         //Do all this AFTER initializing the properties above!
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
-        setExpanded(expanded: false)
+//        setExpanded(expanded: false)
 
 
         
@@ -265,14 +267,6 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
 
         //Display Label
         NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 100)])
-//        NSLayoutConstraint.activate([displayLabel.topAnchor.constraint(equalTo: displayStack.topAnchor),
-//                                     displayLabel.leadingAnchor.constraint(equalTo: displayStack.leadingAnchor),
-//                                     displayStack.trailingAnchor.constraint(equalTo: displayLabel.trailingAnchor),
-//                                     displayStack.bottomAnchor.constraint(equalTo: displayLabel.bottomAnchor)])
-//        NSLayoutConstraint.activate([displayLabel.topAnchor.constraint(equalTo: displayStack.topAnchor),
-//                                     displayLabel.leadingAnchor.constraint(equalTo: displayStack.leadingAnchor),
-//                                     displayStack.trailingAnchor.constraint(equalTo: displayLabel.trailingAnchor),
-//                                     displayStack.bottomAnchor.constraint(equalTo: displayLabel.bottomAnchor)])
     }
 }
 
@@ -308,7 +302,7 @@ extension CoolCalcViewController {
         guard let color = color else { return }
 
         setColors(color: color)
-        resetTimer()
+//        resetTimer()
     }
     
     func didSelectColor(_ color: UIColor?) {
@@ -320,59 +314,59 @@ extension CoolCalcViewController {
     
     func didFlipSwitch(_ lightOn: Bool) {
         setLight(lightOn: lightOn)
-        resetTimer()
+//        resetTimer()
 
         UserDefaults.standard.set(lightOn, forKey: K.userDefaults_light)
         print("Light is \(lightOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_light)")
     }
     
     func didHitMute(_ muteOn: Bool) {
-        resetTimer()
+//        resetTimer()
         
         UserDefaults.standard.set(muteOn, forKey: K.userDefaults_mute)
         print("Mute is \(muteOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_mute)")
     }
     
-    func didSetExpanded(_ expanded: Bool) {
-        setExpanded(expanded: expanded)
-        
-        if expanded {
-            resetTimer()
-        }
-    }
-    
-    
-    // MARK: - SettingsView Delegate Helper Functions
-     
-    private func resetTimer() {
-        settingsViewExpandedTimer?.invalidate()
-        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
-                                                           target: self,
-                                                           selector: #selector(runTimerAction(_:)),
-                                                           userInfo: nil,
-                                                           repeats: false)
-    }
-    
-    @objc private func runTimerAction(_ expanded: Bool) {
-        settingsView.expand(false)
-    }
-    
-    private func setExpanded(expanded: Bool) {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
-            if expanded {
-                settingsView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
-                settingsView.alpha = 1.0
-            }
-            else {
-                settingsView.transform = CGAffineTransform.identity.scaledBy(x: settingsViewShrinkFactor, y: settingsViewShrinkFactor)
-                settingsView.alpha = 0.75
-                
-            }
-            
-            //Need to reinstate this, otherwise view expands from the center, not the top-left
-            resetSettingsOrigin()
-        }
-    }
+//    func didSetExpanded(_ expanded: Bool) {
+//        setExpanded(expanded: expanded)
+//
+//        if expanded {
+//            resetTimer()
+//        }
+//    }
+//    
+//    
+//    // MARK: - SettingsView Delegate Helper Functions
+//     
+//    private func resetTimer() {
+//        settingsViewExpandedTimer?.invalidate()
+//        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
+//                                                           target: self,
+//                                                           selector: #selector(runTimerAction(_:)),
+//                                                           userInfo: nil,
+//                                                           repeats: false)
+//    }
+//    
+//    @objc private func runTimerAction(_ expanded: Bool) {
+//        settingsView.expand(false)
+//    }
+//    
+//    private func setExpanded(expanded: Bool) {
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
+//            if expanded {
+//                settingsView.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+//                settingsView.alpha = 1.0
+//            }
+//            else {
+//                settingsView.transform = CGAffineTransform.identity.scaledBy(x: settingsViewShrinkFactor, y: settingsViewShrinkFactor)
+//                settingsView.alpha = 0.75
+//                
+//            }
+//            
+//            //Need to reinstate this, otherwise view expands from the center, not the top-left
+//            resetSettingsOrigin()
+//        }
+//    }
     
     private func setColors(color: UIColor) {
         button0.backgroundColor = color
