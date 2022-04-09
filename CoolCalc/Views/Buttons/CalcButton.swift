@@ -22,11 +22,11 @@ class CalcButton: CustomButton {
                    buttonPressOffset: 5.0,
                    buttonCornerRadius: 20,
                    buttonLabel: buttonLabel,
-                   buttonTapSound: "buttonTap",
+                   buttonTapSound: "Tap1",
                    buttonImage: nil)
                 
         model = CalcButtonModel(value: buttonLabel)
-        updateAttributesWithOrientationChange()
+        updateAttributesWithOrientationChange(wideSize: buttonCornerRadius)
         
         setTitle(buttonLabel, for: .normal)
         titleLabel!.font = currentFont
@@ -37,14 +37,14 @@ class CalcButton: CustomButton {
     }
     
     @discardableResult
-    func updateAttributesWithOrientationChange() -> Bool {
+    func updateAttributesWithOrientationChange(wideSize size: CGFloat) -> Bool {
         if UIApplication.shared.statusBarOrientation.isPortrait {
             currentFont = buttonFontTall
             layer.cornerRadius = buttonCornerRadius
         }
         else {
             currentFont = buttonFontWide
-            layer.cornerRadius = buttonCornerRadius / 2
+            layer.cornerRadius = size
         }
         
         titleLabel!.font = currentFont
@@ -53,18 +53,17 @@ class CalcButton: CustomButton {
     }
     
     @discardableResult
-    func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
+    func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
         self.buttonAlpha = alpha
         self.buttonPressOffset = offset
         self.buttonCornerRadius = cornerRadius
         self.animateDuration = duration
         self.buttonTapSound = sound
-        
+                
         self.alpha = alpha
-        layer.cornerRadius = cornerRadius
+        layer.cornerRadius = UIApplication.shared.statusBarOrientation.isPortrait ? cornerRadius : wideSize
         layer.shadowOffset = CGSize(width: offset, height: offset)
 
         return true
     }
-
 }

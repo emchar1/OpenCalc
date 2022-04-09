@@ -23,6 +23,7 @@ class CustomButton: UIButton {
     var buttonTapSound: String?
     var buttonImage: UIImage?
     var animateDuration: TimeInterval
+    var shouldForceSound = false
     var delegate: CustomButtonDelegate?
     
     
@@ -79,7 +80,7 @@ class CustomButton: UIButton {
         K.addHapticFeedback(withStyle: .soft)
 
         if let buttonTapSound = buttonTapSound {
-            AudioPlayer.playSound(filename: buttonTapSound)
+            AudioPlayer.playSound(filename: buttonTapSound, shouldForceSound: shouldForceSound)
         }        
     }
 

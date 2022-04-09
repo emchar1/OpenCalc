@@ -32,13 +32,13 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     var settingsViewSize: CGFloat
     var settingsViewExpandedTimer: Timer?
     
-    var appearanceButtonToggle: Int = 1 {
+    var appearanceButtonSelected: Int = 1 {
         didSet {
-            if appearanceButtonToggle > 3 {
-                appearanceButtonToggle = 1
+            if appearanceButtonSelected > 3 {
+                appearanceButtonSelected = 1
             }
-            else if appearanceButtonToggle < 1 {
-                appearanceButtonToggle = 3
+            else if appearanceButtonSelected < 1 {
+                appearanceButtonSelected = 3
             }
         }
     }
@@ -74,6 +74,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
 
         muteButton = SettingsButton(frame: CGRect(x: frame.height, y: 0, width: buttonSize, height: buttonSize))
         muteButton.alpha = 0
+        muteButton.shouldForceSound = true
         muteButton.delegate = self
         addSubview(muteButton)
 
@@ -114,7 +115,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         appearanceButton.backgroundColor = buttonBackgroundColor
         appearanceButton.tintColor = buttonTintColor
         
-        switch appearanceButtonToggle {
+        switch appearanceButtonSelected {
         case 1: appearanceButton.setImage(UIImage(systemName: "1.circle.fill"), for: .normal)
         case 2: appearanceButton.setImage(UIImage(systemName: "2.circle.fill"), for: .normal)
         case 3: appearanceButton.setImage(UIImage(systemName: "3.circle.fill"), for: .normal)
@@ -195,18 +196,21 @@ extension SettingsView {
                 
         if button == lightButton {
             K.lightOn = !K.lightOn
+            lightButton.buttonTapSound = K.lightOn ? "LightOff" : "LightOn"
             updateButtonVisuals()
             delegate?.didFlipSwitch(K.lightOn)
         }
         else if button == muteButton {
             K.muteOn = !K.muteOn
+            muteButton.buttonTapSound = K.muteOn ? "MuteOff" : "MuteOn"
             updateButtonVisuals()
             delegate?.didHitMute(K.muteOn)
         }
         else if button == appearanceButton {
-            appearanceButtonToggle += 1
+            appearanceButton.buttonTapSound = "AppearanceButton"
+            appearanceButtonSelected += 1
             updateButtonVisuals()
-            delegate?.didUpdateAppearance(appearanceButtonToggle)
+            delegate?.didUpdateAppearance(appearanceButtonSelected)
         }
     }
 }

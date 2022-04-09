@@ -81,27 +81,36 @@ class CoolCalcViewController: UIViewController, CustomButtonDelegate, SettingsVi
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
+        var wideSize: CGFloat
+        
+        switch settingsView.appearanceButtonSelected {
+        case 1: wideSize = button1.buttonCornerRadius / 2
+        case 2: wideSize = button1.frame.height / 2
+        case 3: wideSize = 0
+        default: wideSize = 0
+        }
+        
         settingsView.setOrigin()
         
-        button0.updateAttributesWithOrientationChange()
-        button1.updateAttributesWithOrientationChange()
-        button2.updateAttributesWithOrientationChange()
-        button3.updateAttributesWithOrientationChange()
-        button4.updateAttributesWithOrientationChange()
-        button5.updateAttributesWithOrientationChange()
-        button6.updateAttributesWithOrientationChange()
-        button7.updateAttributesWithOrientationChange()
-        button8.updateAttributesWithOrientationChange()
-        button9.updateAttributesWithOrientationChange()
-        buttonDecimal.updateAttributesWithOrientationChange()
-        buttonClear.updateAttributesWithOrientationChange()
-        buttonSign.updateAttributesWithOrientationChange()
-        buttonPercent.updateAttributesWithOrientationChange()
-        buttonDivide.updateAttributesWithOrientationChange()
-        buttonMultiply.updateAttributesWithOrientationChange()
-        buttonSubtract.updateAttributesWithOrientationChange()
-        buttonAdd.updateAttributesWithOrientationChange()
-        buttonEquals.updateAttributesWithOrientationChange()
+        button0.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button1.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button2.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button3.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button4.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button5.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button6.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button7.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button8.updateAttributesWithOrientationChange(wideSize: wideSize)
+        button9.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonDecimal.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonClear.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonSign.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonPercent.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonDivide.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonMultiply.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonSubtract.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonAdd.updateAttributesWithOrientationChange(wideSize: wideSize)
+        buttonEquals.updateAttributesWithOrientationChange(wideSize: wideSize)
     }
     
     private func setupViewsInitialize() {
@@ -317,11 +326,11 @@ extension CoolCalcViewController {
     func didUpdateAppearance(_ appearanceButtonToggle: Int) {
         switch appearanceButtonToggle {
         case 1:
-            setButtonAppearance(alpha: 0.65, offset: 5.0, cornerRadius: 20, duration: 0.25, sound: "buttonTap")
+            setButtonAppearance(alpha: 0.65, offset: 5.0, size: 10, cornerRadius: 20, duration: 0.25, sound: "Tap1")
         case 2:
-            setButtonAppearance(alpha: 0.85, offset: 1.0, cornerRadius: button1.frame.height / 2, duration: 0.05, sound: "buttonTap")
+            setButtonAppearance(alpha: 0.65, offset: 2.0, size: button1.frame.height / 2, cornerRadius: button1.frame.height / 2, duration: 0.1, sound: "Tap2")
         case 3:
-            setButtonAppearance(alpha: 0.75, offset: 8.0, cornerRadius: 0, duration: 0.35, sound: "buttonTap")
+            setButtonAppearance(alpha: 0.65, offset: 8.0, size: 0, cornerRadius: 0, duration: 0.35, sound: "Tap3")
         default:
             break
         }
@@ -386,27 +395,27 @@ extension CoolCalcViewController {
         }
     }
     
-    private func setButtonAppearance(alpha: CGFloat, offset: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) {
+    private func setButtonAppearance(alpha: CGFloat, offset: CGFloat, size: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) {
         UIView.animate(withDuration: 0.25) { [unowned self] in
-            button0.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button1.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button2.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button3.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button4.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button5.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button6.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button7.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button8.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button9.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonDecimal.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonClear.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonSign.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonPercent.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonDivide.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonMultiply.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonSubtract.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonAdd.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonEquals.updateWithAppearanceChange(alpha: alpha, offset: offset, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button0.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button1.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button2.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button3.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button4.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button5.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button6.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button7.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button8.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button9.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonDecimal.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonClear.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonSign.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonPercent.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonDivide.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonMultiply.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonSubtract.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonAdd.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            buttonEquals.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
         }
     }
 }
