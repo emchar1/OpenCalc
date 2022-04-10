@@ -11,7 +11,7 @@ struct K {
     static let userDefaults_color = "coolCalcColor"
     static let userDefaults_light = "coolCalcLight"
     static let userDefaults_mute = "coolCalcMute"
-        
+
     static var lightOn: Bool = {
         if let lightOn = UserDefaults.standard.object(forKey: K.userDefaults_light) as? Bool {
             return lightOn
@@ -19,17 +19,15 @@ struct K {
         
         return false
     }()
-    
-    static var savedColor: UIColor {
-        get {
-            if let savedColor = UserDefaults.standard.color(forKey: K.userDefaults_color) {
-                return savedColor
-            }
-            
-            return UIColor(red: 0.8, green: 0.4, blue: 0.0, alpha: 1.0)
+
+    static var savedColor: UIColor = {
+        if let savedColor = UserDefaults.standard.color(forKey: K.userDefaults_color) {
+            return savedColor
         }
-    }
-    
+        
+        return UIColor(red: 0.8, green: 0.4, blue: 0.0, alpha: 1.0)
+    }()
+
     static var muteOn: Bool = {
         if let muteOn = UserDefaults.standard.object(forKey: K.userDefaults_mute) as? Bool {
             return muteOn

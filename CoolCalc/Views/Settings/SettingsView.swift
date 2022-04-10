@@ -10,9 +10,9 @@ import UIKit
 
 protocol SettingsViewDelegate {
     func didChangeColor(_ color: UIColor?)
-    func didSelectColor(_ color: UIColor?)
+//    func didSelectColor(_ color: UIColor?)
     func didFlipSwitch(_ lightOn: Bool)
-    func didHitMute(_ muteOn: Bool)
+//    func didHitMute(_ muteOn: Bool)
     func didUpdateAppearance(_ appearanceButtonToggle: Int)
 }
 
@@ -29,7 +29,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
 
     let buttonSize: CGFloat = 35
     let settingsViewShrinkFactor: CGFloat = 0.28
-    var settingsViewSize: CGFloat
+    var dialSize: CGFloat
     var settingsViewExpandedTimer: Timer?
     
     var appearanceButtonSelected: Int = 1 {
@@ -47,7 +47,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     // MARK: - Initialization
     
     init(withSize size: CGFloat) {
-        settingsViewSize = size
+        dialSize = size
         
         super.init(frame: CGRect(x: K.getSafeAreaInsets().leading, y: K.getSafeAreaInsets().top, width: size + buttonSize, height: size))
 
@@ -62,23 +62,22 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     }
     
     private func setupViews() {
-        colorDial = ColorDial(frame: CGRect(x: 0, y: 0, width: frame.height, height: frame.height))
+        colorDial = ColorDial(frame: CGRect(x: 0, y: 0, width: dialSize, height: dialSize))
         colorDial.delegate = self
         addSubview(colorDial)
 
-        lightButton = SettingsButton(frame: CGRect(x: frame.height / 2 - buttonSize / 2, y: frame.height / 2 - buttonSize / 2,
-                                                   width: buttonSize, height: buttonSize))
+        lightButton = SettingsButton(frame: CGRect(x: (dialSize - buttonSize) / 2, y: (dialSize - buttonSize) / 2, width: buttonSize, height: buttonSize))
         lightButton.alpha = 0
         lightButton.delegate = self
         addSubview(lightButton)
 
-        muteButton = SettingsButton(frame: CGRect(x: frame.height, y: 0, width: buttonSize, height: buttonSize))
+        muteButton = SettingsButton(frame: CGRect(x: dialSize, y: 0, width: buttonSize, height: buttonSize))
         muteButton.alpha = 0
         muteButton.shouldForceSound = true
         muteButton.delegate = self
         addSubview(muteButton)
 
-        appearanceButton = SettingsButton(frame: CGRect(x: frame.height, y: frame.height - buttonSize, width: buttonSize, height: buttonSize))
+        appearanceButton = SettingsButton(frame: CGRect(x: dialSize, y: dialSize - buttonSize, width: buttonSize, height: buttonSize))
         appearanceButton.alpha = 0
         appearanceButton.delegate = self
         addSubview(appearanceButton)
@@ -90,10 +89,9 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     
     // MARK: - Helper Functions
     
-    @discardableResult
-    func setOrigin() -> CGPoint {
-        frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (settingsViewSize * settingsViewShrinkFactor) / 2,
-                               y: K.getSafeAreaInsets().top + (settingsViewSize * settingsViewShrinkFactor) / 2)
+    @discardableResult func setOrigin() -> CGPoint {
+        frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (dialSize * settingsViewShrinkFactor) / 2,
+                               y: K.getSafeAreaInsets().top + (dialSize * settingsViewShrinkFactor) / 2)
         
         return frame.origin
     }
@@ -199,12 +197,19 @@ extension SettingsView {
             lightButton.buttonTapSound = K.lightOn ? "LightOff" : "LightOn"
             updateButtonVisuals()
             delegate?.didFlipSwitch(K.lightOn)
+            
+            UserDefaults.standard.set(K.lightOn, forKey: K.userDefaults_light)
+            print("Light is \(K.lightOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_light)")
+
         }
         else if button == muteButton {
             K.muteOn = !K.muteOn
             muteButton.buttonTapSound = K.muteOn ? "MuteOff" : "MuteOn"
             updateButtonVisuals()
-            delegate?.didHitMute(K.muteOn)
+//            delegate?.didHitMute(muteOn)
+            
+            UserDefaults.standard.set(K.muteOn, forKey: K.userDefaults_mute)
+            print("Mute is \(K.muteOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_mute)")
         }
         else if button == appearanceButton {
             appearanceButton.buttonTapSound = "AppearanceButton"
@@ -223,13 +228,20 @@ extension SettingsView {
  */
 extension SettingsView {
     func didChangeColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        
         resetTimer()
         delegate?.didChangeColor(color)
     }
     
     
     func didSelectColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        
         resetTimer()
-        delegate?.didSelectColor(color)
+//        delegate?.didSelectColor(color)
+        
+        UserDefaults.standard.set(color, forKey: K.userDefaults_color)
+        print("Color: \(color.description) saved to UserDefaults key: \(K.userDefaults_color)")
     }
 }

@@ -28,6 +28,7 @@
 		EA31685D28014E68009A6DDC /* Tap3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685A28014E68009A6DDC /* Tap3.mp3 */; };
 		EA31686028015137009A6DDC /* MuteOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685E28015137009A6DDC /* MuteOn.mp3 */; };
 		EA31686128015137009A6DDC /* MuteOff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685F28015137009A6DDC /* MuteOff.mp3 */; };
+		EA3168632801E51C009A6DDC /* CalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3168622801E51C009A6DDC /* CalcView.swift */; };
 		EA5D2A7D27FA8BAF0037E967 /* Tap1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */; };
 		EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */; };
 		EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8227FAB0A50037E967 /* CustomButton.swift */; };
@@ -60,6 +61,7 @@
 		EA31685A28014E68009A6DDC /* Tap3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap3.mp3; sourceTree = "<group>"; };
 		EA31685E28015137009A6DDC /* MuteOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MuteOn.mp3; sourceTree = "<group>"; };
 		EA31685F28015137009A6DDC /* MuteOff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MuteOff.mp3; sourceTree = "<group>"; };
+		EA3168622801E51C009A6DDC /* CalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcView.swift; sourceTree = "<group>"; };
 		EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap1.mp3; sourceTree = "<group>"; };
 		EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		EA5D2A8227FAB0A50037E967 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		EA2E386D27E6ED4200122877 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EA3168642801E52A009A6DDC /* CalcView */,
 				EA24D24C27FD73F50055B928 /* Settings */,
 				EA5D2A8427FAB0AA0037E967 /* Buttons */,
 				EA2E385F27E6ED2300122877 /* Main.storyboard */,
@@ -183,6 +186,14 @@
 				EA31684E28014377009A6DDC /* LightOff.mp3 */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		EA3168642801E52A009A6DDC /* CalcView */ = {
+			isa = PBXGroup;
+			children = (
+				EA3168622801E51C009A6DDC /* CalcView.swift */,
+			);
+			path = CalcView;
 			sourceTree = "<group>";
 		};
 		EA5D2A8427FAB0AA0037E967 /* Buttons */ = {
@@ -287,6 +298,7 @@
 				EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */,
 				EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */,
 				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,
+				EA3168632801E51C009A6DDC /* CalcView.swift in Sources */,
 				EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */,
 				EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */,
 			);

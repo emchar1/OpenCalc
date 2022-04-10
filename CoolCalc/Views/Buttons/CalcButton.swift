@@ -36,8 +36,7 @@ class CalcButton: CustomButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @discardableResult
-    func updateAttributesWithOrientationChange(wideSize size: CGFloat) -> Bool {
+    @discardableResult func updateAttributesWithOrientationChange(wideSize size: CGFloat) -> Bool {
         if UIApplication.shared.statusBarOrientation.isPortrait {
             currentFont = buttonFontTall
             layer.cornerRadius = buttonCornerRadius
@@ -52,8 +51,7 @@ class CalcButton: CustomButton {
         return true
     }
     
-    @discardableResult
-    func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
+    @discardableResult func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
         self.buttonAlpha = alpha
         self.buttonPressOffset = offset
         self.buttonCornerRadius = cornerRadius
