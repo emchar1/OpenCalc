@@ -8,11 +8,38 @@
 import UIKit
 
 class CalcButton: CustomButton {
+    
+    // MARK: - Properties
+    
     let buttonFontTall = UIFont(name: "AppleSDGothicNeo-Bold", size: 36)
     let buttonFontWide = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
-
-    var model: CalcButtonModel!
     var currentFont: UIFont!
+
+    enum ButtonType {
+        case number, operation, clear, sign, decimal, percent
+    }
+
+    var type: ButtonType {
+        var type: ButtonType = .number
+        
+        switch buttonLabel {
+        case "+", "-", "×", "÷", "=":
+            type = .operation
+        case ".":
+            type = .decimal
+        case "%":
+            type = .percent
+        case "+/-":
+            type = .sign
+        case "AC":
+            type = .clear
+        default:
+            type = .number
+        }
+        
+        return type
+    }
+
     
     // MARK: - Initialization
 
@@ -25,7 +52,6 @@ class CalcButton: CustomButton {
                    buttonTapSound: "Tap1",
                    buttonImage: nil)
                 
-        model = CalcButtonModel(value: buttonLabel)
         updateAttributesWithOrientationChange(wideSize: buttonCornerRadius)
         
         setTitle(buttonLabel, for: .normal)

@@ -15,7 +15,6 @@
 		EA2E386327E6ED2400122877 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386227E6ED2400122877 /* Assets.xcassets */; };
 		EA2E386627E6ED2400122877 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386427E6ED2400122877 /* LaunchScreen.storyboard */; };
 		EA2E387127E7A7BD00122877 /* CalcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387027E7A7BD00122877 /* CalcButton.swift */; };
-		EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */; };
 		EA2E387527E7EA2800122877 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387427E7EA2800122877 /* Calculator.swift */; };
 		EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387827E8430400122877 /* Extension+UIView.swift */; };
 		EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* SettingsView.swift */; };
@@ -48,7 +47,6 @@
 		EA2E386527E6ED2400122877 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA2E386727E6ED2400122877 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA2E387027E7A7BD00122877 /* CalcButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButton.swift; sourceTree = "<group>"; };
-		EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButtonModel.swift; sourceTree = "<group>"; };
 		EA2E387427E7EA2800122877 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		EA2E387827E8430400122877 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		EA2E388127EAF71C00122877 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 			isa = PBXGroup;
 			children = (
 				EAA3ABB927F97FB600805D9C /* K.swift */,
-				EA2E387227E7D6AE00122877 /* CalcButtonModel.swift */,
 				EA2E387427E7EA2800122877 /* Calculator.swift */,
 			);
 			path = Models;
@@ -294,7 +291,6 @@
 				EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */,
 				EAA3ABBA27F97FB600805D9C /* K.swift in Sources */,
 				EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */,
-				EA2E387327E7D6AE00122877 /* CalcButtonModel.swift in Sources */,
 				EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */,
 				EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */,
 				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,

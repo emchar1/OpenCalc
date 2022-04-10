@@ -10,6 +10,7 @@ import UIKit
 
 protocol CalcViewDelegate {
 //    func orientationDidChange(_ view: CalcVertView)
+    func buttonPressed(_ view: CalcView, button: CalcButton)
 }
 
 
@@ -53,8 +54,12 @@ class CalcView: UIView, CustomButtonDelegate {
     private let buttonEquals = CalcButton(buttonLabel: "=")
     
     //Other Properties
-    private var calculationString = ""
-//    var delegate: CalcViewDelegate?
+    var calculationString = "" {
+        didSet {
+            displayCalculation.text = calculationString
+        }
+    }
+    var delegate: CalcViewDelegate?
 
     
     // MARK: - Initialization
@@ -343,21 +348,9 @@ class CalcView: UIView, CustomButtonDelegate {
 
 extension CalcView {
     func didTapButton(_ button: CustomButton) {
-        if let button = button as? CalcButton {
-            switch button.model.type {
-            case .number:
-                calculationString += button.model.value
-            case .clear:
-                calculationString = ""
-            case .decimal:
-                calculationString += button.model.value
-            case .sign:
-                calculationString += "#"
-            default:
-                calculationString += "?"
-            }
-            
-            displayCalculation.text = calculationString
-        }
+        guard let button = button as? CalcButton else { return }
+        
+        delegate?.buttonPressed(self, button: button)
+//        displayCalculation.text = calculationString
     }
 }

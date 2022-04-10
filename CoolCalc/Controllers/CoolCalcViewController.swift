@@ -7,13 +7,13 @@
 
 import UIKit
 
-class CoolCalcViewController: UIViewController, SettingsViewDelegate {
+class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDelegate {
     
     // MARK: - Properties
 
     var calcView: CalcView!
     var settingsView: SettingsView!
-    let calculator = Calculator()
+    var calculator = Calculator()
 
 
     // MARK: - Initialization
@@ -22,6 +22,8 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate {
         super.viewDidLoad()
         
         calcView = CalcView(frame: view.frame)
+        calcView.delegate = self
+        
         settingsView = SettingsView(withSize: 125)
         settingsView.delegate = self
                 
@@ -61,6 +63,16 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate {
         calcView.frame = view.frame
     }
     
+}
+
+
+// MARK: - CalcView Delegate
+
+// FIXME: - Calculator Model
+extension CoolCalcViewController {
+    func buttonPressed(_ view: CalcView, button: CalcButton) {
+        calcView.calculationString = calculator.getInput(button: button)
+    }
 }
 
 

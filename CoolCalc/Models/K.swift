@@ -48,7 +48,6 @@ struct K {
     }
     
     static func getSafeAreaInsets() -> (top: CGFloat, leading: CGFloat, trailing: CGFloat, bottom: CGFloat) {
-        // FIXME: - What's the iOS 15.0 equivalent?
         let window = UIApplication.shared.windows[0]
         let safeAreaInsets = window.safeAreaInsets
         
