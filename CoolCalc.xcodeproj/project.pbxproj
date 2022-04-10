@@ -21,7 +21,6 @@
 		EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* SettingsView.swift */; };
 		EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E027F9199D00122877 /* Extension+UIColor.swift */; };
 		EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */; };
-		EA31684F28014377009A6DDC /* LightOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31684D28014377009A6DDC /* LightOn.mp3 */; };
 		EA31685028014377009A6DDC /* LightOff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31684E28014377009A6DDC /* LightOff.mp3 */; };
 		EA31685B28014E68009A6DDC /* Tap2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685828014E68009A6DDC /* Tap2.mp3 */; };
 		EA31685C28014E68009A6DDC /* AppearanceButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685928014E68009A6DDC /* AppearanceButton.mp3 */; };
@@ -29,6 +28,7 @@
 		EA31686028015137009A6DDC /* MuteOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685E28015137009A6DDC /* MuteOn.mp3 */; };
 		EA31686128015137009A6DDC /* MuteOff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31685F28015137009A6DDC /* MuteOff.mp3 */; };
 		EA3168632801E51C009A6DDC /* CalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3168622801E51C009A6DDC /* CalcView.swift */; };
+		EA31686628036EA3009A6DDC /* LightOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31686528036EA3009A6DDC /* LightOn.mp3 */; };
 		EA5D2A7D27FA8BAF0037E967 /* Tap1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */; };
 		EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */; };
 		EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8227FAB0A50037E967 /* CustomButton.swift */; };
@@ -54,7 +54,6 @@
 		EA2E388127EAF71C00122877 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		EA2E38E027F9199D00122877 /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		EA2E38E427F919F800122877 /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
-		EA31684D28014377009A6DDC /* LightOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LightOn.mp3; sourceTree = "<group>"; };
 		EA31684E28014377009A6DDC /* LightOff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LightOff.mp3; sourceTree = "<group>"; };
 		EA31685828014E68009A6DDC /* Tap2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap2.mp3; sourceTree = "<group>"; };
 		EA31685928014E68009A6DDC /* AppearanceButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = AppearanceButton.mp3; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		EA31685E28015137009A6DDC /* MuteOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MuteOn.mp3; sourceTree = "<group>"; };
 		EA31685F28015137009A6DDC /* MuteOff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MuteOff.mp3; sourceTree = "<group>"; };
 		EA3168622801E51C009A6DDC /* CalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcView.swift; sourceTree = "<group>"; };
+		EA31686528036EA3009A6DDC /* LightOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LightOn.mp3; sourceTree = "<group>"; };
 		EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap1.mp3; sourceTree = "<group>"; };
 		EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		EA5D2A8227FAB0A50037E967 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				EA31685A28014E68009A6DDC /* Tap3.mp3 */,
 				EA31685E28015137009A6DDC /* MuteOn.mp3 */,
 				EA31685F28015137009A6DDC /* MuteOff.mp3 */,
-				EA31684D28014377009A6DDC /* LightOn.mp3 */,
+				EA31686528036EA3009A6DDC /* LightOn.mp3 */,
 				EA31684E28014377009A6DDC /* LightOff.mp3 */,
 			);
 			path = Sounds;
@@ -270,9 +270,9 @@
 				EA31686128015137009A6DDC /* MuteOff.mp3 in Resources */,
 				EA31685B28014E68009A6DDC /* Tap2.mp3 in Resources */,
 				EA31685028014377009A6DDC /* LightOff.mp3 in Resources */,
+				EA31686628036EA3009A6DDC /* LightOn.mp3 in Resources */,
 				EA2E386327E6ED2400122877 /* Assets.xcassets in Resources */,
 				EA31685C28014E68009A6DDC /* AppearanceButton.mp3 in Resources */,
-				EA31684F28014377009A6DDC /* LightOn.mp3 in Resources */,
 				EA2E386127E6ED2300122877 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
