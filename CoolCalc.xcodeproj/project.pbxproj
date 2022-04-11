@@ -15,7 +15,7 @@
 		EA2E386327E6ED2400122877 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386227E6ED2400122877 /* Assets.xcassets */; };
 		EA2E386627E6ED2400122877 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA2E386427E6ED2400122877 /* LaunchScreen.storyboard */; };
 		EA2E387127E7A7BD00122877 /* CalcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387027E7A7BD00122877 /* CalcButton.swift */; };
-		EA2E387527E7EA2800122877 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387427E7EA2800122877 /* Calculator.swift */; };
+		EA2E387527E7EA2800122877 /* CalcLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387427E7EA2800122877 /* CalcLogic.swift */; };
 		EA2E387927E8430400122877 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E387827E8430400122877 /* Extension+UIView.swift */; };
 		EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E388127EAF71C00122877 /* SettingsView.swift */; };
 		EA2E38E127F9199D00122877 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2E38E027F9199D00122877 /* Extension+UIColor.swift */; };
@@ -47,7 +47,7 @@
 		EA2E386527E6ED2400122877 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA2E386727E6ED2400122877 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA2E387027E7A7BD00122877 /* CalcButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcButton.swift; sourceTree = "<group>"; };
-		EA2E387427E7EA2800122877 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
+		EA2E387427E7EA2800122877 /* CalcLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcLogic.swift; sourceTree = "<group>"; };
 		EA2E387827E8430400122877 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		EA2E388127EAF71C00122877 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		EA2E38E027F9199D00122877 /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				EAA3ABB927F97FB600805D9C /* K.swift */,
-				EA2E387427E7EA2800122877 /* Calculator.swift */,
+				EA2E387427E7EA2800122877 /* CalcLogic.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -293,7 +293,7 @@
 				EA2E385C27E6ED2300122877 /* SceneDelegate.swift in Sources */,
 				EA2E388227EAF71C00122877 /* SettingsView.swift in Sources */,
 				EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */,
-				EA2E387527E7EA2800122877 /* Calculator.swift in Sources */,
+				EA2E387527E7EA2800122877 /* CalcLogic.swift in Sources */,
 				EA3168632801E51C009A6DDC /* CalcView.swift in Sources */,
 				EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */,
 				EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */,

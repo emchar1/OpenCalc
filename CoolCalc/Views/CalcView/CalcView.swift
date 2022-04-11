@@ -83,6 +83,7 @@ class CalcView: UIView, CustomButtonDelegate {
         displayCalculation.alpha = 0.8
         displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 80)
         displayCalculation.textAlignment = .right
+        displayCalculation.adjustsFontSizeToFitWidth = true
         displayCalculation.textColor = K.lightOn ? .black : .white
         
         button0.delegate = self

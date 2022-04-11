@@ -48,8 +48,9 @@ struct K {
     }
     
     static func getSafeAreaInsets() -> (top: CGFloat, leading: CGFloat, trailing: CGFloat, bottom: CGFloat) {
-        let window = UIApplication.shared.windows[0]
-        let safeAreaInsets = window.safeAreaInsets
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return (90, 0, 0, 0) }
+        
+        let safeAreaInsets = windowScene.windows[0].safeAreaInsets
         
         return (safeAreaInsets.top, safeAreaInsets.left, safeAreaInsets.right, safeAreaInsets.bottom)
     }

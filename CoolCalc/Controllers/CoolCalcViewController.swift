@@ -13,7 +13,7 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDe
 
     var calcView: CalcView!
     var settingsView: SettingsView!
-    var calculator = Calculator()
+    var calcLogic = CalcLogic()
 
 
     // MARK: - Initialization
@@ -68,10 +68,10 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDe
 
 // MARK: - CalcView Delegate
 
-// FIXME: - Calculator Model
+// FIXME: - CalcLogic Model
 extension CoolCalcViewController {
     func buttonPressed(_ view: CalcView, button: CalcButton) {
-        calcView.calculationString = calculator.getInput(button: button)
+        calcView.calculationString = calcLogic.getInput(button: button)
     }
 }
 

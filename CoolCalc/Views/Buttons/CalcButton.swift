@@ -63,7 +63,9 @@ class CalcButton: CustomButton {
     }
     
     @discardableResult func updateAttributesWithOrientationChange(wideSize size: CGFloat) -> Bool {
-        if UIApplication.shared.statusBarOrientation.isPortrait {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
+                
+        if windowScene.interfaceOrientation.isPortrait {
             currentFont = buttonFontTall
             layer.cornerRadius = buttonCornerRadius
         }
@@ -78,6 +80,9 @@ class CalcButton: CustomButton {
     }
     
     @discardableResult func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
+        
         self.buttonAlpha = alpha
         self.buttonPressOffset = offset
         self.buttonCornerRadius = cornerRadius
@@ -85,7 +90,7 @@ class CalcButton: CustomButton {
         self.buttonTapSound = sound
                 
         self.alpha = alpha
-        layer.cornerRadius = UIApplication.shared.statusBarOrientation.isPortrait ? cornerRadius : wideSize
+        layer.cornerRadius = windowScene.interfaceOrientation.isPortrait ? cornerRadius : wideSize
         layer.shadowOffset = CGSize(width: offset, height: offset)
 
         return true
