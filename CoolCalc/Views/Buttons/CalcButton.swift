@@ -16,25 +16,31 @@ class CalcButton: CustomButton {
     var currentFont: UIFont!
 
     enum ButtonType {
-        case number, operation, clear, sign, decimal, percent
+        case number, operation, equals, clear, allClear, sign, decimal, percent, unknown
     }
 
     var type: ButtonType {
         var type: ButtonType = .number
         
         switch buttonLabel {
-        case "+", "-", "×", "÷", "=":
+        case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+            type = .number
+        case "+", "-", "×", "÷":
             type = .operation
+        case "=":
+            type = .equals
         case ".":
             type = .decimal
         case "%":
             type = .percent
         case "+/-":
             type = .sign
-        case "AC":
+        case "C":
             type = .clear
+        case "AC":
+            type = .allClear
         default:
-            type = .number
+            type = .unknown
         }
         
         return type

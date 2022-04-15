@@ -7,13 +7,13 @@
 
 import UIKit
 
-class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDelegate {
+class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDelegate, CalcLogicDelegate {
     
     // MARK: - Properties
 
     var calcView: CalcView!
     var settingsView: SettingsView!
-    var calcLogic = CalcLogic()
+    var calcLogic: CalcLogic!
 
 
     // MARK: - Initialization
@@ -26,6 +26,9 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDe
         
         settingsView = SettingsView(withSize: 125)
         settingsView.delegate = self
+        
+        calcLogic = CalcLogic()
+        calcLogic.delegate = self
                 
         view.addSubview(calcView)
         view.addSubview(settingsView)
@@ -66,14 +69,18 @@ class CoolCalcViewController: UIViewController, SettingsViewDelegate, CalcViewDe
 }
 
 
-// MARK: - CalcView Delegate
+// MARK: - CalcView & Logic Delegates
 
-// FIXME: - CalcLogic Model
 extension CoolCalcViewController {
     func buttonPressed(_ view: CalcView, button: CalcButton) {
         calcView.calculationString = calcLogic.getInput(button: button)
     }
+
+    func updateButtonClear(resetToAllClear: Bool) {
+        calcView.updateButtonClear(resetToAllClear: resetToAllClear)
+    }
 }
+
 
 
 // MARK: - SettingsView Delegate

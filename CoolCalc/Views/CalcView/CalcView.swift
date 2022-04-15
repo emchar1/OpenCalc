@@ -9,7 +9,6 @@ import UIKit
 
 
 protocol CalcViewDelegate {
-//    func orientationDidChange(_ view: CalcVertView)
     func buttonPressed(_ view: CalcView, button: CalcButton)
 }
 
@@ -54,7 +53,7 @@ class CalcView: UIView, CustomButtonDelegate {
     private let buttonEquals = CalcButton(buttonLabel: "=")
     
     //Other Properties
-    var calculationString = "" {
+    var calculationString = "0" {
         didSet {
             displayCalculation.text = calculationString
         }
@@ -80,6 +79,7 @@ class CalcView: UIView, CustomButtonDelegate {
         //Set up Properties
         backgroundColor = K.lightOn ? .white : .black
         displayLabel.textAlignment = .right
+        displayCalculation.text = calculationString
         displayCalculation.alpha = 0.8
         displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 80)
         displayCalculation.textAlignment = .right
@@ -240,6 +240,11 @@ class CalcView: UIView, CustomButtonDelegate {
         return button1
     }
     
+    func updateButtonClear(resetToAllClear: Bool) {
+        buttonClear.buttonLabel = resetToAllClear ? "AC" : "C"
+        buttonClear.setTitle(buttonClear.buttonLabel, for: .normal)
+    }
+    
     func setColors(color: UIColor?) {
         guard let color = color else { return }
         
@@ -352,6 +357,5 @@ extension CalcView {
         guard let button = button as? CalcButton else { return }
         
         delegate?.buttonPressed(self, button: button)
-//        displayCalculation.text = calculationString
     }
 }
