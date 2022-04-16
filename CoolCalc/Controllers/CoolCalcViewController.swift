@@ -73,7 +73,12 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
 
 extension CoolCalcViewController {
     func buttonPressed(_ view: CalcView, button: CalcButton) {
-        calcView.calculationString = calcLogic.getInput(button: button)
+        do {
+            try calcView.calculationString = calcLogic.getInput(button: button)
+        }
+        catch {
+            print("Error getting CalcLogic input: \(error)")
+        }
     }
 
     func updateButtonClear(resetToAllClear: Bool) {
