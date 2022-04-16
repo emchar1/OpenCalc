@@ -15,21 +15,17 @@ struct CalcLogic {
     
     // MARK: - Properties
     enum CalcErrors: Error {
-        case overflow, tooManyDigits, hasDecimal, unknownOperation, unknownButtonType
+        case overflow, tooManyDigits, alreadyHasDecimal, unknownOperation, unknownButtonType
     }
     
     let formatter = NumberFormatter()
-    let formatterCommaSeparated = NumberFormatter()
     let maxDigits = 9
-//    var isDoneEnteringDigits = true
     var expression: (n1: String, operation: String?, n2: String?) = (n1: "0", operation: nil, n2: nil)
-    var delegate: CalcLogicDelegate?
+    var nonNilOperand: String {
+        expression.n2 ?? expression.n1
+    }
     
-//    var operand1String = ""
-//    var operand2String = ""
-//    var operand1: Double = 0
-//    var operand2: Double = 0
-//    var operator_: String = ""
+    var delegate: CalcLogicDelegate?
     
     
     // MARK: - Initialization
@@ -37,9 +33,6 @@ struct CalcLogic {
     init() {
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = maxDigits
-        formatterCommaSeparated.minimumFractionDigits = 0
-        formatterCommaSeparated.maximumFractionDigits = maxDigits
-        formatterCommaSeparated.numberStyle = .decimal
     }
     
     
@@ -48,9 +41,10 @@ struct CalcLogic {
     /**
      Takes in input from a button press.
      - parameter button: the button that was pressed
+     - throws: `CalcErrors.unknownButtonType`
      - returns: The resulting string of either the second operand, or if it's nil, the first operand.
      */
-    mutating func getInput(button: CalcButton) throws -> String {//, to display: inout String) {
+    mutating func getInput(button: CalcButton) throws -> String {
         switch button.type {
         case .clear, .allClear:
             handleClear(allClear: button.type == .allClear)
@@ -67,6 +61,8 @@ struct CalcLogic {
             try? handleDecimal()
         case .sign:
             try? handleSign()
+        case .percent:
+            try? handlePercent()
         case .operation:
             try? handleOperation(operation: button.buttonLabel!)
         case .equals:
@@ -82,21 +78,28 @@ struct CalcLogic {
                 
         print(expression)
         
-        let result = (expression.n2 != nil ? expression.n2! : expression.n1)
-        formatterCommaSeparated.numberStyle = result.count > maxDigits ? .scientific : .decimal
+        formatter.numberStyle = nonNilOperand.count > maxDigits ? .scientific : .decimal
         
-        if result.count > maxDigits {
-            return Double(result) == nil ? "Error" : formatterCommaSeparated.string(from: NSNumber(value: Double(result)!))!
+        if nonNilOperand.count > maxDigits {
+            return Double(nonNilOperand) == nil ? "Error" : formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown"
         }
         else {
-            return Double(result) == nil ? "Error" : result
+            return Double(nonNilOperand) == nil ? "Error" : nonNilOperand
         }
     }
     
+    /**
+     Checks if expression.n1 is an error, i.e. overflow.
+     - returns: `true` if n1 is an error
+     */
     private func n1IsError() -> Bool {
         return Double(expression.n1) == nil
     }
     
+    /**
+     Handles clearing of the display.
+     - parameter allClear: determines whether to clear just the last entry or all entries.
+     */
     private mutating func handleClear(allClear: Bool) {
         if allClear {
             clearAll()
@@ -111,10 +114,18 @@ struct CalcLogic {
         }
     }
     
+    /**
+     Helper function to clear all input entries
+     */
     private mutating func clearAll() {
         expression = (n1: "0", operation: nil, n2: nil)
     }
     
+    /**
+     Handles input of a number button press.
+     - parameter numString: the button number pressed
+     - throws: `CalcErrors.overflow`, `CalcErrors.tooManyDigits`
+     */
     private mutating func handleNumber(numString: String) throws {
         guard !n1IsError() else { throw CalcErrors.overflow }
         guard (expression.operation == nil ? expression.n1 : expression.n2 ?? "0").count < maxDigits else { throw CalcErrors.tooManyDigits }
@@ -127,15 +138,18 @@ struct CalcLogic {
         }
     }
     
+    /**
+     Helper function that calclulates if the numString inputted is zero.
+     - parameter numString: the number as a string being compared
+     - returns: `true` if number is zero, duh!
+     */
     private mutating func numberIsZero(_ numString: String?) -> Bool {
         return numString == nil || numString == "0"
     }
     
     private mutating func handleDecimal() throws {
         guard !n1IsError() else { throw CalcErrors.overflow }
-        
-        let result = (expression.n2 != nil ? expression.n2! : expression.n1)
-        guard !result.contains(".") else { throw CalcErrors.hasDecimal }
+        guard !nonNilOperand.contains(".") else { throw CalcErrors.alreadyHasDecimal }
         
 
         if expression.operation != nil {
@@ -155,13 +169,27 @@ struct CalcLogic {
         guard !n1IsError() else { throw CalcErrors.overflow }
 
         let operand: Double = expression.operation == nil ? Double(expression.n1)! : Double(expression.n2 ?? "0")!
-        let operandStringWithSignChange = operand == 0 ? "0" : formatterCommaSeparated.string(from: NSNumber(value: -operand))!
+        let operandStringWithSignChange = operand == 0 ? "0" : formatter.string(from: NSNumber(value: -operand))!
         
         if expression.operation == nil {
             expression.n1 = operandStringWithSignChange
         }
         else {
             expression.n2 = operandStringWithSignChange
+        }
+    }
+    
+    private mutating func handlePercent() throws {
+        guard !n1IsError() else { throw CalcErrors.overflow }
+        
+        let percentage: Double = (expression.operation == nil ? Double(expression.n1)! : Double(expression.n2 ?? "0")!) / Double(100.0)
+        let percentageString = formatter.string(from: NSNumber(value: percentage))!
+        
+        if expression.operation == nil {
+            expression.n1 = percentageString
+        }
+        else {
+            expression.n2 = percentageString
         }
     }
     
@@ -201,9 +229,13 @@ struct CalcLogic {
             throw CalcErrors.unknownOperation
         }
         
-        expression = (n1: formatter.string(from: NSNumber(value: result))!, operation: expression.operation, n2: nil)
+        formatter.numberStyle = .none
+        let resultString = formatter.string(from: NSNumber(value: result)) ?? "Unknown"
+
+        print("\(result), \(resultString)")
+        expression = (n1: resultString, operation: expression.operation, n2: nil)
         
-        return formatter.string(from: NSNumber(value: result))!
+        return resultString
     }
     
 }
