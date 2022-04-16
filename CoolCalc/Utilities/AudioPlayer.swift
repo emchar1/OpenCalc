@@ -26,7 +26,10 @@ struct AudioPlayer {
             guard let player = player else { return }
             
             player.volume = volume
-            player.play()
+            
+            DispatchQueue.global(qos: .background).async {
+                player.play()
+            }
         }
         catch {
             print("Error loading \(filename)")

@@ -16,7 +16,7 @@ struct CalcLogic {
     // MARK: - Properties
     let formatter = NumberFormatter()
     let formatterCommaSeparated = NumberFormatter()
-    let maxDigits = 16
+    let maxDigits = 9
 //    var isDoneEnteringDigits = true
     var expression: (n1: String, operation: String?, n2: String?) = (n1: "0", operation: nil, n2: nil)
     var delegate: CalcLogicDelegate?
@@ -32,7 +32,9 @@ struct CalcLogic {
     
     init() {
         formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 16
+        formatter.maximumFractionDigits = maxDigits
+        formatterCommaSeparated.minimumFractionDigits = 0
+        formatterCommaSeparated.maximumFractionDigits = maxDigits
         formatterCommaSeparated.numberStyle = .decimal
     }
     
@@ -45,22 +47,26 @@ struct CalcLogic {
      - returns: The resulting string of either the second operand, or if it's nil, the first operand.
      */
     mutating func getInput(button: CalcButton) -> String {//, to display: inout String) {
-        var result = ""
-        
         switch button.type {
         case .clear, .allClear:
             handleClear(allClear: button.type == .allClear)
-
             delegate?.updateButtonClear(resetToAllClear: true)
         case .number:
+            guard Double(expression.n1) != nil else { break }
+
             handleNumber(numString: button.buttonLabel!)
-            
             delegate?.updateButtonClear(resetToAllClear: false)
         case .decimal:
+            guard Double(expression.n1) != nil else { break }
+
             handleDecimal()
         case .operation:
+            guard Double(expression.n1) != nil else { break }
+
             handleOperation(operation: button.buttonLabel!)
         case .equals:
+            guard Double(expression.n1) != nil else { break }
+
             calculate()
         default:
             print("Unknown button type: \(button.type)")
@@ -68,9 +74,11 @@ struct CalcLogic {
                 
         print(expression)
         
-        result = (expression.n2 != nil ? expression.n2! : expression.n1)
+        let result = (expression.n2 != nil ? expression.n2! : expression.n1)
         
-        return result//formatterCommaSeparated.string(from: NSNumber(value: Double(result)!))!
+        formatterCommaSeparated.numberStyle = result.count > maxDigits ? .scientific : .decimal
+        
+        return Double(result) == nil ? "Error" : (formatterCommaSeparated.string(from: NSNumber(value: Double(result)!))! + (result.last == "." ? "." : ""))
     }
     
     private mutating func handleClear(allClear: Bool) {
@@ -78,7 +86,7 @@ struct CalcLogic {
             clearAll()
         }
         else {
-            if expression.n2 != nil {
+            if Double(expression.n1) != nil && expression.n2 != nil {
                 expression.n2 = "0"
             }
             else {
@@ -92,9 +100,7 @@ struct CalcLogic {
     }
     
     private mutating func handleNumber(numString: String) {
-        let operand: String = expression.operation == nil ? expression.n1 : expression.n2 ?? "0"
-
-        guard operand.count < maxDigits else { return }
+        guard (expression.operation == nil ? expression.n1 : expression.n2 ?? "0").count < maxDigits else { return }
         
         if expression.operation != nil {
             expression.n2 = numberIsZero(expression.n2) ? numString : expression.n2! + numString
@@ -109,20 +115,21 @@ struct CalcLogic {
     }
     
     private mutating func handleDecimal() {
+        //Too many if-else's...
         if expression.operation != nil {
-            if expression.n2 == nil {
-                expression.n2 = "0."
+            if let n2 = expression.n2 {
+                if !n2.contains(".") {
+                    expression.n2 = n2 + "."
+                }
             }
             else {
-                if !expression.n2!.contains(".") {
-                    expression.n2! += "."
-                }
+                expression.n2 = "0."
             }
         }
         else {
-            guard !expression.n1.contains(".") else { return }
-            
-            expression.n1 += "."
+            if !expression.n1.contains(".") {
+                expression.n1 += "."
+            }
         }
     }
     
@@ -135,13 +142,8 @@ struct CalcLogic {
     }
 
     @discardableResult private mutating func calculate() -> String {
-        guard let operand1: Double = Double(expression.n1),
-              let n2 = expression.n2,
-              let operand2: Double = Double(n2) else {
-            return "nil"
-        }
-        
-        
+        let operand1: Double = Double(expression.n1)!
+        let operand2: Double = expression.n2 == nil ? operand1 : Double(expression.n2!)!
         var result: Double = 0
 
         switch expression.operation {
@@ -157,13 +159,8 @@ struct CalcLogic {
             print("Unknown operation")
         }
         
-        print(formatter.string(from: NSNumber(value: result))!)
-        
         expression = (n1: formatter.string(from: NSNumber(value: result))!, operation: expression.operation, n2: nil)
         
-        if "\(result)".count >= maxDigits {
-            formatter.numberStyle = .scientific
-        }
         return formatter.string(from: NSNumber(value: result))!
     }
     

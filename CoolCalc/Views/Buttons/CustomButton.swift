@@ -81,7 +81,7 @@ class CustomButton: UIButton {
 
         if let buttonTapSound = buttonTapSound {
             AudioPlayer.playSound(filename: buttonTapSound, shouldForceSound: shouldForceSound)
-        }        
+        }
     }
 
     @objc func tapRelease(_ sender: CustomButton) {
