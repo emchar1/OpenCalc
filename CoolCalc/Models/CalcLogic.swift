@@ -20,6 +20,8 @@ struct CalcLogic {
     
     let formatter = NumberFormatter()
     let maxDigits = 9
+    
+    var repeatOperand = "0"
     var expression: (n1: String, operation: String?, n2: String?) = (n1: "0", operation: nil, n2: nil)
     var nonNilOperand: String {
         expression.n2 ?? expression.n1
@@ -206,14 +208,15 @@ struct CalcLogic {
         }
 
         expression.operation = operation
+        repeatOperand = nonNilOperand
     }
 
     @discardableResult private mutating func calculate() throws -> String {
         guard !n1IsError() else { throw CalcErrors.overflow }
-
+        
         let operand1: Double = Double(expression.n1)!
         // FIXME: - operand2 should be operand1 if 2 is nil?
-        let operand2: Double = expression.n2 == nil ? operand1 : Double(expression.n2!)!
+        let operand2: Double = expression.n2 == nil ? (Double(repeatOperand) ?? -9999) : Double(expression.n2!)!
         var result: Double = 0
 
         switch expression.operation {
@@ -229,8 +232,8 @@ struct CalcLogic {
             throw CalcErrors.unknownOperation
         }
         
-        formatter.numberStyle = .none
-        let resultString = formatter.string(from: NSNumber(value: result)) ?? "Unknown"
+        formatter.numberStyle = .decimal
+        let resultString = (formatter.string(from: NSNumber(value: result)) ?? "Unknown").replacingOccurrences(of: ",", with: "")
 
         print("\(result), \(resultString)")
         expression = (n1: resultString, operation: expression.operation, n2: nil)

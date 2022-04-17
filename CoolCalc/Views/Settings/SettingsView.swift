@@ -25,6 +25,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     var lightButton: SettingsButton!
     var muteButton: SettingsButton!
     var appearanceButton: SettingsButton!
+    var closeButton: SettingsButton!
     var delegate: SettingsViewDelegate?
 
     let buttonSize: CGFloat = 35
@@ -82,6 +83,11 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         appearanceButton.delegate = self
         addSubview(appearanceButton)
 
+        closeButton = SettingsButton(frame: CGRect(x: 0, y: 0, width: round(buttonSize / 2), height: round(buttonSize / 2)))
+        closeButton.alpha = 0
+        closeButton.delegate = self
+        addSubview(closeButton)
+
         updateButtonVisuals()
         animateExpanded(with: false)
     }
@@ -120,6 +126,9 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         default: print("Invalid appearanceButtonToggle value")
         }
         
+        closeButton.backgroundColor = buttonBackgroundColor
+        closeButton.tintColor = buttonTintColor
+        closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
     }
     
     private func animateExpanded(with expanded: Bool) {
@@ -131,9 +140,11 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
             lightButton.isUserInteractionEnabled = true
             muteButton.isUserInteractionEnabled = true
             appearanceButton.isUserInteractionEnabled = true
+            closeButton.isUserInteractionEnabled = true
             lightButton.alpha = 1.0
             muteButton.alpha = 1.0
             appearanceButton.alpha = 1.0
+            closeButton.alpha = 1.0
         }
         else {
             //Sub views
@@ -141,9 +152,11 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
             lightButton.isUserInteractionEnabled = false
             muteButton.isUserInteractionEnabled = false
             appearanceButton.isUserInteractionEnabled = false
+            closeButton.isUserInteractionEnabled = false
             lightButton.alpha = 0.0
             muteButton.alpha = 0.0
             appearanceButton.alpha = 0.0
+            closeButton.alpha = 0.0
         }
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
@@ -164,7 +177,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     
     private func resetTimer() {
         settingsViewExpandedTimer?.invalidate()
-        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 3.0,
+        settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 4.0,
                                                            target: self,
                                                            selector: #selector(runTimerAction(_:)),
                                                            userInfo: nil,
@@ -216,6 +229,9 @@ extension SettingsView {
             appearanceButtonSelected += 1
             updateButtonVisuals()
             delegate?.didUpdateAppearance(appearanceButtonSelected)
+        }
+        else if button == closeButton {
+            animateExpanded(with: false)
         }
     }
 }
