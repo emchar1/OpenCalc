@@ -82,11 +82,11 @@ struct CalcLogic {
         
         formatter.numberStyle = nonNilOperand.count > maxDigits ? .scientific : .decimal
         
-        if nonNilOperand.count > maxDigits {
-            return Double(nonNilOperand) == nil ? "Error" : formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown"
+        if Double(nonNilOperand) == nil {
+            return "Error"
         }
         else {
-            return Double(nonNilOperand) == nil ? "Error" : nonNilOperand
+            return nonNilOperand.count > maxDigits ? (formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown") : nonNilOperand
         }
     }
     

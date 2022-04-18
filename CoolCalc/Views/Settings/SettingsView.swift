@@ -171,10 +171,10 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     private func resetTimer() {
         settingsViewExpandedTimer?.invalidate()
         settingsViewExpandedTimer = Timer.scheduledTimer(timeInterval: 4.0,
-                                                           target: self,
-                                                           selector: #selector(runTimerAction(_:)),
-                                                           userInfo: nil,
-                                                           repeats: false)
+                                                         target: self,
+                                                         selector: #selector(runTimerAction(_:)),
+                                                         userInfo: nil,
+                                                         repeats: false)
     }
     
     @objc private func runTimerAction(_ expanded: Bool) {
@@ -241,7 +241,6 @@ extension SettingsView {
         resetTimer()
         delegate?.didChangeColor(color)
     }
-    
     
     func didSelectColor(_ color: UIColor?) {
         guard let color = color else { return }
