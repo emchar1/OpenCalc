@@ -45,7 +45,6 @@ class ColorDial: UIView {
         let gradientFactor: CGFloat = 0.2
         let gradientAlpha: CGFloat = 1.0
         
-        
         //Add the gradient dial
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.width / 2, y: frame.height / 2),
                                       radius: (frame.width - pathWidth) / 2,

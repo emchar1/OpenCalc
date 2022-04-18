@@ -110,8 +110,6 @@ class CalcView: UIView, CustomButtonDelegate {
         setColors(color: K.savedColor)
         setLight(lightOn: K.lightOn)
 
-
-        
         //Set up Stacks
         stackMain.axis = .vertical
         stackMain.distribution = .fill

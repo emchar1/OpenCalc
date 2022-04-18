@@ -171,7 +171,7 @@ struct CalcLogic {
         guard !n1IsError() else { throw CalcErrors.overflow }
 
         let operand: Double = expression.operation == nil ? Double(expression.n1)! : Double(expression.n2 ?? "0")!
-        let operandStringWithSignChange = operand == 0 ? "0" : formatter.string(from: NSNumber(value: -operand))!
+        let operandStringWithSignChange = operand == 0 ? "0" : formatter.string(from: NSNumber(value: -operand))!.replacingOccurrences(of: ",", with: "")
         
         if expression.operation == nil {
             expression.n1 = operandStringWithSignChange
@@ -185,7 +185,7 @@ struct CalcLogic {
         guard !n1IsError() else { throw CalcErrors.overflow }
         
         let percentage: Double = (expression.operation == nil ? Double(expression.n1)! : Double(expression.n2 ?? "0")!) / Double(100.0)
-        let percentageString = formatter.string(from: NSNumber(value: percentage))!
+        let percentageString = formatter.string(from: NSNumber(value: percentage))!.replacingOccurrences(of: ",", with: "")
         
         if expression.operation == nil {
             expression.n1 = percentageString
@@ -215,7 +215,6 @@ struct CalcLogic {
         guard !n1IsError() else { throw CalcErrors.overflow }
         
         let operand1: Double = Double(expression.n1)!
-        // FIXME: - operand2 should be operand1 if 2 is nil?
         let operand2: Double = expression.n2 == nil ? (Double(repeatOperand) ?? -9999) : Double(expression.n2!)!
         var result: Double = 0
 

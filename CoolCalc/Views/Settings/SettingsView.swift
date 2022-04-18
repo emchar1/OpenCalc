@@ -10,9 +10,7 @@ import UIKit
 
 protocol SettingsViewDelegate {
     func didChangeColor(_ color: UIColor?)
-//    func didSelectColor(_ color: UIColor?)
     func didFlipSwitch(_ lightOn: Bool)
-//    func didHitMute(_ muteOn: Bool)
     func didUpdateAppearance(_ appearanceButtonToggle: Int)
 }
 
@@ -83,7 +81,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         appearanceButton.delegate = self
         addSubview(appearanceButton)
 
-        closeButton = SettingsButton(frame: CGRect(x: 0, y: 0, width: round(buttonSize / 2), height: round(buttonSize / 2)))
+        closeButton = SettingsButton(frame: CGRect(x: -2, y: -2, width: round(buttonSize * 2 / 3), height: round(buttonSize * 2 / 3)))
         closeButton.alpha = 0
         closeButton.delegate = self
         addSubview(closeButton)
@@ -126,8 +124,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         default: print("Invalid appearanceButtonToggle value")
         }
         
-        closeButton.backgroundColor = buttonBackgroundColor
-        closeButton.tintColor = buttonTintColor
+        closeButton.tintColor = buttonBackgroundColor
         closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
     }
     
@@ -135,7 +132,6 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         if expanded {
             resetTimer()
             
-            //Sub views
             colorDial.isUserInteractionEnabled = true
             lightButton.isUserInteractionEnabled = true
             muteButton.isUserInteractionEnabled = true
@@ -147,7 +143,6 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
             closeButton.alpha = 1.0
         }
         else {
-            //Sub views
             colorDial.isUserInteractionEnabled = false
             lightButton.isUserInteractionEnabled = false
             muteButton.isUserInteractionEnabled = false
@@ -161,12 +156,10 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
             if expanded {
-                //Settings View
                 transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
                 alpha = 1.0
             }
             else {
-                //Settings View
                 transform = CGAffineTransform.identity.scaledBy(x: settingsViewShrinkFactor, y: settingsViewShrinkFactor)
                 alpha = 0.75
             }
@@ -207,7 +200,7 @@ extension SettingsView {
                 
         if button == lightButton {
             K.lightOn = !K.lightOn
-            lightButton.buttonTapSound = K.lightOn ? "LightOff" : "LightOn"
+            lightButton.buttonTapSound = nil//K.lightOn ? "LightOff" : "LightOn"
             updateButtonVisuals()
             delegate?.didFlipSwitch(K.lightOn)
             
@@ -217,15 +210,14 @@ extension SettingsView {
         }
         else if button == muteButton {
             K.muteOn = !K.muteOn
-            muteButton.buttonTapSound = K.muteOn ? "MuteOff" : "MuteOn"
+            muteButton.buttonTapSound = K.muteOn ? "MuteOn" : nil
             updateButtonVisuals()
-//            delegate?.didHitMute(muteOn)
             
             UserDefaults.standard.set(K.muteOn, forKey: K.userDefaults_mute)
             print("Mute is \(K.muteOn ? "ON" : "OFF") saved to UserDefaults key: \(K.userDefaults_mute)")
         }
         else if button == appearanceButton {
-            appearanceButton.buttonTapSound = "AppearanceButton"
+            appearanceButton.buttonTapSound = nil//"AppearanceButton"
             appearanceButtonSelected += 1
             updateButtonVisuals()
             delegate?.didUpdateAppearance(appearanceButtonSelected)
@@ -255,7 +247,6 @@ extension SettingsView {
         guard let color = color else { return }
         
         resetTimer()
-//        delegate?.didSelectColor(color)
         
         UserDefaults.standard.set(color, forKey: K.userDefaults_color)
         print("Color: \(color.description) saved to UserDefaults key: \(K.userDefaults_color)")

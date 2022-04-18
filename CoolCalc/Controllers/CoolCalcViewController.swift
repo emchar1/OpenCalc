@@ -64,6 +64,8 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
         settingsView.setOrigin()
         
         calcView.frame = view.frame
+        print(view.frame)
+        print((UIApplication.shared.connectedScenes.first as! UIWindowScene).interfaceOrientation.rawValue)
     }
     
 }
@@ -103,25 +105,25 @@ extension CoolCalcViewController {
         switch appearanceButtonToggle {
         case 1:
             calcView.setButtonAppearance(alpha: 0.65,
-                                             offset: 5.0,
-                                             size: 10,
-                                             cornerRadius: 20,
-                                             duration: 0.25,
-                                             sound: "Tap1")
+                                         offset: 5.0,
+                                         size: 10,
+                                         cornerRadius: 20,
+                                         duration: 0.25,
+                                         sound: "Tap1")
         case 2:
             calcView.setButtonAppearance(alpha: 0.65,
-                                             offset: 2.0,
-                                             size: calcView.getButton().frame.height / 2,
-                                             cornerRadius: calcView.getButton().frame.height / 2,
-                                             duration: 0.1,
-                                             sound: "Tap2")
+                                         offset: 2.0,
+                                         size: calcView.getButton().frame.height / 2,
+                                         cornerRadius: calcView.getButton().frame.height / 2,
+                                         duration: 0.1,
+                                         sound: "Tap2")
         case 3:
             calcView.setButtonAppearance(alpha: 0.65,
-                                             offset: 8.0,
-                                             size: 0,
-                                             cornerRadius: 0,
-                                             duration: 0.35,
-                                             sound: "Tap3")
+                                         offset: 8.0,
+                                         size: 0,
+                                         cornerRadius: 0,
+                                         duration: 0.35,
+                                         sound: "Tap3")
         default:
             break
         }
