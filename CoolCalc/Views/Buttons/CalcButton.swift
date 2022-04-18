@@ -50,10 +50,13 @@ class CalcButton: CustomButton {
     // MARK: - Initialization
 
     init(buttonLabel: String) {
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let cornerRadius: CGFloat = windowScene != nil && windowScene!.interfaceOrientation.isPortrait ? 20 : 10
+        
         super.init(frame: .zero,
                    buttonAlpha: 0.65,
                    buttonPressOffset: 5.0,
-                   buttonCornerRadius: 20,
+                   buttonCornerRadius: cornerRadius,
                    buttonLabel: buttonLabel,
                    buttonTapSound: "Tap1",
                    buttonImage: nil)
