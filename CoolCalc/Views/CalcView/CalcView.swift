@@ -81,7 +81,7 @@ class CalcView: UIView, CustomButtonDelegate {
         displayLabel.textAlignment = .right
         displayCalculation.text = calculationString
         displayCalculation.alpha = 0.8
-        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 80)
+        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
         displayCalculation.textAlignment = .right
         displayCalculation.adjustsFontSizeToFitWidth = true
         displayCalculation.textColor = K.lightOn ? .black : .white
@@ -224,7 +224,7 @@ class CalcView: UIView, CustomButtonDelegate {
                                      buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * buttonSpacing)])
 
         //Display Label
-        NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: 100)])
+        NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: displayCalculation.font.pointSize)])
     }
     
     

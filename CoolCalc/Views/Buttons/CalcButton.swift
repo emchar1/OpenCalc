@@ -79,7 +79,7 @@ class CalcButton: CustomButton {
             layer.cornerRadius = buttonCornerRadius
         }
         else {
-            currentFont = buttonFontWide
+            currentFont = traitCollection.horizontalSizeClass == .compact ? buttonFontWide : buttonFontTall
             layer.cornerRadius = size
         }
         
