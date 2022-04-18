@@ -21,7 +21,8 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        calcView = CalcView(frame: view.frame)
+        calcView = CalcView(frame: .zero)
+        calcView.translatesAutoresizingMaskIntoConstraints = false
         calcView.delegate = self
         
         settingsView = SettingsView(withSize: 125)
@@ -32,6 +33,11 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
                 
         view.addSubview(calcView)
         view.addSubview(settingsView)
+
+        NSLayoutConstraint.activate([calcView.topAnchor.constraint(equalTo: view.topAnchor),
+                                     calcView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     view.trailingAnchor.constraint(equalTo: calcView.trailingAnchor),
+                                     view.bottomAnchor.constraint(equalTo: calcView.bottomAnchor)])
     }
      
     override func viewDidAppear(_ animated: Bool) {
@@ -62,10 +68,6 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
         
         calcView.orientationDidChange(wideSize: wideSize)
         settingsView.setOrigin()
-        
-        calcView.frame = view.frame
-        print(view.frame)
-        print((UIApplication.shared.connectedScenes.first as! UIWindowScene).interfaceOrientation.rawValue)
     }
     
 }
