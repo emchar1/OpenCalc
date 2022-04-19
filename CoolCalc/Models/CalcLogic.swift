@@ -71,7 +71,12 @@ struct CalcLogic {
                 print("Number entry error: \(error)")
             }
         case .decimal:
-            try? handleDecimal()
+            do {
+                try handleDecimal()
+            }
+            catch {
+                print("Decimal entry error: \(error)")
+            }
         case .sign:
             try? handleSign()
         case .percent:
@@ -163,6 +168,8 @@ struct CalcLogic {
         else {
             expression.n1 = numberIsZero(expression.n1) ? numString : expression.n1 + numString
         }
+        
+        repeatOperand = nonNilOperand
     }
     
     /**
@@ -176,8 +183,8 @@ struct CalcLogic {
     
     private mutating func handleDecimal() throws {
         guard !n1IsError() else { throw CalcErrors.overflow }
-        guard !nonNilOperand.contains(".") else { throw CalcErrors.alreadyHasDecimal }
-        
+        guard !nonNilOperand.contains(".") || expression.operation != nil else { print("First operand"); throw CalcErrors.alreadyHasDecimal }
+        guard !nonNilOperand.contains(".") || expression.n2 == nil else { print("Second operand"); throw CalcErrors.alreadyHasDecimal }
 
         if expression.operation != nil {
             if let n2 = expression.n2 {
