@@ -29,7 +29,8 @@ class CalcView: UIView, CustomButtonDelegate {
     private let buttonSpacing: CGFloat = 8
     private let displayStack = UIStackView()
     private let displayLabel = UILabel()
-    private let displayLabelSpacer = UILabel()
+    private let displayRunningLabel = UILabel()
+    private let displaySpacerLabel = UILabel()
     
     //Buttons
     private let buttonClear = CalcButton(buttonLabel: "AC")
@@ -61,6 +62,11 @@ class CalcView: UIView, CustomButtonDelegate {
             displayLabel.text = calculationString
         }
     }
+    var calculationExpression = "" {
+        didSet {
+            displayRunningLabel.text = calculationExpression
+        }
+    }
     var delegate: CalcViewDelegate?
 
     
@@ -81,12 +87,18 @@ class CalcView: UIView, CustomButtonDelegate {
     private func setupViewsInitialize() {
         //Set up Properties
         backgroundColor = K.lightOn ? .white : .black
+        
         displayLabel.text = calculationString
         displayLabel.alpha = 0.8
-        displayLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
+        displayLabel.font = UIFont(name: K.fontMain, size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
         displayLabel.textAlignment = .right
         displayLabel.adjustsFontSizeToFitWidth = true
         displayLabel.textColor = K.lightOn ? .black : .white
+        
+        displayRunningLabel.alpha = 0.4
+        displayRunningLabel.font = UIFont(name: K.fontBold, size: 18)
+        displayRunningLabel.textAlignment = .right
+        displayRunningLabel.textColor = K.lightOn ? .black : .white
         
         button0.delegate = self
         button1.delegate = self
@@ -198,8 +210,9 @@ class CalcView: UIView, CustomButtonDelegate {
                                      stackButtons.arrangedSubviews[4].bottomAnchor.constraint(equalTo: stack4.bottomAnchor)])
 
         //Add arranged subviews to button stacks. Buttons MUST be in this order!
-        displayStack.addArrangedSubview(displayLabelSpacer)
+        displayStack.addArrangedSubview(displaySpacerLabel)
         displayStack.addArrangedSubview(displayLabel)
+        displayStack.addArrangedSubview(displayRunningLabel)
         stack0.addArrangedSubview(buttonClear)
         stack0.addArrangedSubview(buttonSign)
         stack0.addArrangedSubview(buttonPercent)
@@ -226,6 +239,7 @@ class CalcView: UIView, CustomButtonDelegate {
 
         //Display Label
         NSLayoutConstraint.activate([displayLabel.heightAnchor.constraint(equalToConstant: displayLabel.font.pointSize)])
+        NSLayoutConstraint.activate([displayRunningLabel.heightAnchor.constraint(equalToConstant: displayRunningLabel.font.pointSize)])
     }
     
     
@@ -288,7 +302,8 @@ class CalcView: UIView, CustomButtonDelegate {
             buttonAdd.setTitleColor(textColor, for: .normal)
             buttonEquals.setTitleColor(textColor, for: .normal)
             
-            displayLabel.textColor = textColor                        
+            displayLabel.textColor = textColor
+            displayRunningLabel.textColor = textColor
         }
     }
     

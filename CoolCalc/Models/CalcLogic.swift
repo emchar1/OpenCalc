@@ -102,18 +102,15 @@ struct CalcLogic {
      - returns: a formatted version of the current (non-nil) operand.
      */
     func getOperandFormatted() -> String {
-        formatter.numberStyle = nonNilOperand.count > maxDigits ? .scientific : .decimal
-        
-        if Double(nonNilOperand) == nil {
-            return nonNilOperand
+        return Double(nonNilOperand) == nil ? nonNilOperand : formatOperand(nonNilOperand)
+    }
+    
+    func getExpressionFormatted() -> String {
+        if expression.operation == nil {
+            return formatOperand(expression.n1)
         }
         else {
-            if let decimalPlace = nonNilOperand.firstIndex(of: "."), formatter.numberStyle != .scientific {
-                return (formatter.string(from: NSNumber(value: Double(String(nonNilOperand.prefix(upTo: decimalPlace))) ?? -9999)) ?? "Unknown") + String(nonNilOperand.suffix(from: decimalPlace))
-            }
-            else {
-                return formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown"
-            }
+            return formatOperand(expression.n1) + " " + expression.operation! + " " + formatOperand(expression.n2 ?? "")
         }
     }
     
@@ -126,6 +123,22 @@ struct CalcLogic {
      */
     private func n1IsError() -> Bool {
         return Double(expression.n1) == nil
+    }
+    
+    /**
+     Helper function that converts the operand to the format: X,XXX,XXX.YY...
+     - parameter operand: the operand passed in
+     - returns: the formatted operand
+     */
+    private func formatOperand(_ operand: String) -> String {
+        formatter.numberStyle = operand.count > maxDigits ? .scientific : .decimal
+        
+        if let decimalPlace = operand.firstIndex(of: "."), formatter.numberStyle != .scientific {
+            return (formatter.string(from: NSNumber(value: Double(String(operand.prefix(upTo: decimalPlace))) ?? 0)) ?? "Unknown") + String(operand.suffix(from: decimalPlace))
+        }
+        else {
+            return formatter.string(from: NSNumber(value: Double(operand) ?? 0)) ?? "Unknown"
+        }
     }
     
     /**

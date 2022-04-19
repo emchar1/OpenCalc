@@ -76,6 +76,7 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             calcLogic.updateMaxDigits(isPortrait: windowScene.interfaceOrientation.isPortrait)
             calcView.calculationString = calcLogic.getOperandFormatted()
+            calcView.calculationExpression = calcLogic.getExpressionFormatted()
         }
     }
     
@@ -89,6 +90,7 @@ extension CoolCalcViewController {
         do {
             try calcLogic.getInput(button: button)
             calcView.calculationString = calcLogic.getOperandFormatted()
+            calcView.calculationExpression = calcLogic.getExpressionFormatted()
         }
         catch {
             print("Error getting CalcLogic input: \(error)")

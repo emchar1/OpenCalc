@@ -11,8 +11,8 @@ class CalcButton: CustomButton {
     
     // MARK: - Properties
     
-    let buttonFontTall = UIFont(name: "AppleSDGothicNeo-Bold", size: 36)
-    let buttonFontWide = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
+    let buttonFontTall = UIFont(name: K.fontBold, size: 36)
+    let buttonFontWide = UIFont(name: K.fontBold, size: 18)
     var currentFont: UIFont!
 
     enum ButtonType {
