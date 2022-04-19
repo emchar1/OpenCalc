@@ -128,7 +128,7 @@ class CalcButton: CustomButton {
         super.tapDown(sender)
         
         if type == .allClear {
-            K.addHapticFeedback(withStyle: .heavy)
+            Haptics.executeHapticPattern()
         }
     }
 }

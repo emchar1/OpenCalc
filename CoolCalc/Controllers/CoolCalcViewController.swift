@@ -23,6 +23,7 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
         
         //Primes the audio player so there's no lag on the first button tap.
         AudioPlayer.playSound(filename: "NoSound")
+        Haptics.startHapticEngine()
         
         calcView = CalcView(frame: .zero)
         calcView.translatesAutoresizingMaskIntoConstraints = false

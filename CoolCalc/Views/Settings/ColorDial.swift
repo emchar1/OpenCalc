@@ -107,7 +107,7 @@ class ColorDial: UIView {
         delegate?.didChangeColor(getColorFromPoint(location))
 
         if sender.state == .ended {
-            K.addHapticFeedback(withStyle: .light)
+            Haptics.addHapticFeedback(withStyle: .light)
             delegate?.didSelectColor(getColorFromPoint(location))
         }
     }

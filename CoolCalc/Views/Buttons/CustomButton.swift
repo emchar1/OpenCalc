@@ -77,7 +77,7 @@ class CustomButton: UIButton {
         frame.origin = CGPoint(x: frame.origin.x + buttonPressOffset, y: frame.origin.y + buttonPressOffset)
         alpha = buttonAlpha * 0.75
         layer.shadowOpacity = 0.0
-        K.addHapticFeedback(withStyle: .soft)
+        Haptics.addHapticFeedback(withStyle: .soft)
 
         if let buttonTapSound = buttonTapSound {
             AudioPlayer.playSound(filename: buttonTapSound, shouldForceSound: shouldForceSound)

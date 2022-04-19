@@ -35,6 +35,7 @@
 		EAA3ABBA27F97FB600805D9C /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABB927F97FB600805D9C /* K.swift */; };
 		EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */; };
 		EAA74B1E280EB1D300913E4D /* NoSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAA74B1D280EB1D300913E4D /* NoSound.mp3 */; };
+		EAA74B20280F62BB00913E4D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA74B1F280F62BB00913E4D /* Haptics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		EAA3ABB927F97FB600805D9C /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UserDefaults.swift"; sourceTree = "<group>"; };
 		EAA74B1D280EB1D300913E4D /* NoSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = NoSound.mp3; sourceTree = "<group>"; };
+		EAA74B1F280F62BB00913E4D /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				EAA3ABB927F97FB600805D9C /* K.swift */,
+				EAA74B1F280F62BB00913E4D /* Haptics.swift */,
 				EA2E387427E7EA2800122877 /* CalcLogic.swift */,
 			);
 			path = Models;
@@ -287,6 +290,7 @@
 			files = (
 				EA5D2A8627FAC1530037E967 /* SettingsButton.swift in Sources */,
 				EA24D24E27FD74090055B928 /* ColorDial.swift in Sources */,
+				EAA74B20280F62BB00913E4D /* Haptics.swift in Sources */,
 				EA2E385E27E6ED2300122877 /* CoolCalcViewController.swift in Sources */,
 				EA2E38E527F919F800122877 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				EA2E385A27E6ED2300122877 /* AppDelegate.swift in Sources */,

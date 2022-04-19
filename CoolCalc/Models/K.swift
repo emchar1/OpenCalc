@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreHaptics
 
 struct K {
     static let userDefaults_color = "coolCalcColor"
@@ -35,18 +36,7 @@ struct K {
         
         return false
     }()
-    
-    /**
-     Adds a haptic feedback vibration.
-     - parameter style: style of feedback to produce
-     */
-    static func addHapticFeedback(withStyle style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        guard !K.muteOn else { return }
-            
-        let generator = UIImpactFeedbackGenerator(style: style)
-        generator.impactOccurred()
-    }
-    
+        
     static func getSafeAreaInsets() -> (top: CGFloat, leading: CGFloat, trailing: CGFloat, bottom: CGFloat) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return (90, 0, 0, 0) }
         
