@@ -62,7 +62,7 @@ class CalcView: UIView, CustomButtonDelegate {
             displayLabel.text = calculationString
         }
     }
-    var calculationExpression = "" {
+    var calculationExpression = "0" {
         didSet {
             displayRunningLabel.text = calculationExpression
         }
@@ -95,8 +95,9 @@ class CalcView: UIView, CustomButtonDelegate {
         displayLabel.adjustsFontSizeToFitWidth = true
         displayLabel.textColor = K.lightOn ? .black : .white
         
+        displayRunningLabel.text = calculationExpression
         displayRunningLabel.alpha = 0.4
-        displayRunningLabel.font = UIFont(name: K.fontBold, size: 18)
+        displayRunningLabel.font = UIFont(name: K.fontBold, size: traitCollection.horizontalSizeClass == .compact ? 18 : 36)
         displayRunningLabel.textAlignment = .right
         displayRunningLabel.textColor = K.lightOn ? .black : .white
         
