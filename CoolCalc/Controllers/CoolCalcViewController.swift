@@ -113,6 +113,9 @@ extension CoolCalcViewController {
         
     func didFlipSwitch(_ lightOn: Bool) {
         calcView.setLight(lightOn: lightOn)
+
+        //re-invokes preferredStatusBarStyle
+        setNeedsStatusBarAppearanceUpdate()
     }
         
     func didUpdateAppearance(_ appearanceButtonToggle: Int) {
