@@ -28,10 +28,10 @@
 		EA31686C280371A9009A6DDC /* LightOff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA31686B280371A9009A6DDC /* LightOff.mp3 */; };
 		EA31687A280D08BE009A6DDC /* Tap2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA316879280D08BE009A6DDC /* Tap2.mp3 */; };
 		EA316884280D1CC0009A6DDC /* Tap3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA316883280D1CC0009A6DDC /* Tap3.mp3 */; };
-		EA5D2A7D27FA8BAF0037E967 /* Tap1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */; };
 		EA5D2A7F27FA8BCC0037E967 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */; };
 		EA5D2A8327FAB0A50037E967 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8227FAB0A50037E967 /* CustomButton.swift */; };
 		EA5D2A8627FAC1530037E967 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5D2A8527FAC1530037E967 /* SettingsButton.swift */; };
+		EA7AD52F280E604D0095F5A7 /* Tap1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA7AD52E280E604D0095F5A7 /* Tap1.mp3 */; };
 		EAA3ABBA27F97FB600805D9C /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABB927F97FB600805D9C /* K.swift */; };
 		EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -60,10 +60,10 @@
 		EA31686B280371A9009A6DDC /* LightOff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LightOff.mp3; sourceTree = "<group>"; };
 		EA316879280D08BE009A6DDC /* Tap2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap2.mp3; sourceTree = "<group>"; };
 		EA316883280D1CC0009A6DDC /* Tap3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap3.mp3; sourceTree = "<group>"; };
-		EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap1.mp3; sourceTree = "<group>"; };
 		EA5D2A7E27FA8BCC0037E967 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		EA5D2A8227FAB0A50037E967 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		EA5D2A8527FAC1530037E967 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
+		EA7AD52E280E604D0095F5A7 /* Tap1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap1.mp3; sourceTree = "<group>"; };
 		EAA3ABB927F97FB600805D9C /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UserDefaults.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				EA31685928014E68009A6DDC /* AppearanceButton.mp3 */,
-				EA5D2A7C27FA8BAF0037E967 /* Tap1.mp3 */,
+				EA7AD52E280E604D0095F5A7 /* Tap1.mp3 */,
 				EA316879280D08BE009A6DDC /* Tap2.mp3 */,
 				EA316883280D1CC0009A6DDC /* Tap3.mp3 */,
 				EA31685E28015137009A6DDC /* MuteOn.mp3 */,
@@ -260,7 +260,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA5D2A7D27FA8BAF0037E967 /* Tap1.mp3 in Resources */,
 				EA31686028015137009A6DDC /* MuteOn.mp3 in Resources */,
 				EA2E386627E6ED2400122877 /* LaunchScreen.storyboard in Resources */,
 				EA31686128015137009A6DDC /* MuteOff.mp3 in Resources */,
@@ -270,6 +269,7 @@
 				EA31687A280D08BE009A6DDC /* Tap2.mp3 in Resources */,
 				EA31685C28014E68009A6DDC /* AppearanceButton.mp3 in Resources */,
 				EA2E386127E6ED2300122877 /* Main.storyboard in Resources */,
+				EA7AD52F280E604D0095F5A7 /* Tap1.mp3 in Resources */,
 				EA31686C280371A9009A6DDC /* LightOff.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
