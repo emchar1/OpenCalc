@@ -61,7 +61,7 @@ class CalcButton: CustomButton {
                    buttonTapSound: "Tap1",
                    buttonImage: nil)
                 
-        updateAttributesWithOrientationChange(wideSize: buttonCornerRadius)
+        updateAttributesWithOrientationChange(cornerRadiusForLandscape: buttonCornerRadius)
         
         setTitle(buttonLabel, for: .normal)
         titleLabel!.font = currentFont
@@ -71,7 +71,12 @@ class CalcButton: CustomButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @discardableResult func updateAttributesWithOrientationChange(wideSize size: CGFloat) -> Bool {
+    /**
+     Sets the font and cornerRadius based on device orientation.
+     - parameter cornerRadius: the cornerRadius that should be set if the device is in landscape mode
+     - returns: `true` if cornerRadius and font were updated
+     */
+    @discardableResult func updateAttributesWithOrientationChange(cornerRadiusForLandscape cornerRadius: CGFloat) -> Bool {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
                 
         if windowScene.interfaceOrientation.isPortrait {
@@ -80,7 +85,7 @@ class CalcButton: CustomButton {
         }
         else {
             currentFont = traitCollection.horizontalSizeClass == .compact ? buttonFontWide : buttonFontTall
-            layer.cornerRadius = size
+            layer.cornerRadius = cornerRadius
         }
         
         titleLabel!.font = currentFont
@@ -88,6 +93,17 @@ class CalcButton: CustomButton {
         return true
     }
     
+    /**
+     Updates various button properties based on various input parameters.
+     - parameters:
+        - alpha: the alpha component
+        - offset: the offset used for drop shadow
+        - wideSize: the corner radius for landscape mode
+        - cornerRadius: corner radius for portrait mode
+        - duration: the duration for button press spring back
+        - sound: tap sound to play
+     - returns: `true` if all of the properties have been set
+     */
     @discardableResult func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
         
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
@@ -101,7 +117,18 @@ class CalcButton: CustomButton {
         self.alpha = alpha
         layer.cornerRadius = windowScene.interfaceOrientation.isPortrait ? cornerRadius : wideSize
         layer.shadowOffset = CGSize(width: offset, height: offset)
-
+        
         return true
+    }
+    
+    /**
+     Overrides the tapDown function in CustomButton so that it can add a stronger haptic feedback for the "AC" button (to differentiate the feel from the "C" button).
+     */
+    override func tapDown(_ sender: CustomButton) {
+        super.tapDown(sender)
+        
+        if type == .allClear {
+            K.addHapticFeedback(withStyle: .heavy)
+        }
     }
 }

@@ -19,18 +19,18 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     
     // MARK: - Properties
     
-    var colorDial: ColorDial!
-    var lightButton: SettingsButton!
-    var muteButton: SettingsButton!
-    var appearanceButton: SettingsButton!
-    var closeButton: SettingsButton!
-    var delegate: SettingsViewDelegate?
+    private var colorDial: ColorDial!
+    private var lightButton: SettingsButton!
+    private var muteButton: SettingsButton!
+    private var appearanceButton: SettingsButton!
+    private var closeButton: SettingsButton!
 
-    let buttonSize: CGFloat = 35
-    let settingsViewShrinkFactor: CGFloat = 0.28
-    var dialSize: CGFloat
-    var settingsViewExpandedTimer: Timer?
+    private let buttonSize: CGFloat = 35
+    private let settingsViewShrinkFactor: CGFloat = 0.28
+    private var dialSize: CGFloat
+    private var settingsViewExpandedTimer: Timer?
     
+    var delegate: SettingsViewDelegate?
     var appearanceButtonSelected: Int = 1 {
         didSet {
             if appearanceButtonSelected > 3 {
@@ -42,7 +42,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         }
     }
 
-    
+
     // MARK: - Initialization
     
     init(withSize size: CGFloat) {
@@ -90,8 +90,12 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         animateExpanded(with: false)
     }
     
+    @objc private func didTap(_ sender: UITapGestureRecognizer) {
+        animateExpanded(with: true)
+    }
     
-    // MARK: - Helper Functions
+    
+    // MARK: - Public Functions
     
     @discardableResult func setOrigin() -> CGPoint {
         frame.origin = CGPoint(x: K.getSafeAreaInsets().leading + (dialSize * settingsViewShrinkFactor) / 2,
@@ -99,6 +103,9 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         
         return frame.origin
     }
+    
+    
+    // MARK: - Helper Functions
     
     private func updateButtonVisuals() {
         guard lightButton != nil, muteButton != nil, appearanceButton != nil else { return }
@@ -180,16 +187,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     @objc private func runTimerAction(_ expanded: Bool) {
         animateExpanded(with: false)
     }
-    
-    
-    
-    // MARK: - Gesture Recognizers
-
-    @objc func didTap(_ sender: UITapGestureRecognizer) {
-        animateExpanded(with: true)
-    }
 }
-
 
 
 // MARK: - CustomButton Delegate

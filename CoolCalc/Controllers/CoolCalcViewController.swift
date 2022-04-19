@@ -21,6 +21,9 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Primes the audio player so there's no lag on the first button tap.
+        AudioPlayer.playSound(filename: "NoSound")
+        
         calcView = CalcView(frame: .zero)
         calcView.translatesAutoresizingMaskIntoConstraints = false
         calcView.delegate = self
@@ -57,17 +60,22 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
     // MARK: - Setup Helper Functions
     
     @objc private func orientationDidChange(_ notification: NSNotification) {
-        var wideSize: CGFloat
+        var cornerRadiusLandscape: CGFloat
         
         switch settingsView.appearanceButtonSelected {
-        case 1: wideSize = calcView.getButton().buttonCornerRadius / 2
-        case 2: wideSize = calcView.getButton().frame.height / 2
-        case 3: wideSize = 0
-        default: wideSize = 0
+        case 1: cornerRadiusLandscape = calcView.standardButton.buttonCornerRadius / 2
+        case 2: cornerRadiusLandscape = calcView.standardButton.frame.height / 2
+        case 3: cornerRadiusLandscape = 0
+        default: cornerRadiusLandscape = 0
         }
         
-        calcView.orientationDidChange(wideSize: wideSize)
+        calcView.orientationDidChange(cornerRadiusLandscape: cornerRadiusLandscape)
         settingsView.setOrigin()
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            calcLogic.updateMaxDigits(isPortrait: windowScene.interfaceOrientation.isPortrait)
+            calcView.calculationString = calcLogic.getOperandFormatted()
+        }
     }
     
 }
@@ -78,7 +86,8 @@ class CoolCalcViewController: UIViewController, CalcViewDelegate, SettingsViewDe
 extension CoolCalcViewController {
     func buttonPressed(_ view: CalcView, button: CalcButton) {
         do {
-            try calcView.calculationString = calcLogic.getInput(button: button)
+            try calcLogic.getInput(button: button)
+            calcView.calculationString = calcLogic.getOperandFormatted()
         }
         catch {
             print("Error getting CalcLogic input: \(error)")
@@ -115,8 +124,8 @@ extension CoolCalcViewController {
         case 2:
             calcView.setButtonAppearance(alpha: 0.65,
                                          offset: 2.0,
-                                         size: calcView.getButton().frame.height / 2,
-                                         cornerRadius: calcView.getButton().frame.height / 2,
+                                         size: calcView.standardButton.frame.height / 2,
+                                         cornerRadius: calcView.standardButton.frame.height / 2,
                                          duration: 0.1,
                                          sound: "Tap2")
         case 3:

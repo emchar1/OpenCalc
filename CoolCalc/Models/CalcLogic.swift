@@ -14,16 +14,16 @@ protocol CalcLogicDelegate {
 struct CalcLogic {
     
     // MARK: - Properties
-    enum CalcErrors: Error {
+    private enum CalcErrors: Error {
         case overflow, tooManyDigits, alreadyHasDecimal, unknownOperation, unknownButtonType
     }
     
-    let formatter = NumberFormatter()
-    let maxDigits = 9
+    private let formatter = NumberFormatter()
+    private var maxDigits = 9
     
-    var repeatOperand = "0"
-    var expression: (n1: String, operation: String?, n2: String?) = (n1: "0", operation: nil, n2: nil)
-    var nonNilOperand: String {
+    private var repeatOperand = "0"
+    private var expression: (n1: String, operation: String?, n2: String?) = (n1: "0", operation: nil, n2: nil)
+    private var nonNilOperand: String {
         expression.n2 ?? expression.n1
     }
     
@@ -34,19 +34,30 @@ struct CalcLogic {
     
     init() {
         formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = maxDigits
+        updateMaxDigits(isPortrait: true)
     }
     
     
     // MARK: - Functions
     
     /**
+     Updates maxDigits based on device orientation.
+     - parameter isPortrait: `true` if device is in portrait orientation
+     */
+    mutating func updateMaxDigits(isPortrait: Bool) {
+        let digitsPortrait = 9
+        let digitsNotPortrait = 15
+
+        maxDigits = isPortrait ? digitsPortrait : digitsNotPortrait
+        formatter.maximumFractionDigits = maxDigits
+    }
+    
+    /**
      Takes in input from a button press.
      - parameter button: the button that was pressed
-     - throws: `CalcErrors.unknownButtonType`
-     - returns: The resulting string of either the second operand, or if it's nil, the first operand.
+     - throws: `CalcErrors.unknownButtonType
      */
-    mutating func getInput(button: CalcButton) throws -> String {
+    mutating func getInput(button: CalcButton) throws {
         switch button.type {
         case .clear, .allClear:
             handleClear(allClear: button.type == .allClear)
@@ -79,16 +90,30 @@ struct CalcLogic {
         }
                 
         print(expression)
-        
+    }
+    
+    /**
+     Returns a formatted version of the current (non-nil) operand.
+     - returns: a formatted version of the current (non-nil) operand.
+     */
+    func getOperandFormatted() -> String {
         formatter.numberStyle = nonNilOperand.count > maxDigits ? .scientific : .decimal
         
         if Double(nonNilOperand) == nil {
-            return "Error"
+            return nonNilOperand
         }
         else {
-            return nonNilOperand.count > maxDigits ? (formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown") : nonNilOperand
+            if let decimalPlace = nonNilOperand.firstIndex(of: "."), formatter.numberStyle != .scientific {
+                return (formatter.string(from: NSNumber(value: Double(String(nonNilOperand.prefix(upTo: decimalPlace))) ?? -9999)) ?? "Unknown") + String(nonNilOperand.suffix(from: decimalPlace))
+            }
+            else {
+                return formatter.string(from: NSNumber(value: Double(nonNilOperand)!)) ?? "Unknown"
+            }
         }
     }
+    
+    
+    // MARK: - Helper Functions
     
     /**
      Checks if expression.n1 is an error, i.e. overflow.
@@ -211,7 +236,7 @@ struct CalcLogic {
         repeatOperand = nonNilOperand
     }
 
-    @discardableResult private mutating func calculate() throws -> String {
+    private mutating func calculate() throws {
         guard !n1IsError() else { throw CalcErrors.overflow }
         
         let operand1: Double = Double(expression.n1)!
@@ -232,12 +257,9 @@ struct CalcLogic {
         }
         
         formatter.numberStyle = .decimal
-        let resultString = (formatter.string(from: NSNumber(value: result)) ?? "Unknown").replacingOccurrences(of: ",", with: "")
-
-        print("\(result), \(resultString)")
-        expression = (n1: resultString, operation: expression.operation, n2: nil)
-        
-        return resultString
+        expression = (n1: (formatter.string(from: NSNumber(value: result)) ?? "Unknown").replacingOccurrences(of: ",", with: ""),
+                      operation: expression.operation,
+                      n2: nil)
     }
     
 }

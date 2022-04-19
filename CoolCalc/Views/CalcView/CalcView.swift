@@ -29,7 +29,7 @@ class CalcView: UIView, CustomButtonDelegate {
     private let buttonSpacing: CGFloat = 8
     private let displayStack = UIStackView()
     private let displayLabel = UILabel()
-    private let displayCalculation = UILabel()
+    private let displayLabelSpacer = UILabel()
     
     //Buttons
     private let buttonClear = CalcButton(buttonLabel: "AC")
@@ -52,10 +52,13 @@ class CalcView: UIView, CustomButtonDelegate {
     private let buttonAdd = CalcButton(buttonLabel: "+")
     private let buttonEquals = CalcButton(buttonLabel: "=")
     
-    //Other Properties
+    //Public Properties
+    var standardButton: CalcButton {
+        return button1
+    }
     var calculationString = "0" {
         didSet {
-            displayCalculation.text = calculationString
+            displayLabel.text = calculationString
         }
     }
     var delegate: CalcViewDelegate?
@@ -78,13 +81,12 @@ class CalcView: UIView, CustomButtonDelegate {
     private func setupViewsInitialize() {
         //Set up Properties
         backgroundColor = K.lightOn ? .white : .black
+        displayLabel.text = calculationString
+        displayLabel.alpha = 0.8
+        displayLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
         displayLabel.textAlignment = .right
-        displayCalculation.text = calculationString
-        displayCalculation.alpha = 0.8
-        displayCalculation.font = UIFont(name: "AppleSDGothicNeo-Regular", size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
-        displayCalculation.textAlignment = .right
-        displayCalculation.adjustsFontSizeToFitWidth = true
-        displayCalculation.textColor = K.lightOn ? .black : .white
+        displayLabel.adjustsFontSizeToFitWidth = true
+        displayLabel.textColor = K.lightOn ? .black : .white
         
         button0.delegate = self
         button1.delegate = self
@@ -141,7 +143,6 @@ class CalcView: UIView, CustomButtonDelegate {
         stack4.distribution = .fillProportionally
         stack4.spacing = buttonSpacing
         stack4.translatesAutoresizingMaskIntoConstraints = false
-        displayLabel.translatesAutoresizingMaskIntoConstraints = false
 
     }
     
@@ -197,8 +198,8 @@ class CalcView: UIView, CustomButtonDelegate {
                                      stackButtons.arrangedSubviews[4].bottomAnchor.constraint(equalTo: stack4.bottomAnchor)])
 
         //Add arranged subviews to button stacks. Buttons MUST be in this order!
+        displayStack.addArrangedSubview(displayLabelSpacer)
         displayStack.addArrangedSubview(displayLabel)
-        displayStack.addArrangedSubview(displayCalculation)
         stack0.addArrangedSubview(buttonClear)
         stack0.addArrangedSubview(buttonSign)
         stack0.addArrangedSubview(buttonPercent)
@@ -224,20 +225,12 @@ class CalcView: UIView, CustomButtonDelegate {
                                      buttonDecimal.widthAnchor.constraint(equalTo: stack4.widthAnchor, multiplier: 0.25, constant: -0.75 * buttonSpacing)])
 
         //Display Label
-        NSLayoutConstraint.activate([displayCalculation.heightAnchor.constraint(equalToConstant: displayCalculation.font.pointSize)])
+        NSLayoutConstraint.activate([displayLabel.heightAnchor.constraint(equalToConstant: displayLabel.font.pointSize)])
     }
     
     
     // MARK: - Public Functions
-    
-    /**
-     Returns a typical button, i.e. button1.
-     - returns: button1
-     */
-    func getButton() -> CalcButton {
-        return button1
-    }
-    
+        
     func updateButtonClear(resetToAllClear: Bool) {
         buttonClear.buttonLabel = resetToAllClear ? "AC" : "C"
         buttonClear.setTitle(buttonClear.buttonLabel, for: .normal)
@@ -295,7 +288,7 @@ class CalcView: UIView, CustomButtonDelegate {
             buttonAdd.setTitleColor(textColor, for: .normal)
             buttonEquals.setTitleColor(textColor, for: .normal)
             
-            displayCalculation.textColor = textColor                        
+            displayLabel.textColor = textColor                        
         }
     }
     
@@ -324,26 +317,26 @@ class CalcView: UIView, CustomButtonDelegate {
     }
     
     
-    func orientationDidChange(wideSize: CGFloat) {
-        button0.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button1.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button2.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button3.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button4.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button5.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button6.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button7.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button8.updateAttributesWithOrientationChange(wideSize: wideSize)
-        button9.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonDecimal.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonClear.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonSign.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonPercent.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonDivide.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonMultiply.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonSubtract.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonAdd.updateAttributesWithOrientationChange(wideSize: wideSize)
-        buttonEquals.updateAttributesWithOrientationChange(wideSize: wideSize)
+    func orientationDidChange(cornerRadiusLandscape cornerRadius: CGFloat) {
+        button0.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button1.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button2.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button3.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button4.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button5.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button6.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button7.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button8.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        button9.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonDecimal.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonClear.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonSign.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonPercent.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonDivide.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonMultiply.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonSubtract.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonAdd.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
+        buttonEquals.updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
     }
 }
 

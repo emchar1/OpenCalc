@@ -19,12 +19,12 @@ class ColorDial: UIView {
     
     // MARK: - Properties
     
-    var delegate: ColorDialDelegate?
-
     private var dialBoundsInner: UIView!
     private var dialBoundsOuter: UIView!
 
-    
+    var delegate: ColorDialDelegate?
+
+
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -96,7 +96,7 @@ class ColorDial: UIView {
     
     // MARK: - Gesture Recognizers
     
-    @objc func didPan(_ sender: ImmediatePanGestureRecognizer) {
+    @objc private func didPan(_ sender: ImmediatePanGestureRecognizer) {
         let location = sender.location(in: self)
         
         //Make sure can only pan within the gradient view bounds
@@ -112,7 +112,7 @@ class ColorDial: UIView {
         }
     }
     
-    func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
+    private func locationInCircleView(point: CGPoint, in bounds: CGRect) -> Bool {
         let relativeCenter = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         let absoluteCenter = CGPoint(x: bounds.origin.x + relativeCenter.x, y: bounds.origin.y + relativeCenter.x)
         let radiusTapped = sqrt(pow(point.x - absoluteCenter.x, 2) + pow(point.y - absoluteCenter.y, 2))
