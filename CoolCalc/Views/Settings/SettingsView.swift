@@ -66,23 +66,19 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
         addSubview(colorDial)
 
         lightButton = SettingsButton(frame: CGRect(x: (dialSize - buttonSize) / 2, y: (dialSize - buttonSize) / 2, width: buttonSize, height: buttonSize))
-        lightButton.alpha = 0
         lightButton.delegate = self
         addSubview(lightButton)
 
         muteButton = SettingsButton(frame: CGRect(x: dialSize, y: 0, width: buttonSize, height: buttonSize))
-        muteButton.alpha = 0
         muteButton.shouldForceSound = true
         muteButton.delegate = self
         addSubview(muteButton)
 
         appearanceButton = SettingsButton(frame: CGRect(x: dialSize, y: dialSize - buttonSize, width: buttonSize, height: buttonSize))
-        appearanceButton.alpha = 0
         appearanceButton.delegate = self
         addSubview(appearanceButton)
 
         closeButton = SettingsButton(frame: CGRect(x: -2, y: -2, width: round(buttonSize * 2 / 3), height: round(buttonSize * 2 / 3)))
-        closeButton.alpha = 0
         closeButton.delegate = self
         addSubview(closeButton)
 
@@ -140,25 +136,17 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
             resetTimer()
             
             colorDial.isUserInteractionEnabled = true
-            lightButton.isUserInteractionEnabled = true
-            muteButton.isUserInteractionEnabled = true
-            appearanceButton.isUserInteractionEnabled = true
-            closeButton.isUserInteractionEnabled = true
-            lightButton.alpha = 1.0
-            muteButton.alpha = 1.0
-            appearanceButton.alpha = 1.0
-            closeButton.alpha = 1.0
+            lightButton.isHidden = false
+            muteButton.isHidden = false
+            appearanceButton.isHidden = false
+            closeButton.isHidden = false
         }
         else {
             colorDial.isUserInteractionEnabled = false
-            lightButton.isUserInteractionEnabled = false
-            muteButton.isUserInteractionEnabled = false
-            appearanceButton.isUserInteractionEnabled = false
-            closeButton.isUserInteractionEnabled = false
-            lightButton.alpha = 0.0
-            muteButton.alpha = 0.0
-            appearanceButton.alpha = 0.0
-            closeButton.alpha = 0.0
+            lightButton.isHidden = true
+            muteButton.isHidden = true
+            appearanceButton.isHidden = true
+            closeButton.isHidden = true
         }
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10) { [unowned self] in
