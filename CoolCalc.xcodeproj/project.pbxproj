@@ -36,6 +36,8 @@
 		EAA3ABBC27F9818600805D9C /* Extension+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */; };
 		EAA74B1E280EB1D300913E4D /* NoSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAA74B1D280EB1D300913E4D /* NoSound.mp3 */; };
 		EAA74B20280F62BB00913E4D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA74B1F280F62BB00913E4D /* Haptics.swift */; };
+		EAE6472D280FD72700FBE6C3 /* Tap4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAE6472C280FD72700FBE6C3 /* Tap4.mp3 */; };
+		EAE6472F280FD80600FBE6C3 /* Tap5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAE6472E280FD80600FBE6C3 /* Tap5.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +72,8 @@
 		EAA3ABBB27F9818600805D9C /* Extension+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UserDefaults.swift"; sourceTree = "<group>"; };
 		EAA74B1D280EB1D300913E4D /* NoSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = NoSound.mp3; sourceTree = "<group>"; };
 		EAA74B1F280F62BB00913E4D /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		EAE6472C280FD72700FBE6C3 /* Tap4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap4.mp3; sourceTree = "<group>"; };
+		EAE6472E280FD80600FBE6C3 /* Tap5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Tap5.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +186,8 @@
 				EA7AD52E280E604D0095F5A7 /* Tap1.mp3 */,
 				EA316879280D08BE009A6DDC /* Tap2.mp3 */,
 				EA316883280D1CC0009A6DDC /* Tap3.mp3 */,
+				EAE6472C280FD72700FBE6C3 /* Tap4.mp3 */,
+				EAE6472E280FD80600FBE6C3 /* Tap5.mp3 */,
 				EA31685E28015137009A6DDC /* MuteOn.mp3 */,
 				EA31685F28015137009A6DDC /* MuteOff.mp3 */,
 				EA31686728036F8E009A6DDC /* LightOn.mp3 */,
@@ -270,9 +276,11 @@
 				EA2E386627E6ED2400122877 /* LaunchScreen.storyboard in Resources */,
 				EA31686128015137009A6DDC /* MuteOff.mp3 in Resources */,
 				EAA74B1E280EB1D300913E4D /* NoSound.mp3 in Resources */,
+				EAE6472F280FD80600FBE6C3 /* Tap5.mp3 in Resources */,
 				EA316884280D1CC0009A6DDC /* Tap3.mp3 in Resources */,
 				EA31686828036F8E009A6DDC /* LightOn.mp3 in Resources */,
 				EA2E386327E6ED2400122877 /* Assets.xcassets in Resources */,
+				EAE6472D280FD72700FBE6C3 /* Tap4.mp3 in Resources */,
 				EA31687A280D08BE009A6DDC /* Tap2.mp3 in Resources */,
 				EA31685C28014E68009A6DDC /* AppearanceButton.mp3 in Resources */,
 				EA2E386127E6ED2300122877 /* Main.storyboard in Resources */,

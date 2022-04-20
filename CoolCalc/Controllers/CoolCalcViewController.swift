@@ -133,14 +133,14 @@ extension CoolCalcViewController {
                                          size: calcView.standardButton.frame.height / 2,
                                          cornerRadius: calcView.standardButton.frame.height / 2,
                                          duration: 0.1,
-                                         sound: "Tap2")
+                                         sound: "Tap4")
         case 3:
             calcView.setButtonAppearance(alpha: 0.65,
                                          offset: 8.0,
                                          size: 0,
                                          cornerRadius: 0,
                                          duration: 0.35,
-                                         sound: "Tap3")
+                                         sound: "Tap2")
         default:
             break
         }
