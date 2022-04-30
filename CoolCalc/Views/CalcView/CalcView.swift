@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol CalcViewDelegate {
+protocol CalcViewDelegate: AnyObject {
     func buttonPressed(_ view: CalcView, button: CalcButton)
 }
 
@@ -67,7 +67,7 @@ class CalcView: UIView, CustomButtonDelegate {
             displayRunningLabel.text = calculationExpression
         }
     }
-    var delegate: CalcViewDelegate?
+    weak var delegate: CalcViewDelegate?
 
     
     // MARK: - Initialization

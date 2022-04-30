@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SettingsViewDelegate {
+protocol SettingsViewDelegate: AnyObject {
     func didChangeColor(_ color: UIColor?)
     func didFlipSwitch(_ lightOn: Bool)
     func didUpdateAppearance(_ appearanceButtonToggle: Int)
@@ -30,7 +30,7 @@ class SettingsView: UIView, ColorDialDelegate, CustomButtonDelegate {
     private var dialSize: CGFloat
     private var settingsViewExpandedTimer: Timer?
     
-    var delegate: SettingsViewDelegate?
+    weak var delegate: SettingsViewDelegate?
     var appearanceButtonSelected: Int = 1 {
         didSet {
             if appearanceButtonSelected > 3 {

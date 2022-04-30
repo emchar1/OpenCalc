@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CustomButtonDelegate {
+protocol CustomButtonDelegate: AnyObject {
     func didTapButton(_ button: CustomButton)
 }
 
@@ -24,7 +24,7 @@ class CustomButton: UIButton {
     var buttonImage: UIImage?
     var animateDuration: TimeInterval
     var shouldForceSound = false
-    var delegate: CustomButtonDelegate?
+    weak var delegate: CustomButtonDelegate?
     
     
     // MARK: - Initialization

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ColorDialDelegate {
+protocol ColorDialDelegate: AnyObject {
     func didChangeColor(_ color: UIColor?)
     func didSelectColor(_ color: UIColor?)
 }
@@ -22,7 +22,7 @@ class ColorDial: UIView {
     private var dialBoundsInner: UIView!
     private var dialBoundsOuter: UIView!
 
-    var delegate: ColorDialDelegate?
+    weak var delegate: ColorDialDelegate?
 
 
     // MARK: - Initialization

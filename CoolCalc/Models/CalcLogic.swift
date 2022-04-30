@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CalcLogicDelegate {
+protocol CalcLogicDelegate: AnyObject {
     func updateButtonClear(resetToAllClear: Bool)
 }
 
@@ -27,7 +27,7 @@ struct CalcLogic {
         expression.n2 ?? expression.n1
     }
     
-    var delegate: CalcLogicDelegate?
+    weak var delegate: CalcLogicDelegate?
     
     
     // MARK: - Initialization
