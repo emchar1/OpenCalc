@@ -16,7 +16,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        //4/30/22 I've completely removed Storyboard in order to make this project 100% programmatic. Here are the steps I took:
+        // 1. Delete Main.storyboard
+        // 2. Under Project->Deployment Info->Main Interface, delete Main from the drop-down; leave it <blank>
+        // 3. Info.plist: Under Application Scene Manifest->Scene Configuration->Application Session Role->Item 0, delete "Storyboard Name: Main" entry
+        // 4. Add the below boilerplate code to load CoolCalcViewController() right from the start.
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = CoolCalcViewController()
+        window.makeKeyAndVisible()
+        
+        self.window = window
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
