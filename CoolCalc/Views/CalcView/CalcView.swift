@@ -90,14 +90,14 @@ class CalcView: UIView, CustomButtonDelegate {
         
         displayLabel.text = calculationString
         displayLabel.alpha = 0.8
-        displayLabel.font = UIFont(name: K.fontMain, size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
+        displayLabel.font = UIFont(name: K.font1Main, size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
         displayLabel.textAlignment = .right
         displayLabel.adjustsFontSizeToFitWidth = true
         displayLabel.textColor = K.lightOn ? .black : .white
         
         displayRunningLabel.text = calculationExpression
         displayRunningLabel.alpha = 0.4
-        displayRunningLabel.font = UIFont(name: K.fontBold, size: traitCollection.horizontalSizeClass == .compact ? 18 : 36)
+        displayRunningLabel.font = UIFont(name: K.font1Bold, size: traitCollection.horizontalSizeClass == .compact ? 18 : 36)
         displayRunningLabel.textAlignment = .right
         displayRunningLabel.textColor = K.lightOn ? .black : .white
         
@@ -308,27 +308,31 @@ class CalcView: UIView, CustomButtonDelegate {
         }
     }
     
-    func setButtonAppearance(alpha: CGFloat, offset: CGFloat, size: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) {
+    func setButtonAppearance(alpha: CGFloat, offset: CGFloat, size: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String, fonts: (main: String, bold: String)) {
         UIView.animate(withDuration: 0.25) { [unowned self] in
-            button0.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button1.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button2.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button3.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button4.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button5.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button6.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button7.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button8.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            button9.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonDecimal.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonClear.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonSign.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonPercent.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonDivide.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonMultiply.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonSubtract.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonAdd.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
-            buttonEquals.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound)
+            button0.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button1.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button2.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button3.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button4.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button5.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button6.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button7.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button8.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            button9.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonDecimal.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonClear.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonSign.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonPercent.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonDivide.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonMultiply.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonSubtract.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonAdd.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            buttonEquals.updateWithAppearanceChange(alpha: alpha, offset: offset, wideSize: size, cornerRadius: cornerRadius, duration: duration, sound: sound, fonts: (fonts.main, fonts.bold))
+            
+            displayLabel.font = UIFont(name: fonts.main, size: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.22)
+            displayRunningLabel.font = UIFont(name: fonts.bold, size: traitCollection.horizontalSizeClass == .compact ? 18 : 36)
+
         }
     }
     

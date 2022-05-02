@@ -126,21 +126,25 @@ extension CoolCalcViewController {
                                          size: 10,
                                          cornerRadius: 20,
                                          duration: 0.25,
-                                         sound: "Tap1")
+                                         sound: "Tap1",
+                                         fonts: (K.font1Main, K.font1Bold))
+            
         case 2:
             calcView.setButtonAppearance(alpha: 0.65,
                                          offset: 2.0,
                                          size: calcView.standardButton.frame.height / 2,
                                          cornerRadius: calcView.standardButton.frame.height / 2,
                                          duration: 0.1,
-                                         sound: "Tap4")
+                                         sound: "Tap4",
+                                         fonts: (K.font2Main, K.font2Bold))
         case 3:
             calcView.setButtonAppearance(alpha: 0.65,
                                          offset: 8.0,
                                          size: 0,
                                          cornerRadius: 0,
                                          duration: 0.35,
-                                         sound: "Tap2")
+                                         sound: "Tap2",
+                                         fonts: (K.font3Main, K.font3Bold))
         default:
             break
         }

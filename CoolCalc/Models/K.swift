@@ -9,9 +9,13 @@ import UIKit
 import CoreHaptics
 
 struct K {
-    static let fontMain = "AppleSDGothicNeo-Regular"
-    static let fontBold = "AppleSDGothicNeo-Bold"
-    
+    static let font1Main = "AppleSDGothicNeo-Regular"
+    static let font1Bold = "AppleSDGothicNeo-Bold"
+    static let font2Main = "Menlo-Regular"
+    static let font2Bold = "Menlo-Bold"
+    static let font3Main = "AmericanTypewriter"
+    static let font3Bold = "AmericanTypewriter-Bold"
+
     static let userDefaults_color = "coolCalcColor"
     static let userDefaults_light = "coolCalcLight"
     static let userDefaults_mute = "coolCalcMute"

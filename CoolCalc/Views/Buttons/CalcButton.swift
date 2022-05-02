@@ -11,8 +11,8 @@ class CalcButton: CustomButton {
     
     // MARK: - Properties
     
-    let buttonFontTall = UIFont(name: K.fontBold, size: 36)
-    let buttonFontWide = UIFont(name: K.fontBold, size: 18)
+    var buttonFontTall = UIFont(name: K.font1Bold, size: 36)
+    var buttonFontWide = UIFont(name: K.font1Bold, size: 18)
     var currentFont: UIFont!
 
     enum ButtonType {
@@ -104,7 +104,7 @@ class CalcButton: CustomButton {
         - sound: tap sound to play
      - returns: `true` if all of the properties have been set
      */
-    @discardableResult func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String) -> Bool {
+    @discardableResult func updateWithAppearanceChange(alpha: CGFloat, offset: CGFloat, wideSize: CGFloat, cornerRadius: CGFloat, duration: CGFloat, sound: String, fonts: (main: String, bold: String)) -> Bool {
         
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return false }
         
@@ -113,6 +113,9 @@ class CalcButton: CustomButton {
         self.buttonCornerRadius = cornerRadius
         self.animateDuration = duration
         self.buttonTapSound = sound
+        self.buttonFontTall = UIFont(name: fonts.bold, size: 36)
+        self.buttonFontWide = UIFont(name: fonts.bold, size: 18)
+        updateAttributesWithOrientationChange(cornerRadiusForLandscape: cornerRadius)
                 
         self.alpha = alpha
         layer.cornerRadius = windowScene.interfaceOrientation.isPortrait ? cornerRadius : wideSize
