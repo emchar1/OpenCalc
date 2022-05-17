@@ -131,7 +131,7 @@ struct CalcLogic {
      - returns: the formatted operand
      */
     private func formatOperand(_ operand: String) -> String {
-        formatter.numberStyle = operand.count > maxDigits ? .scientific : .decimal
+        formatter.numberStyle = operand.count - 2 > maxDigits ? .scientific : .decimal
         
         if let decimalPlace = operand.firstIndex(of: "."), formatter.numberStyle != .scientific {
             return (formatter.string(from: NSNumber(value: Double(String(operand.prefix(upTo: decimalPlace))) ?? 0)) ?? "Unknown") + String(operand.suffix(from: decimalPlace))
