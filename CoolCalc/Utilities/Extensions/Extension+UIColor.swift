@@ -9,22 +9,22 @@ import UIKit
 
 extension UIColor {
     var complementary: UIColor {
-        return self.withHueOffset(offset: 180 / 360)
+        return self.withHueOffset(180 / 360)
     }
 
     var splitComplementary: (left: UIColor, right: UIColor) {
-        return (self.withHueOffset(offset: 150 / 360), self.withHueOffset(offset: 210 / 360))
+        return (self.withHueOffset(150 / 360), self.withHueOffset(210 / 360))
     }
 
     var triadic: (left: UIColor, right: UIColor) {
-        return (self.withHueOffset(offset: 120 / 360), self.withHueOffset(offset: 240 / 360))
+        return (self.withHueOffset(120 / 360), self.withHueOffset(240 / 360))
     }
     
     var analogous: (left: UIColor, right: UIColor) {
-        return (self.withHueOffset(offset: -30 / 360), self.withHueOffset(offset: 30 / 360))
+        return (self.withHueOffset(-30 / 360), self.withHueOffset(30 / 360))
     }
     
-    private func withHueOffset(offset: CGFloat) -> UIColor {
+    private func withHueOffset(_ offset: CGFloat) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
