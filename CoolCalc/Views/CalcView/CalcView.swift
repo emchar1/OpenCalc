@@ -254,6 +254,11 @@ class CalcView: UIView, CustomButtonDelegate {
     func setColors(color: UIColor?) {
         guard let color = color else { return }
         
+        let colorAltLeft = color.complementary
+        let colorAltRight = color.complementary
+        
+        print("color: \(color), altLeft: \(colorAltLeft), altRight: \(colorAltRight)")
+        
         button0.backgroundColor = color
         button1.backgroundColor = color
         button2.backgroundColor = color
@@ -270,11 +275,11 @@ class CalcView: UIView, CustomButtonDelegate {
         buttonSign.backgroundColor = color.withAlphaComponent(0.5)
         buttonPercent.backgroundColor = color.withAlphaComponent(0.5)
 
-        buttonDivide.backgroundColor = color.getComplimentary()
-        buttonMultiply.backgroundColor = color.getComplimentary()
-        buttonSubtract.backgroundColor = color.getComplimentary()
-        buttonAdd.backgroundColor = color.getComplimentary()
-        buttonEquals.backgroundColor = color.getComplimentary()
+        buttonDivide.backgroundColor = colorAltLeft
+        buttonMultiply.backgroundColor = colorAltLeft
+        buttonSubtract.backgroundColor = colorAltRight
+        buttonAdd.backgroundColor = colorAltRight
+        buttonEquals.backgroundColor = colorAltRight
     }
     
     func setLight(lightOn: Bool) {

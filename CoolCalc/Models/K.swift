@@ -13,8 +13,8 @@ struct K {
     static let font1Bold = "AppleSDGothicNeo-Bold"
     static let font2Main = "Menlo-Regular"
     static let font2Bold = "Menlo-Bold"
-    static let font3Main = "AmericanTypewriter"
-    static let font3Bold = "AmericanTypewriter-Bold"
+    static let font3Main = "GillSans"
+    static let font3Bold = "GillSans-SemiBold"
 
     static let userDefaults_color = "coolCalcColor"
     static let userDefaults_light = "coolCalcLight"
