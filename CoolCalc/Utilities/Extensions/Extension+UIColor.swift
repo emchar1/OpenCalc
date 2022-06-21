@@ -12,15 +12,15 @@ extension UIColor {
         return self.withHueOffset(180 / 360)
     }
 
-    var splitComplementary: (left: UIColor, right: UIColor) {
+    var splitComplementary: (first: UIColor, second: UIColor) {
         return (self.withHueOffset(150 / 360), self.withHueOffset(210 / 360))
     }
 
-    var triadic: (left: UIColor, right: UIColor) {
+    var triadic: (first: UIColor, second: UIColor) {
         return (self.withHueOffset(120 / 360), self.withHueOffset(240 / 360))
     }
     
-    var analogous: (left: UIColor, right: UIColor) {
+    var analogous: (first: UIColor, second: UIColor) {
         return (self.withHueOffset(-30 / 360), self.withHueOffset(30 / 360))
     }
     
