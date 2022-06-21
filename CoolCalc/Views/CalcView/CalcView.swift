@@ -257,8 +257,6 @@ class CalcView: UIView, CustomButtonDelegate {
         let colorAltLeft = color.complementary
         let colorAltRight = color.complementary
         
-        print("color: \(color), altLeft: \(colorAltLeft), altRight: \(colorAltRight)")
-        
         button0.backgroundColor = color
         button1.backgroundColor = color
         button2.backgroundColor = color
