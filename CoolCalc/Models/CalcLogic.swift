@@ -276,10 +276,27 @@ struct CalcLogic {
             throw CalcErrors.unknownOperation
         }
         
+        print(getPlacesBeforeAndAfterDecimal(result: result))
+        
         formatter.numberStyle = .decimal
         expression = (n1: (formatter.string(from: NSNumber(value: result)) ?? "Unknown").replacingOccurrences(of: ",", with: ""),
                       operation: expression.operation,
                       n2: nil)
+    }
+    
+    
+    //FIXME: - Getting places before and after decimal
+    private func getPlacesBeforeAndAfterDecimal(result: Double) -> (before: Int, after: Int) {
+        let resultString = "\(result)"
+        let decimalPlace = resultString.firstIndex(of: ".")?.utf16Offset(in: resultString)
+        let beforeString = resultString.prefix(decimalPlace ?? 0)
+        let afterString = resultString.suffix(decimalPlace ?? 0)
+        
+        
+        
+        print(beforeString)
+        print(afterString)
+        return (before: decimalPlace ?? -9999, after: resultString.count - (decimalPlace ?? -9999))
     }
     
 }
