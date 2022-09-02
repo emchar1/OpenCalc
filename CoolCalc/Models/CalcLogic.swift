@@ -5,7 +5,7 @@
 //  Created by Eddie Char on 3/20/22.
 //
 
-import Foundation
+import UIKit
 
 protocol CalcLogicDelegate: AnyObject {
     func updateButtonClear(resetToAllClear: Bool)
@@ -34,7 +34,7 @@ struct CalcLogic {
     
     init() {
         formatter.minimumFractionDigits = 0
-        updateMaxDigits(isPortrait: true)
+        updateMaxDigits(isPortrait: UIDevice.current.orientation.isPortrait)
     }
     
     
@@ -131,7 +131,9 @@ struct CalcLogic {
      - returns: the formatted operand
      */
     private func formatOperand(_ operand: String) -> String {
-        formatter.numberStyle = operand.count - 2 > maxDigits ? .scientific : .decimal
+        //FIXME: - maxDigits bug
+        //Added && operand.firstIndex(of: ".") == nil, and I think it fixed the scientific notation on numbers less than maxDigits, but not 100% sure. Leave this comment here until more debugging can happen
+        formatter.numberStyle = (operand.count - 2 > maxDigits && operand.firstIndex(of: ".") == nil) ? .scientific : .decimal
         
         if let decimalPlace = operand.firstIndex(of: "."), formatter.numberStyle != .scientific {
             return (formatter.string(from: NSNumber(value: Double(String(operand.prefix(upTo: decimalPlace))) ?? 0)) ?? "Unknown") + String(operand.suffix(from: decimalPlace))
@@ -276,7 +278,7 @@ struct CalcLogic {
             throw CalcErrors.unknownOperation
         }
         
-        print(getPlacesBeforeAndAfterDecimal(result: result))
+//        print(getPlacesBeforeAndAfterDecimal(result: result))
         
         formatter.numberStyle = .decimal
         expression = (n1: (formatter.string(from: NSNumber(value: result)) ?? "Unknown").replacingOccurrences(of: ",", with: ""),
@@ -285,18 +287,18 @@ struct CalcLogic {
     }
     
     
-    //FIXME: - Getting places before and after decimal
-    private func getPlacesBeforeAndAfterDecimal(result: Double) -> (before: Int, after: Int) {
-        let resultString = "\(result)"
-        let decimalPlace = resultString.firstIndex(of: ".")?.utf16Offset(in: resultString)
-        let beforeString = resultString.prefix(decimalPlace ?? 0)
-        let afterString = resultString.suffix(decimalPlace ?? 0)
-        
-        
-        
-        print(beforeString)
-        print(afterString)
-        return (before: decimalPlace ?? -9999, after: resultString.count - (decimalPlace ?? -9999))
-    }
+//    //FIXME: - Getting places before and after decimal
+//    private func getPlacesBeforeAndAfterDecimal(result: Double) -> (before: Int, after: Int) {
+//        let resultString = "\(result)"
+//        let decimalPlace = resultString.firstIndex(of: ".")?.utf16Offset(in: resultString)
+//        let beforeString = resultString.prefix(decimalPlace ?? 0)
+//        let afterString = resultString.suffix(decimalPlace ?? 0)
+//
+//
+//
+//        print(beforeString)
+//        print(afterString)
+//        return (before: decimalPlace ?? -9999, after: resultString.count - (decimalPlace ?? -9999))
+//    }
     
 }
