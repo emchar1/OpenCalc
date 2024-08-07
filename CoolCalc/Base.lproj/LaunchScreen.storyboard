@@ -17,35 +17,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XJz-cd-q1i">
-                                <rect key="frame" x="404" y="656.5" width="216.5" height="53"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHz-8o-7qg">
-                                        <rect key="frame" x="0.0" y="0.0" width="23" height="53"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="24"/>
-                                        <color key="textColor" systemColor="systemMintColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="44"/>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play Apps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRz-yx-JlM">
-                                        <rect key="frame" x="23" y="0.0" width="193.5" height="53"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="44"/>
-                                        </variation>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="5PlayAppsSM" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-8T-LmG">
+                                <rect key="frame" x="160" y="595" width="704" height="176"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Krg-8T-LmG" secondAttribute="height" multiplier="1024:256" id="Leq-Q6-KHi"/>
+                                </constraints>
+                                <variation key="heightClass=regular-widthClass=regular" image="5PlayApps"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XJz-cd-q1i" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0CN-HE-Vtc"/>
-                            <constraint firstItem="XJz-cd-q1i" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Orr-vr-PnZ"/>
+                            <constraint firstItem="Krg-8T-LmG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="A3i-1y-Kt4">
+                                <variation key="heightClass=regular-widthClass=regular" constant="160"/>
+                            </constraint>
+                            <constraint firstItem="Krg-8T-LmG" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Qdh-c1-PBt"/>
+                            <constraint firstItem="Krg-8T-LmG" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="a2A-JN-1Ff"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Krg-8T-LmG" secondAttribute="trailing" constant="40" id="qTf-xh-7B4">
+                                <variation key="heightClass=regular-widthClass=regular" constant="160"/>
+                            </constraint>
                         </constraints>
                     </view>
                 </viewController>
@@ -55,11 +45,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="5PlayApps" width="1365" height="341"/>
+        <image name="5PlayAppsSM" width="341" height="85"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemMintColor">
-            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
